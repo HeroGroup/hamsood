@@ -1,0 +1,33 @@
+@font-face {
+    font-family: IRANSans;
+    src: url('/fonts/IRANSansFaNum.ttf');
+
+}
+
+html, body {
+    font-family: IRANSans;
+}
+
+@media (min-width: 1195px) {
+    .actions-lg { display: block; }
+    .actions-sm { display: none; }
+}
+@media (max-width: 1194px) {
+    .actions-lg { display: none; }
+    .actions-sm { display: block; }
+}
+
+.page-header {
+    border-bottom-color: #5d5e63;
+}
+th {
+    background-color: #111111;
+    border-bottom: 3px solid #ffcc00;
+}
+
+td {
+    background-color: #181818;
+}
+.navbar-top-links>li>a:hover , #side-menu>li>a:hover {
+    background-color: #333333;
+}
