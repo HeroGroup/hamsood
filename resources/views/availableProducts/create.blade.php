@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <label for="maximum_group_members" class="col-sm-2 control-label">حداکثر نفرات</label>
                     <div class="col-sm-4">
-                        <input type="number" class="form-control" id="maximum_group_members" name="maximum_group_members" value="{{old('maximum_group_members')}}" placeholder="حداکثر نفرات" required>
+                        <input type="number" class="form-control" id="maximum_group_members" name="maximum_group_members" min="2" max="10" value="{{old('maximum_group_members')}}" placeholder="حداکثر نفرات" required>
                     </div>
                 </div>
 
