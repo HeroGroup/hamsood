@@ -14,6 +14,9 @@ Route::prefix('admin')->group(function () {
             return redirect('/admin/users');
         });
 
+        Route::resource('products', 'ProductController');
+        Route::resource('availableProducts', 'AvailableProductController');
+
         Route::resource('users', 'UserController');
         Route::get('users/{user}/resetPassword', 'UserController@resetPassword')->name('users.resetPassword');
         Route::get('users/{user}/changePassword', 'UserController@changePassword')->name('users.changePassword');
