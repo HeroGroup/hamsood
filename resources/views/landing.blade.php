@@ -6,77 +6,8 @@
         <title>{{env('APP_NAME')}}</title>
         <link href="/css/rtl/bootstrap.min.css" rel="stylesheet">
         <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
+        <link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="/css/my.css" rel="stylesheet" type="text/css">
-
-        <style>
-            .title {
-                 background-color:#9b59b6;
-                 color:white;
-                 padding:5px;
-                 text-align:center;
-             }
-            .circle {
-                background-color:#74b9ff;
-                text-align:center;
-                border-radius:50%;
-                align-items:center;
-                width:25px;
-                height:25px;
-                display:inline-block;
-                padding-top:2px;
-                font-size: 16px;
-                color:white;
-            }
-            .steps {
-                color: #74b9ff;
-                font-size: 14px;
-                margin-left:5px;
-            }
-            .horizontal-line {
-                border:2px solid #74b9ff;
-                margin: 10px 0;
-            }
-            .image {
-                width:90px;
-                height:90px;
-                background-color: #bfe5ff;
-                margin-top:5px;
-            }
-            .product-title {
-                color:#222;
-                text-align:center;
-                padding-top:0;
-                width:100%;
-                font-size:16px;
-            }
-            .p-text {
-                color:#222;
-                width: 100%;
-                text-align:center;
-                font-size:10px;
-            }
-            .mb-5 {
-                margin-bottom: 5px;
-            }
-            .suggest-card-container {
-                display: flex;
-                flex-direction: row;
-                margin:5px 0;
-            }
-            .suggest-card {
-                border-radius:5px;
-                background-color: #f0f0f0;
-                color: #9b59b6;
-                height:80px;
-                margin:0 5px;
-                flex:1;
-            }
-            .custom-badge {
-                font-size:20px;
-                background-color: red;
-                padding:5px 10px;
-            }
-        </style>
     </head>
     <body>
         <div class="">
@@ -121,7 +52,7 @@
                     <span> با </span>
                     <div class="circle">2</div>
                     <span> نفر همسودی تخفیف </span>
-                    <div class="badge custom-badge">9% </div>
+                    <div class="badge red-badge">9% </div>
                     <span> آغاز می شود.</span>
                 </div>
                 <br>
@@ -129,27 +60,68 @@
                     <div class="suggest-card-container">
                         <div style="flex:1;">
                             <div class="suggest-card">
-                                //
+                                <div class="half-suggest-card">
+                                    <span>9%</span>
+                                    <span style="font-size: 10px;">تعداد</span>
+                                    <span class="custom-badge">2 نفر</span>
+                                </div>
+                                <div class="half-suggest-card">
+                                    <div class="circle" style="width:35px;height:35px;">
+                                        <i class="fa fa-user" style="color:lightgray;font-size:20px;"></i>
+                                    </div>
+                                    <span class="custom-badge" style="margin-top:8px;">منتظر</span>
+                                </div>
+                                <div class="half-suggest-card">
+                                    <div class="circle" style="width:35px;height:35px;">
+                                        <i class="fa fa-user" style="color:lightgray;font-size:20px;"></i>
+                                    </div>
+                                    <span class="custom-badge" style="margin-top:8px;">منتظر</span>
+                                </div>
                             </div>
                         </div>
                         <div style="flex:1;display: flex;flex-direction: row;">
-                            <div class="suggest-card">
-
-                            </div>
-                            <div class="suggest-card"></div>
+                            @component('components.suggestCard', ['percent' => '12%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
+                            @component('components.suggestCard', ['percent' => '17%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
                         </div>
                     </div>
                     <div class="suggest-card-container">
-                        <div class="suggest-card"></div>
-                        <div class="suggest-card"></div>
-                        <div class="suggest-card"></div>
-                        <div class="suggest-card"></div>
+                        @component('components.suggestCard', ['percent' => '23%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
+                        @component('components.suggestCard', ['percent' => '26%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
+                        @component('components.suggestCard', ['percent' => '31%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
+                        @component('components.suggestCard', ['percent' => '36%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
                     </div>
                     <div class="suggest-card-container">
-                        <div class="suggest-card"></div>
-                        <div class="suggest-card"></div>
-                        <div class="suggest-card"></div>
+                        @component('components.suggestCard', ['percent' => '38%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
+                        @component('components.suggestCard', ['percent' => '42%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
+                        @component('components.suggestCard', ['percent' => '51%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
                         <div class="suggest-card" style="background-color: transparent;"></div>
+                    </div>
+                    <br>
+                    <div style="width:100%;">
+                        <button style="width:100%;padding:10px;border-radius:3px;background-color:#e67e22;color:white;border:none;">منم همسود می شوم</button>
+                    </div>
+                </div>
+                <div style="width: 100%; border-radius:3px;padding:5px;background-color:lightgray;margin-top: 5px;">
+                    <div style="width:100%;display: flex;justify-content: center;align-items: center;background-color:#9b59b6;color:white;">
+                        <div style="flex:1;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                            <span style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">59</span>
+                            <span>:</span>
+                            <span style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">59</span>
+                            <span>:</span>
+                            <span style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">23</span>
+                        </div>
+                        <div style="flex:1;text-align: center;font-size: 18px;">زمان باقیمانده</div>
+                    </div>
+                </div>
+
+                <div style="width: 100%; border-radius:3px;padding:5px;background-color:lightgray;display: flex;margin-top: 5px;align-items: center;">
+                    <div style="flex:1;text-align: center;color:#222;">
+                        <h4>20,000</h4>
+                        <h5>تومان</h5>
+                        <h5>قیمت عادی</h5>
+                    </div>
+                    <div style="flex:1;text-align: left;">
+                        <button class="btn btn-warning" style="width:80px;font-size: 20px;">خرید</button>
                     </div>
                 </div>
             </div>
