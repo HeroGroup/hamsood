@@ -30,7 +30,7 @@ class ProductController extends Controller
 
         $product = new Product([
             'name' => $request->name,
-            'description' => $request->descrition,
+            'description' => $request->description,
             'image_url' => $imageUrl
         ]);
 
@@ -46,12 +46,21 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        //
+        return view('products.edit', compact('product'));
     }
 
     public function update(Request $request, Product $product)
     {
-        //
+        $product->update($request->all());
+        if($request->hasFile('image_file')){
+            $image = $request->image_file;
+            $fileName = time().'.'.$image->getClientOriginalName();
+            $image->move('resources/assets/images/category_images/', $fileName);
+            $imageUrl = '/resources/assets/images/category_images/'.$fileName;
+            $product->update(['image_url' => $imageUrl]);
+        }
+
+        return redirect(route('products.index'))->with('message', 'محصئل با موفقیت بروزرسانی شد.')->with('type', 'success');
     }
 
     public function destroy(Product $product)

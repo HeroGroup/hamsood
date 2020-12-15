@@ -112,16 +112,27 @@
                         </div>
                         <div style="flex:1;text-align: center;font-size: 18px;">زمان باقیمانده</div>
                     </div>
+                    <div style="display:flex;flex-direction:row;margin-top:10px;">
+                        <div style="flex:2;display:flex;flex-direction:column;text-align:center;">
+                            <div style="flex:2;display:flex;">
+                                <div style="flex:1;font-size:16px;color:red;">18,200 تومان</div>
+                                <div style="flex:1;font-size:16px;color:red;">19% تخفیف</div>
+                            </div>
+                            <div style="flex:1;color:#222;font-size:10px;">فعال شدن تخفیف با شروع همسود</div>
+                        </div>
+                        <div style="flex:1;">
+                            <button class="btn btn-success" style="width:120px;">خرید</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div style="width: 100%; border-radius:3px;padding:5px;background-color:lightgray;display: flex;margin-top: 5px;align-items: center;">
                     <div style="flex:1;text-align: center;color:#222;">
-                        <h4>20,000</h4>
-                        <h5>تومان</h5>
-                        <h5>قیمت عادی</h5>
+                        <h4>20,000 تومان</h4>
+                        <h6>قیمت عادی</h6>
                     </div>
                     <div style="flex:1;text-align: left;">
-                        <button class="btn btn-warning" style="width:80px;font-size: 20px;">خرید</button>
+                        <button class="btn btn-warning" style="width:120px;">خرید</button>
                     </div>
                 </div>
             </div>

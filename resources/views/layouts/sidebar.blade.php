@@ -7,7 +7,7 @@
                     محصولات</a>
             </li>
             <li>
-                <a href="{{route('products.index')}}">
+                <a href="{{route('availableProducts.index')}}">
                     <i class="fa fa-shopping-cart fa-fw"></i>
                     محصولات موجود</a>
             </li>

@@ -11,7 +11,7 @@ Route::get('/', function () {
 Route::prefix('admin')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', function () {
-            return redirect('/admin/users');
+            return redirect('/admin/products');
         });
 
         Route::resource('products', 'ProductController');

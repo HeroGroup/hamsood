@@ -5,8 +5,9 @@
         <div class="panel-body">
             @foreach($products as $product)
                 <a class="col-sm-4" style="cursor: pointer;" href="{{route('products.edit', $product->id)}}">
-                    <img src="{{$product->image_url}}" height="50" width="50" alt="{{$product->name}}">
-                    <div class="help-block">{{$product->name}}</div>
+                    <img src="{{$product->image_url}}" height="200" width="200" alt="{{$product->name}}">
+                    <div style="color:white;margin-top:5px;">{{$product->name}}</div>
+                    <div style="color:white;margin-top:5px;">{{$product->description}}</div>
                 </a>
             @endforeach
         </div>
