@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/}', 'HomeController@landing');
+Route::get('/', 'HomeController@landing');
 
 Route::prefix('admin')->group(function () {
     Route::middleware('auth')->group(function () {

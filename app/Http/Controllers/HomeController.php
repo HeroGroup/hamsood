@@ -17,10 +17,14 @@ class HomeController extends Controller
     public function landing()
     {
         $product = Product::where('is_active',1)->first();
-        $availableProduct = AvailableProduct::where('product_id',$product->id)->where('is_active',1)->first();
-        $details = AvailableProductDetail::where('available_product_id',$availableProduct->id)->get();
+        if ($product) {
+            $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
+            $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
 
-        // product name, description, picture, base price, discount list, number of people bought,
-        return view('landing', compact('product','availableProduct', 'details'));
+            // product name, description, picture, base price, discount list, number of people bought,
+            return view('landing', compact('product', 'availableProduct', 'details'));
+        } else {
+            return view('landing');
+        }
     }
 }
