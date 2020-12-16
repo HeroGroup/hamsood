@@ -18,6 +18,17 @@
                         <input type="text" class="form-control" id="description" name="description" value="{{$product->description}}">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="is_active" class="col-sm-2 control-label">توضیحات</label>
+                    <div class="col-sm-4">
+                        <span> فعال </span>
+                        <label class="switch">
+                            <input type="checkbox" name="is_active" @if($product->is_active == 1) checked @endif >
+                            <span class="slider round"></span>
+                        </label>
+                        <span> غیرفعال </span>
+                    </div>
+                </div>
                 <image src="{{$product->image_url}}" alt="{{$product->name}}" />
                 <div class="form-group">
                     <label class="col-sm-2 control-label">عکس محصول:</label>

@@ -51,7 +51,6 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $product->update($request->all());
         if($request->hasFile('image_file')){
             $image = $request->image_file;
             $fileName = time().'.'.$image->getClientOriginalName();
@@ -60,11 +59,17 @@ class ProductController extends Controller
             $product->update(['image_url' => $imageUrl]);
         }
 
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'is_active' => $request->is_active ? 1 : 0
+        ]);
+
         return redirect(route('products.index'))->with('message', 'محصئل با موفقیت بروزرسانی شد.')->with('type', 'success');
     }
 
     public function destroy(Product $product)
     {
-        //
+        return redirect('/admin/products')->with('message', 'در حال حاضر امکان حذف وجود ندارد.')->with('type', 'danger');
     }
 }

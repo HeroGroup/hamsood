@@ -12,7 +12,7 @@
     <body>
         <div class="">
             <div class="container">
-                <h3 class="title">صفحه خرید گروهی</h3>
+                <h4 class="title">صفحه خرید گروهی</h4>
                 <div>
                     <div class="circle">1</div>
                     <label class="steps">شروع</label>
@@ -120,7 +120,7 @@
                             </div>
                             <div style="flex:1;color:#222;font-size:10px;">فعال شدن تخفیف با شروع همسود</div>
                         </div>
-                        <div style="flex:1;">
+                        <div style="flex:1;text-align: left;">
                             <button class="btn btn-success" style="width:120px;">خرید</button>
                         </div>
                     </div>

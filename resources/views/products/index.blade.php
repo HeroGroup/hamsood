@@ -6,7 +6,14 @@
             @foreach($products as $product)
                 <a class="col-sm-4" style="cursor: pointer;" href="{{route('products.edit', $product->id)}}">
                     <img src="{{$product->image_url}}" height="200" width="200" alt="{{$product->name}}">
-                    <div style="color:white;margin-top:5px;">{{$product->name}}</div>
+                    <div style="color:white;margin-top:5px;">
+                        {{$product->name}}
+                        @if($product->is_active)
+                            <span class="label label-success">{{config('enums.active.'.$product->is_active)}}</span>
+                        @else
+                            <span class="label label-default">{{config('enums.active.'.$product->is_active)}}</span>
+                        @endif
+                    </div>
                     <div style="color:white;margin-top:5px;">{{$product->description}}</div>
                 </a>
             @endforeach
