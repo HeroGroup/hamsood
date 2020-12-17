@@ -25,7 +25,8 @@ class AvailableProductController extends Controller
     {
         $newProduct = new AvailableProduct($request->all());
         $newProduct->save();
-        return view('availableProducts.details', compact('newProduct'));
+        $defaultDiscounts = [1 => 9, 2 => 12, 3 => 17, 4 => 23, 5 => 26, 6 => 31, 7 => 36, 8 => 38, 9 => 42, 10 => 51];
+        return view('availableProducts.details', compact('newProduct', 'defaultDiscounts'));
     }
 
     public function storeDetails(Request $request)

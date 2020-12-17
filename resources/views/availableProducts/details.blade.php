@@ -11,7 +11,7 @@
                 <div class="form-group">
                     <label for="gateway_id" class="col-lg-3 control-label">تخفیف مرحله {{$i}} (درصد)</label>
                     <div class="col-lg-2">
-                        <input type="number" class="form-control" id="levels[{{$i}}]" name="levels[{{$i}}]" value="" required>
+                        <input type="number" class="form-control" id="levels[{{$i}}]" name="levels[{{$i}}]" value="{{$defaultDiscounts[$i]}}" required>
                     </div>
                 </div>
             @endfor

@@ -10,7 +10,7 @@
         <link href="/css/my.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div class="">
+        <div>
             <div class="container">
                 <h4 class="title">صفحه خرید گروهی</h4>
                 <div>
@@ -22,16 +22,16 @@
                     <label class="steps">شروع خرید با تخفیف</label>
                 </div>
                 <hr class="horizontal-line">
-                <div class="row" style="border:1px solid lightgray;margin:5px 0;border-radius:3px;">
+                <div class="row" style="border:1px solid #E5E2E2;margin:5px 0;border-radius:3px;">
                     <div class="col-xs-8">
                         <label class="product-title">{{$product->name}}</label>
                         <div class="row">
-                            <div class="col-xs-4" style="border-left:1px solid lightgray;">
+                            <div class="col-xs-4" style="border-left:1px solid #E5E2E2;">
                                 <p class="p-text mb-5">قیمت بازار</p>
                                 <p class="p-text mb-5" style="font-size:20px;margin-top:20px;">{{number_format($availableProduct->price)}}</p>
                                 <p class="p-text">تومان</p>
                             </div>
-                            <div class="col-xs-4" style="border-left:1px solid lightgray;">
+                            <div class="col-xs-4" style="border-left:1px solid #E5E2E2;">
                                 <p class="p-text mb-5">حداقل 2 نفر</p>
                                 <p class="p-text mb-5" style="font-size:12px;margin-top:10px;">{{number_format((100-$details->min('discount'))/100*$availableProduct->price)}}</p>
                                 <p class="p-text mb-5" style="color:red;font-size:18px;">{{$details->min('discount')}}%</p>
@@ -47,68 +47,61 @@
                         <img src="{{$product->image_url}}" width="90" height="90">
                     </div>
                 </div>
-                <h5 style="background-color:#74b9ff;color:#222;text-align:center;padding-top:5px;padding-bottom:5px;">دیگران را دعوت کنید تا تخفیف ها آغاز شود</h5>
-                <div style="text-align:center;color:#222;border: 1px solid lightgray;padding: 10px 0; border-radius:3px;">
+                <h5 style="background-color:#EBF4FE;color:#222;text-align:center;padding-top:5px;padding-bottom:5px;">دیگران را دعوت کنید تا تخفیف ها آغاز شود</h5>
+                <div style="text-align:center;color:#222;border: 1px solid #E5E2E2;padding: 10px 0; border-radius:3px;">
                     <span> با </span>
-                    <div class="circle">2</div>
+                    <div class="circle">{{$peopleBought > 0 ? 1 : 2}}</div>
                     <span> نفر همسودی تخفیف </span>
-                    <div class="badge red-badge">{{$details->min('discount')}}% </div>
+                    <div class="badge red-badge">{{$peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount')}}% </div>
                     <span> آغاز می شود.</span>
                 </div>
                 <br>
-                <div style="border:1px solid lightgray;border-radius:3px;padding: 5px;">
-                    <div class="suggest-card-container">
-                        <div style="flex:1;">
-                            <div class="suggest-card">
-                                <div class="half-suggest-card">
-                                    <span>{{$details->min('discount')}}%</span>
-                                    <span style="font-size: 10px;">تعداد</span>
-                                    <span class="custom-badge">2 نفر</span>
+                <div style="border:1px solid #E5E2E2;border-radius:3px;padding: 5px;">
+                    <div class="col-xs-6">
+                        <div class="suggest-card" @if($peopleBought>0)style="background-color:#b8f5b8;"@endif>
+                            <div class="half-suggest-card">
+                                <span>{{$details->min('discount')}}%</span>
+                                <span style="font-size: 10px;">تعداد</span>
+                                <span class="custom-badge">{{$peopleBought>1 ? 'تکمیل' : '2 نفر'}}</span>
+                            </div>
+                            <div class="half-suggest-card">
+                                <div class="circle" style="width:35px;height:35px;background-color: transparent;border:2px solid gray;">
+                                    @if($peopleBought>0)
+                                        <img src="images/ic_mood.png" width="36" height="36">
+                                    @else
+                                        <img src="images/ic_person_add.png" width="22" height="16">
+                                    @endif
                                 </div>
-                                <div class="half-suggest-card">
-                                    <div class="circle" style="width:35px;height:35px;">
-                                        <i class="fa fa-user" style="color:lightgray;font-size:20px;"></i>
-                                    </div>
-                                    <span class="custom-badge" style="margin-top:8px;">منتظر</span>
+                                <span class="custom-badge" style="margin-top:8px;@if($peopleBought>0) background-color:green;color:white; @endif">{{$peopleBought>0 ? 'تایید' : 'منتظر'}}</span>
+                            </div>
+                            <div class="half-suggest-card">
+                                <div class="circle" style="width:35px;height:35px;background-color: transparent;border:2px solid gray;">
+                                    @if($peopleBought>1)
+                                        <img src="images/ic_mood.png" width="36" height="36">
+                                    @else
+                                        <img src="images/ic_person_add.png" width="22" height="16">
+                                    @endif
                                 </div>
-                                <div class="half-suggest-card">
-                                    <div class="circle" style="width:35px;height:35px;">
-                                        <i class="fa fa-user" style="color:lightgray;font-size:20px;"></i>
-                                    </div>
-                                    <span class="custom-badge" style="margin-top:8px;">منتظر</span>
-                                </div>
+                                <span class="custom-badge" style="margin-top:8px;@if($peopleBought>1) background-color:green;color:white; @endif">{{$peopleBought>1 ? 'تایید' : 'منتظر'}}</span>
                             </div>
                         </div>
-                        <div style="flex:1;display: flex;flex-direction: row;">
-                            @component('components.suggestCard', ['percent' => '12%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                            @component('components.suggestCard', ['percent' => '17%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                        </div>
                     </div>
-                    <div class="suggest-card-container">
-                        @component('components.suggestCard', ['percent' => '23%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                        @component('components.suggestCard', ['percent' => '26%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                        @component('components.suggestCard', ['percent' => '31%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                        @component('components.suggestCard', ['percent' => '36%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                    </div>
-                    <div class="suggest-card-container">
-                        @component('components.suggestCard', ['percent' => '38%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                        @component('components.suggestCard', ['percent' => '42%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                        @component('components.suggestCard', ['percent' => '51%', 'people' => '1', 'status' => 'منتظر'])@endcomponent
-                        <div class="suggest-card" style="background-color: transparent;"></div>
-                    </div>
-                    <br>
+                    @for($i=1;$i<=$details->count()-1;$i++)
+                        @component('components.suggestCard', ['percent' => $details[$i]->discount."%", 'people' => '1', 'status' => $i<=$peopleBought-2 ? 2 : 1])@endcomponent
+                    @endfor
+
                     <div style="width:100%;">
-                        <button style="width:100%;padding:10px;border-radius:3px;background-color:#e67e22;color:white;border:none;">منم همسود می شوم</button>
+                        <button id="hamsood-btn">منم همسود می شوم</button>
                     </div>
                 </div>
-                <div style="width: 100%; border-radius:3px;padding:5px;background-color:lightgray;margin-top: 5px;">
+                <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;margin-top: 5px;">
                     <div style="width:100%;display: flex;justify-content: center;align-items: center;background-color:#9b59b6;color:white;">
                         <div style="flex:1;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-                            <span style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">59</span>
+                            <span id="seconds" style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">-</span>
                             <span>:</span>
-                            <span style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">59</span>
+                            <span id="minutes" style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">-</span>
                             <span>:</span>
-                            <span style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">23</span>
+                            <span id="hours" style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">-</span>
                         </div>
                         <div style="flex:1;text-align: center;font-size: 18px;">زمان باقیمانده</div>
                     </div>
@@ -126,7 +119,7 @@
                     </div>
                 </div>
 
-                <div style="width: 100%; border-radius:3px;padding:5px;background-color:lightgray;display: flex;margin-top: 5px;align-items: center;">
+                <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;display: flex;margin-top: 5px;align-items: center;">
                     <div style="flex:1;text-align: center;color:#222;">
                         <h4>{{number_format($availableProduct->price)}} تومان</h4>
                         <h6>قیمت عادی</h6>
@@ -137,5 +130,10 @@
                 </div>
             </div>
         </div>
+
+        <script src="js/countdown.js" type="text/javascript"></script>
+        <script>
+            countdown(parseInt("{{$remaining}}") * 1000);
+        </script>
     </body>
 </html>
