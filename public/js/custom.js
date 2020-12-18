@@ -1,28 +1,34 @@
-function saveRow(gatewayId,csrf) {
-    var save_button = $(`#${gatewayId}_save`),
-        max_current = $(`#${gatewayId}_max_current`),
-        minutes_after = $(`#${gatewayId}_minutes_after`),
-        off_minutes = $(`#${gatewayId}_off_minutes`);
+window.onload = function() {
+    //
+}
 
-    save_button.html("<img src='/images/loading-icon.gif' width='54' height='26' />");
-    save_button.prop("disabled", true);
+function countdown(distance) {
+    // Update the count down every 1 second
+    var x = setInterval(function () {
 
-    $.ajax("/admin/gateways/patterns/store", {
-        type: "post",
-        data: {
-            _token: csrf,
-            gateway_id: gatewayId,
-            max_current: max_current.val(),
-            minutes_after: minutes_after.val(),
-            off_minutes: off_minutes.val()
-        },
-        success: function (response) {
-            console.log(response);
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString();
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString();
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString();
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000).toString();
+
+        // Display the result in associated elements
+        document.getElementById("hours").innerHTML = hours.length > 1 ? hours : "0" + hours;
+        document.getElementById("minutes").innerHTML = minutes.length > 1 ? minutes : "0" + minutes;
+        document.getElementById("seconds").innerHTML = seconds.length > 1 ? seconds : "0" + seconds;
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("hours").innerHTML = "00";
+            document.getElementById("minutes").innerHTML = "00";
+            document.getElementById("seconds").innerHTML = "00";
+            document.getElementById("hamsood-btn").disabled = true;
+            document.getElementById("hamsood-btn").style.backgroundColor = "lightgray";
+            document.getElementById("hamsood-btn").style.cursor = "not-allowed";
         }
-    });
 
-    setTimeout(function() {
-        save_button.html("<i class=\"fa fa-save\"></i> ذخیره");
-        save_button.prop("disabled", false);
-    }, 2000);
+        distance -= 1000;
+
+    }, 1000);
 }

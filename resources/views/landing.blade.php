@@ -8,6 +8,8 @@
         <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
         <link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="/css/my.css" rel="stylesheet" type="text/css">
+        <script src="/js/jquery-1.11.0.js" type="text/javascript"></script>
+        <script src="/js/sweetalert.min.js" type="text/javascript"></script>
     </head>
     <body>
         <div>
@@ -48,14 +50,14 @@
                     </div>
                 </div>
                 <h5 style="background-color:#EBF4FE;color:#222;text-align:center;padding-top:5px;padding-bottom:5px;">دیگران را دعوت کنید تا تخفیف ها آغاز شود</h5>
-                <div style="text-align:center;color:#222;border: 1px solid #E5E2E2;padding: 10px 0; border-radius:3px;">
+                <div style="text-align:center;color:#222;border: 1px solid #E5E2E2;padding: 10px 0; border-radius:3px;margin-bottom: 5px;">
                     <span> با </span>
                     <div class="circle">{{$peopleBought > 0 ? 1 : 2}}</div>
                     <span> نفر همسودی تخفیف </span>
                     <div class="badge red-badge">{{$peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount')}}% </div>
                     <span> آغاز می شود.</span>
                 </div>
-                <br>
+
                 <div style="border:1px solid #E5E2E2;border-radius:3px;padding: 5px;">
                     <div class="col-xs-6">
                         <div class="suggest-card" @if($peopleBought>0)style="background-color:#b8f5b8;"@endif>
@@ -90,10 +92,26 @@
                         @component('components.suggestCard', ['percent' => $details[$i]->discount."%", 'people' => '1', 'status' => $i<=$peopleBought-2 ? 2 : 1])@endcomponent
                     @endfor
 
-                    <div style="width:100%;">
-                        <button id="hamsood-btn">منم همسود می شوم</button>
-                    </div>
+                    <button id="hamsood-btn" onclick="buy()">منم همسود می شوم</button>
+
+                    @if($userBought)
+                        <div style="display: flex;flex-direction: row;border-radius: 3px;background-color:#E9D5BA;margin-top:-40px;">
+                            <div style="flex:1;background-color:#FF6F00;text-align:center;padding:10px 0;">ارسال دعوت نامه</div>
+                            <div style="flex:2;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                                <div style="flex:1;text-align: center;" class="share">
+                                    <a href="#"><img src="images/instagram.png" width="25" height="25" /></a>
+                                </div>
+                                <div style="flex:1;text-align: center;" class="share">
+                                    <a href="#"><img src="images/telegram.png" width="25" height="25" /></a>
+                                </div>
+                                <div style="flex:1;text-align: center;" class="share">
+                                    <a href="#"><img src="images/text-lines.png" width="25" height="25" /></a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
+
                 <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;margin-top: 5px;">
                     <div style="width:100%;display: flex;justify-content: center;align-items: center;background-color:#9b59b6;color:white;">
                         <div style="flex:1;display: flex;flex-direction: row;justify-content: center;align-items: center;">
@@ -114,7 +132,10 @@
                             <div style="flex:1;color:#222;font-size:10px;">فعال شدن تخفیف با شروع همسود</div>
                         </div>
                         <div style="flex:1;text-align: left;">
-                            <button class="btn btn-success" style="width:120px;">خرید</button>
+                            <button class="btn" style="width:120px; background-color:gray;cursor: not-allowed;" disabled>
+                                <img src="images/ic_lock.png" width="16" height="21" />
+                                خرید
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -131,9 +152,28 @@
             </div>
         </div>
 
-        <script src="js/countdown.js" type="text/javascript"></script>
+        <script src="js/custom.js" type="text/javascript"></script>
         <script>
-            countdown(parseInt("{{$remaining}}") * 1000);
+            window.onload = function() {
+                countdown(parseInt("{{$remaining}}") * 1000);
+                document.getElementById("hamsood-btn").style.visibility = "{{$userBought}}" ? "hidden" : "visible";
+
+                $('.share').on('click', function() {
+                    var $temp = $("<input>"), $url = $(location).attr('href');
+                    $("body").append($temp);
+                    $temp.val($url).select();
+                    document.execCommand("copy");
+                    $temp.remove();
+                    swal({
+                        text: "آدرس صفحه کپی شد!",
+                        buttons: ["باشه"],
+                    });
+                });
+            }
+
+            function buy() {
+                window.location = '/verifyMobile';
+            }
         </script>
     </body>
 </html>

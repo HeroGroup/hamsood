@@ -129,6 +129,7 @@ td {
     color:white;
     border:none;
     margin-top:10px;
+    visibility: visible;
 }
 
 .switch {

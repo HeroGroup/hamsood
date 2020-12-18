@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['pageTitle' => 'گروه محصولات موجود', 'newButton' => true, 'newButtonUrl' => 'availableProducts/create', 'newButtonText' => 'ایجاد گروه محصول'])
+@extends('layouts.admin', ['pageTitle' => 'سفارشات', 'newButton' => false])
 @section('content')
     <style>
         .nav > li > a {
@@ -6,7 +6,7 @@
         }
     </style>
     <div class="panel panel-default">
-        <div class="panel-heading">گروه های محصولات</div>
+        <div class="panel-heading">سفارشات</div>
         <div class="panel-body">
             <ul class="nav nav-pills">
                 <li class="active">
@@ -21,10 +21,10 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade in active show" id="active-pills">
-                    @component('availableProducts.productsTable', ['products' => $active])@endcomponent
+                    @component('orders.ordersTable', ['orders' => $active])@endcomponent
                 </div>
                 <div class="tab-pane fade in" id="inactive-pills">
-                    @component('availableProducts.productsTable', ['products' => $inactive])@endcomponent
+                    @component('orders.ordersTable', ['orders' => $inactive])@endcomponent
                 </div>
             </div>
 

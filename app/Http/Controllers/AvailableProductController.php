@@ -11,8 +11,9 @@ class AvailableProductController extends Controller
 {
     public function index()
     {
-        $products = AvailableProduct::where('is_active',1)->get();
-        return view('availableProducts.index', compact('products'));
+        $active = AvailableProduct::where('is_active',1)->get();
+        $inactive = AvailableProduct::where('is_active',0)->get();
+        return view('availableProducts.index', compact('active','inactive'));
     }
 
     public function create()
@@ -44,9 +45,10 @@ class AvailableProductController extends Controller
         return redirect(route('availableProducts.index'))->with('message', 'گروه محصول جدید با موفقیت ایجاد شد.')->with('type', 'success');
     }
 
-    public function inactive(AvailableProduct $availableProduct)
+    public function toggleActivate(AvailableProduct $availableProduct)
     {
-        $availableProduct->update(['is_active' => 0]);
+        $state = $availableProduct->is_active == 1 ? 0 : 1;
+        $availableProduct->update(['is_active' => $state]);
         return redirect(route('availableProducts.index'))->with('message', 'تغییر وضعیت با موفقیت انجام شد')->with('type', 'success');
     }
 

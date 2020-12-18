@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Order;
 use Illuminate\Http\Request;
 
@@ -9,61 +10,25 @@ class OrderController extends Controller
 {
     public function index()
     {
-        //
+        $active = Order::where('status', 1)->get();
+        $inactive = Order::where('status', 2)->get();
+
+        return view('orders.index', compact('active', 'inactive'));
     }
 
-    public function create()
+    public function delivered($order)
     {
-        //
+        $order->update(['status' => 2]);
+        return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
     }
 
-    public function store(Request $request)
+    public function submitOrder(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
-    {
-        //
+        $mobile = session('mobile');
+        if ($mobile && strlen($mobile) == 11) {
+            // if user has already ordered, reutrn with proper message
+        } else {
+            return view('verifyMobile');
+        }
     }
 }

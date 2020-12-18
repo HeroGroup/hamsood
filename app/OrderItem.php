@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
+use App\AvailableProduct;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderItem extends Model
@@ -10,4 +11,9 @@ class OrderItem extends Model
         'order_id',
         'available_product_id'
     ];
+
+    public function availableProduct()
+    {
+        return $this->belongsTo(AvailableProduct::class);
+    }
 }
