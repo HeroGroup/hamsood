@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="col-xs-4" style="border-left:1px solid #E5E2E2;">
                                 <p class="p-text mb-5">قیمت بازار</p>
-                                <p class="p-text mb-5" style="font-size:20px;margin-top:20px;">{{number_format($availableProduct->price)}}</p>
+                                <p class="p-text mb-5" style="font-size:20px;margin-top:5px;">{{number_format($availableProduct->price)}}</p>
                                 <p class="p-text">تومان</p>
                             </div>
                             <div class="col-xs-4" style="border-left:1px solid #E5E2E2;">
