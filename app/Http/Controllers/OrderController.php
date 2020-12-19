@@ -18,8 +18,13 @@ class OrderController extends Controller
 
     public function delivered($order)
     {
-        $order->update(['status' => 2]);
-        return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
+        $order = Order::find($order);
+        if ($order) {
+            $order->update(['status' => 2]);
+            return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
+        } else {
+            return redirect(route('orders.index'))->with('message', 'سفارش نامعتبر')->with('type', 'danger');
+        }
     }
 
     public function submitOrder(Request $request)

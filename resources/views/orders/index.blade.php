@@ -10,10 +10,10 @@
         <div class="panel-body">
             <ul class="nav nav-pills">
                 <li class="active">
-                    <a href="#active-pills" data-toggle="tab">فعال</a>
+                    <a href="#active-pills" data-toggle="tab">ثبت شده</a>
                 </li>
                 <li>
-                    <a href="#inactive-pills" data-toggle="tab">غیرفعال</a>
+                    <a href="#inactive-pills" data-toggle="tab">ارسال شده</a>
                 </li>
             </ul>
 
