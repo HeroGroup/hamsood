@@ -8,7 +8,7 @@
     <meta name="description" content="contor control">
     <meta name="author" content="Navid Hero">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ env('APP_NAME') }} | داشبورد</title>
 
     <link href="/css/rtl/bootstrap.min.css" rel="stylesheet">
     <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
