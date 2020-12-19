@@ -2,23 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
     <title>{{env('APP_NAME')}} | شماره موبایل</title>
     <link href="/css/rtl/bootstrap.min.css" rel="stylesheet">
     <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
     <link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/css/my.css" rel="stylesheet" type="text/css">
     <style>
-        html, body {
-            height: 100%;
-        }
-
-        .full-height {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
         .input-container {
             display: -ms-flexbox; /* IE10 */
             display: flex;
@@ -44,9 +34,9 @@
     </style>
 </head>
 <body>
-<div class="full-height">
-    <div style="flex:1;display: flex;flex-direction: column;justify-content: flex-end;align-items: center;">
-        <div style="flex:1;margin-top:100px;">
+<div class="container" style="text-align:center;">
+    <div style="margin-top:50px;">
+        <div style="">
             <img src="images/account_circle.png" width="170" height="170" />
         </div>
         <div style="flex:1;color:#222;margin-top:20px;">
@@ -54,9 +44,9 @@
             <p>شماره تلفن همراه خود را وارد کنید</p>
         </div>
     </div>
-    <form action="{{route('verifyMobile')}}" method="post" style="flex:1;display: flex;flex-direction: column;">
+    <form action="{{route('verifyMobile')}}" method="post">
         @csrf
-        <div style="flex:1;">
+        <div style="">
             <div class="input-container">
                 <i class="fa fa-fw fa-mobile icon"></i>
                 <input class="input-field" type="text" name="mobile" maxlength="11">
@@ -67,8 +57,8 @@
                 </p>
             @endif
         </div>
-        <div style="flex:1;width:100%;margin-top:-50px;">
-            <button style="width: 100%; background-color:#64498E;border:none;border-radius:5px;color:white;padding: 10px 0;margin-top:10px;" type="submit">
+        <div style="width:100%;margin-top:20px;">
+            <button style="width: 100%; background-color:#64498E;border:none;border-radius:5px;color:white;padding: 15px 0;margin-top:10px;font-size:20px;" type="submit">
                 ارسال
             </button>
         </div>
