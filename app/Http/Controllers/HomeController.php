@@ -51,7 +51,7 @@ class HomeController extends Controller
 
             return view('landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought'));
         } else {
-            return view('landing');
+            return view('notActive');
         }
     }
 

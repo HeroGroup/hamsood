@@ -8,7 +8,7 @@ try {
         die("Connection failed: " . $conn->connect_error);
 
     if ($conn) {
-        $gateways = $conn->query("UPDATE available_products SET is_active=0 WHERE is_active=1;");
+        $gateways = $conn->query("UPDATE products SET is_active=0; UPDATE available_products SET is_active=0;");
         /*
         while($gateway = $gateways->fetch_assoc()) {
             $gatewayId = $gateway["id"];

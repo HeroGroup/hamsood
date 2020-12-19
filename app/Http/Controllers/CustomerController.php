@@ -29,9 +29,9 @@ class CustomerController extends Controller
 
     public static function sendTokenSms($mobile)
     {
-        $token = 1234;// rand(1000, 9999);
-        // $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
-        // $result = $api->VerifyLookup($mobile, $token, '', '', 'hamsodverify');
+        $token = 1234;rand(1000, 9999);
+        $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
+        $result = $api->VerifyLookup($mobile, $token, '', '', 'hamsodverify');
         return $token;
     }
 
