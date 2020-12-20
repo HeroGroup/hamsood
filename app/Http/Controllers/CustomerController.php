@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AvailableProduct;
+use App\AvailableProductDetail;
 use App\Customer;
 use App\Order;
 use App\OrderItem;
@@ -99,8 +100,16 @@ class CustomerController extends Controller
 
             // if not already bought
             if (!$this->checkIfUserBought($availableProduct->id, $customer)) {
+
+                /*========== newly added ==========*/
+                $peopleBought = OrderItem::where('available_product_id', $availableProduct->id)->count();
+                $level = $peopleBought % $availableProduct->maximum_group_members;
+                $discount = AvailableProductDetail::where('available_product_id', $availableProduct->id)->where('level', $level)->first();
+                /*========== newly added ==========*/
+
                 $order = new Order([
                     'customer_id' => $customer,
+                    'discount' => $discount ? $discount->discount : 0,
                     'status' => 1
                 ]);
                 $order->save();
@@ -112,7 +121,6 @@ class CustomerController extends Controller
             }
         }
     }
-
 
     public function checkIfUserBought($availableProductId, $customer)
     {

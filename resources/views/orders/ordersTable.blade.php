@@ -5,6 +5,7 @@
             <tr>
                 <th>شماره موبایل مشتری</th>
                 <th>مجموع قیمت سفرش</th>
+                <th>درصد تخفیف</th>
                 <th>محصولات سفارش</th>
                 <th>عملیات</th>
             </tr>
@@ -14,6 +15,7 @@
                 <tr>
                     <td>{{$order->customer->mobile}}</td>
                     <td>{{number_format($order->total_price)}} تومان</td>
+                    <td>{{$order->discount}}%</td>
                     <td>{{$order->getDetails()}}</td>
                     <td>
                         @if($order->status == 1) <!--   ثبت -->
