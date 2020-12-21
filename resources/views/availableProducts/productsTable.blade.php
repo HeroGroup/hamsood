@@ -8,6 +8,7 @@
             <th>تعداد</th>
             <th>حداکثر تعداد اعضا</th>
             <th>فعال تا</th>
+            <th>فعال تا</th>
             <th>میزان تخفیفات</th>
             <th>عملیات</th>
         </tr>
@@ -19,10 +20,12 @@
                 <td>{{$product->price}} تومان</td>
                 <td>{{$product->quantity}}</td>
                 <td>{{$product->maximum_group_members}} نفر</td>
+                <td>{{$product->until_day}}</td>
                 <td>{{config('enums.active_until.'.$product->available_until_datetime)}}</td>
                 <td style="text-align: right;">{{$product->getDiscounts()}}</td>
                 <td>
                     @if($product->is_active)
+                        <a href="{{route('availableProducts.edit', $product)}}" class="btn btn-xs btn-success" data-toggle="tooltip" title="ویرایش">ویرایش</a>
                         <a href="{{ route('availableProducts.toggleActivate', $product->id) }}" class="btn btn-xs btn-danger" data-toggle="tooltip" title="غیرفعال">
                             غیرفعال
                         </a>

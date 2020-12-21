@@ -9,6 +9,7 @@ class AvailableProduct extends Model
     protected $fillable = [
         'product_id',
         'price',
+        'until_day',
         'available_until_datetime',
         'quantity',
         'maximum_group_members',

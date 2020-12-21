@@ -72,7 +72,7 @@
     <script>
         $(document).ready(function() {
             $('.custom_date_picker').pDatepicker({
-                initialValue: false,
+                initialValue: new persianDate(),
                 format: 'YYYY/MM/DD',
                 autoClose: true,
                 // minDate: new persianDate()

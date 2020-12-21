@@ -42,24 +42,33 @@ class HomeController extends Controller
         if ($product) {
             $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
             $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
-            $remaining = $this->getRemainingTime($availableProduct->available_until_datetime);
+            $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
 
             $items = OrderItem::where('available_product_id', $availableProduct->id)->select('order_id')->distinct()->get();
             $peopleBought = (Order::whereIn('id', $items)->where('status', 1)->count()) % $availableProduct->maximum_group_members;
 
             $userBought = $this->checkIfUserBought($availableProduct->id);
 
-            return view('landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought'));
+            $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
+            $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
+
+            return view('landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount'));
         } else {
             return view('notActive');
         }
     }
 
-    public function getRemainingTime($end)
+    public function getRemainingTime($day,$end)
     {
+        $iranStandardTime = 12600;
         $hour = $end - 1;
-        $date = strtotime(date("Y/m/d") . " $hour:59:59 PM");
-        return ($date - time() - 12600); // Iran Standard Time
+
+        // $date = strtotime(date("Y/m/d") . " $hour:59:59") + ($day*86400); // tomorrow => +86400 , day after tomorrow => +172800
+        // return ($date - time() - $iranStandardTime); // Iran Standard Time
+
+        $jalali = explode('/', $day);
+        $date = strtotime(jalali_to_gregorian($jalali[0], $jalali[1], $jalali[2], '/') . " $hour:59:59");
+        return ($date - time() - $iranStandardTime); // Iran Standard Time
     }
 
     public function verifyMobile()

@@ -34,6 +34,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="until_day" class="col-lg-2 control-label">فعال تا</label>
+                    <div class="col-lg-4">
+                        <input type="text" name="until_day" class="custom_date_picker form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="available_until_datetime" class="col-lg-2 control-label">فعال تا</label>
                     <div class="col-lg-4">
                         {{Form::select('available_until_datetime', config('enums.active_until'), old('available_until_datetime'), ['name'=>'available_until_datetime', 'placeholder' => 'فعال تا ساعت...', 'class' => 'form-control', 'required' => 'required'])}}

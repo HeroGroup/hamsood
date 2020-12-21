@@ -182,3 +182,13 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+.time-item {
+    width:30px;
+    background-color:white;
+    color:black;
+    padding:5px;
+    text-align:center;
+    height:30px;
+    margin:5px;
+}

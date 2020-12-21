@@ -54,7 +54,7 @@
                     <span> با </span>
                     <div class="circle">{{$peopleBought > 0 ? 1 : 2}}</div>
                     <span> نفر همسودی تخفیف </span>
-                    <div class="badge red-badge">{{$peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount')}}% </div>
+                    <div class="badge red-badge">{{$nextDiscount}}% </div>
                     <span> آغاز می شود.</span>
                 </div>
 
@@ -115,25 +115,29 @@
                 <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;margin-top: 5px;">
                     <div style="width:100%;display: flex;justify-content: center;align-items: center;background-color:#9b59b6;color:white;">
                         <div style="flex:1;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-                            <span id="seconds" style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">-</span>
+                            <span id="seconds" class="time-item">-</span>
                             <span>:</span>
-                            <span id="minutes" style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">-</span>
+                            <span id="minutes" class="time-item">-</span>
                             <span>:</span>
-                            <span id="hours" style="width:30px;background-color: white;color:black;padding:5px;text-align: center;height: 30px;margin:5px;">-</span>
+                            <span id="hours" class="time-item">-</span>
+                            <span>:</span>
+                            <span id="days" class="time-item">-</span>
                         </div>
                         <div style="flex:1;text-align: center;font-size: 18px;">زمان باقیمانده</div>
                     </div>
                     <div style="display:flex;flex-direction:row;margin-top:10px;">
                         <div style="flex:2;display:flex;flex-direction:column;text-align:center;">
                             <div style="flex:2;display:flex;">
-                                <div style="flex:1;font-size:16px;color:red;">{{number_format((100-$details->min('discount'))/100*$availableProduct->price)}} تومان</div>
-                                <div style="flex:1;font-size:16px;color:red;border:1px solid red;margin:0 5px;">{{$details->min('discount')}}% تخفیف</div>
+                                <div style="flex:1;font-size:16px;color:red;">{{number_format((100-$lastDiscount)/100*$availableProduct->price)}} تومان</div>
+                                <div style="flex:1;font-size:16px;color:red;border:1px solid red;margin:0 5px;">{{$lastDiscount}}%  تخفیف</div>
                             </div>
                             <div style="flex:1;color:#222;font-size:10px;">فعال شدن تخفیف با شروع همسود</div>
                         </div>
                         <div style="flex:1;text-align: left;">
-                            <button class="btn" style="width:120px; background-color:gray;cursor: not-allowed;" disabled>
-                                <img src="images/ic_lock.png" width="16" height="21" />
+                            <button class="btn" onclick="requestSMS()" @if($userBought) style="width:120px;background-color:green;" @else style="width:120px;background-color:gray;cursor:not-allowed;" disabled @endif>
+                                @if(!$userBought)
+                                    <img src="images/ic_lock.png" width="16" height="21" />
+                                @endif
                                 خرید
                             </button>
                         </div>
@@ -146,7 +150,7 @@
                         <h6>قیمت عادی</h6>
                     </div>
                     <div style="flex:1;text-align: left;">
-                        <button class="btn btn-warning" style="width:120px;">خرید</button>
+                        <a class="btn btn-warning" href="http://hamsod.com" style="width:120px;">خرید</a>
                     </div>
                 </div>
             </div>
@@ -173,6 +177,13 @@
 
             function buy() {
                 window.location = '/verifyMobile';
+            }
+
+            function requestSMS() {
+                swal({
+                    text: "لینک خرید به زودی برای شما ارسال خواهد شد.",
+                    buttons: ["باشه"],
+                });
             }
         </script>
     </body>

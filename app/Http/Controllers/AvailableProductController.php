@@ -54,12 +54,14 @@ class AvailableProductController extends Controller
 
     public function edit(AvailableProduct $availableProduct)
     {
-        return view('availableProducts.index', compact('availableProduct'));
+        $products = Product::pluck('name', 'id')->toArray();
+        return view('availableProducts.edit', compact('availableProduct', 'products'));
     }
 
     public function update(Request $request, AvailableProduct $availableProduct)
     {
-        //
+        $availableProduct->update($request->all());
+        return redirect(route('availableProducts.index'))->with('message', 'بروزرسانی با موفقیت ایجاد شد.')->with('type', 'success');
     }
 
     public function destroy(AvailableProduct $availableProduct)
