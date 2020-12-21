@@ -63,9 +63,6 @@ class HomeController extends Controller
         $iranStandardTime = 12600;
         $hour = $end - 1;
 
-        // $date = strtotime(date("Y/m/d") . " $hour:59:59") + ($day*86400); // tomorrow => +86400 , day after tomorrow => +172800
-        // return ($date - time() - $iranStandardTime); // Iran Standard Time
-
         $jalali = explode('/', $day);
         $date = strtotime(jalali_to_gregorian($jalali[0], $jalali[1], $jalali[2], '/') . " $hour:59:59");
         return ($date - time() - $iranStandardTime); // Iran Standard Time

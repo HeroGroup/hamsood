@@ -19,7 +19,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">عکس محصول:</label>
+                    <label for="base_price_url" class="col-sm-2 control-label">لینک خرید عادی</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="base_price_url" name="base_price_url" value="{{old('base_price_url')}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">عکس محصول</label>
                     <div class="col-sm-4">
                         <input name="image_file" type="file" accept="image/*" placeholder="یک عکس انتخاب کنید" >
                     </div>

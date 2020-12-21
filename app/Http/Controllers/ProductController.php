@@ -31,7 +31,8 @@ class ProductController extends Controller
         $product = new Product([
             'name' => $request->name,
             'description' => $request->description,
-            'image_url' => $imageUrl
+            'image_url' => $imageUrl,
+            'base_price_url' => $request->base_price_url,
         ]);
 
         $product->save();
@@ -62,6 +63,7 @@ class ProductController extends Controller
         $product->update([
             'name' => $request->name,
             'description' => $request->description,
+            'base_price_url' => $request->base_price_url,
             'is_active' => $request->is_active ? 1 : 0
         ]);
 

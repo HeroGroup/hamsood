@@ -10,6 +10,7 @@ class Product extends Model
         'name',
         'description',
         'image_url',
+        'base_price_url',
         'is_active'
     ];
 }

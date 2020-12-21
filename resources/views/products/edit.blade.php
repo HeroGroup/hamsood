@@ -19,6 +19,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="base_price_url" class="col-sm-2 control-label">لینک خرید عادی</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="base_price_url" name="base_price_url" value="{{$product->base_price_url}}">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="is_active" class="col-sm-2 control-label">توضیحات</label>
                     <div class="col-sm-4">
                         <span> فعال </span>

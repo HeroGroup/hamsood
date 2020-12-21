@@ -150,7 +150,7 @@
                         <h6>قیمت عادی</h6>
                     </div>
                     <div style="flex:1;text-align: left;">
-                        <a class="btn btn-warning" href="http://hamsod.com" style="width:120px;">خرید</a>
+                        <a class="btn btn-warning" href="{{$product->base_price_url}}" style="width:120px;">خرید</a>
                     </div>
                 </div>
             </div>
