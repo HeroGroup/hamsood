@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -52,34 +53,34 @@ class UserController extends Controller
     }
 
     public function resetPassword(User $user)
-        {
-            try {
-                $user->update(['password' => Hash::make($user->mobile)]);
+    {
+        try {
+            $user->update(['password' => Hash::make($user->mobile)]);
 
-                return $this->success('رمز عبور با موفقیت به شماره موبایل کاربر تغییر یافت.');
-            } catch (\Exception $exception) {
-                return $this->fail($exception->getMessage());
-            }
+            return $this->success('رمز عبور با موفقیت به شماره موبایل کاربر تغییر یافت.');
+        } catch (\Exception $exception) {
+            return $this->fail($exception->getMessage());
         }
+    }
 
-        public function changePassword($userId)
-        {
-            $user = User::find($userId);
-            return view('users.changePassword', compact('user'));
-        }
+    public function changePassword($userId)
+    {
+        $user = User::find($userId);
+        return view('users.changePassword', compact('user'));
+    }
 
-        public function updatePassword(Request $request)
-        {
-            if (Hash::check($request->old_password, auth()->user()->password)) {
-                if ($request->password == $request->password_confirmation) {
-                    auth()->user()->update(['password' => Hash::make($request->password)]);
+    public function updatePassword(Request $request)
+    {
+        if (Hash::check($request->old_password, auth()->user()->password)) {
+            if ($request->password == $request->password_confirmation) {
+                auth()->user()->update(['password' => Hash::make($request->password)]);
 
-                    return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور با موفقیت تغییر یافت.')->with('type', 'success');
-                } else {
-                    return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور جدید با تکرار آن همخوانی ندارد.')->with('type', 'danger');
-                }
+                return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور با موفقیت تغییر یافت.')->with('type', 'success');
             } else {
-                return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور فعلی نادرست است.')->with('type', 'danger');
+                return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور جدید با تکرار آن همخوانی ندارد.')->with('type', 'danger');
             }
+        } else {
+            return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور فعلی نادرست است.')->with('type', 'danger');
         }
+    }
 }

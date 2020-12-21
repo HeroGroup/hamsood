@@ -24,7 +24,7 @@ class HomeController extends Controller
         if ($mobile && strlen($mobile) == 11) {
             $customer = Customer::where('mobile', 'like', $mobile)->first();
             if ($customer) {
-                $order = Order::where('customer_id', $customer->id)->where('status', 1)->first();
+                $order = Order::where('customer_id', $customer->id)/*->where('status', 1)*/->first();
                 if ($order) {
                     $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->count();
                     if ($items > 0)
@@ -44,9 +44,12 @@ class HomeController extends Controller
             $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
             $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
 
+            /*
             $items = OrderItem::where('available_product_id', $availableProduct->id)->select('order_id')->distinct()->get();
             $peopleBought = (Order::whereIn('id', $items)->where('status', 1)->count()) % $availableProduct->maximum_group_members;
+            */
 
+            $peopleBought = $availableProduct->getOrdersCount();
             $userBought = $this->checkIfUserBought($availableProduct->id);
 
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');

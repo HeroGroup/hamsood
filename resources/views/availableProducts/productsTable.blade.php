@@ -10,6 +10,8 @@
             <th>فعال تا</th>
             <th>فعال تا</th>
             <th>میزان تخفیفات</th>
+            <th>تعداد خریداره شده</th>
+            <th>تعداد ارسال شده</th>
             <th>عملیات</th>
         </tr>
         </thead>
@@ -17,12 +19,14 @@
         @foreach($products as $product)
             <tr>
                 <td>{{$product->product->name}}</td>
-                <td>{{$product->price}} تومان</td>
+                <td>{{number_format($product->price)}} تومان</td>
                 <td>{{$product->quantity}}</td>
                 <td>{{$product->maximum_group_members}} نفر</td>
                 <td>{{$product->until_day}}</td>
                 <td>{{config('enums.active_until.'.$product->available_until_datetime)}}</td>
                 <td style="text-align: right;">{{$product->getDiscounts()}}</td>
+                <td style="text-align: center; color:lightgreen;font-size:18px;">{{$product->getOrdersCount()}}</td>
+                <td style="text-align: center; color:orange;font-size:18px;">{{$product->getSentOrdersCount()}}</td>
                 <td>
                     @if($product->is_active)
                         <a href="{{route('availableProducts.edit', $product)}}" class="btn btn-xs btn-success" data-toggle="tooltip" title="ویرایش">ویرایش</a>

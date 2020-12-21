@@ -10,8 +10,8 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $active = Order::where('status', 1)->get();
-        $inactive = Order::where('status', 2)->get();
+        $active = Order::where('status', 1)->orderBy('id', 'desc')->get();
+        $inactive = Order::where('status', 2)->orderBy('id', 'desc')->get();
 
         return view('orders.index', compact('active', 'inactive'));
     }
@@ -24,16 +24,6 @@ class OrderController extends Controller
             return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
         } else {
             return redirect(route('orders.index'))->with('message', 'سفارش نامعتبر')->with('type', 'danger');
-        }
-    }
-
-    public function submitOrder(Request $request)
-    {
-        $mobile = session('mobile');
-        if ($mobile && strlen($mobile) == 11) {
-            // if user has already ordered, reutrn with proper message
-        } else {
-            return view('verifyMobile');
         }
     }
 }

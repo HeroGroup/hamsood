@@ -36,4 +36,15 @@ class AvailableProduct extends Model
         }
         return $discounts;
     }
+
+    public function getOrdersCount()
+    {
+        return OrderItem::where('available_product_id', $this->id)->count();
+    }
+
+    public function getSentOrdersCount()
+    {
+        $items = OrderItem::where('available_product_id', $this->id)->select('order_id')->distinct()->get();
+        return Order::whereIn('id', $items)->where('status', 2)->count();
+    }
 }

@@ -7,6 +7,8 @@
                 <th>مجموع قیمت سفرش</th>
                 <th>درصد تخفیف</th>
                 <th>محصولات سفارش</th>
+                <th>شناسه گروه</th>
+                <th>زمان</th>
                 <th>عملیات</th>
             </tr>
             </thead>
@@ -17,6 +19,8 @@
                     <td>{{number_format($order->total_price)}} تومان</td>
                     <td>{{$order->discount}}%</td>
                     <td>{{$order->getDetails()}}</td>
+                    <td style="color:lightblue;">{{$order->getItemsIds()}}</td>
+                    <td style="direction:ltr; text-align:center;">{{jdate('Y/m/j H:i', strtotime($order->created_at))}}</td>
                     <td>
                         @if($order->status == 1) <!--   ثبت -->
                             <a href="{{ route('orders.delivered', $order) }}" class="btn btn-xs btn-success" data-toggle="tooltip" title="تغییر وضعیت به ارسال شده">

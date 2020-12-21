@@ -29,4 +29,14 @@ class Order extends Model
         }
         return $details;
     }
+    public function getItemsIds()
+    {
+        $ids = "";
+        $items = OrderItem::where('order_id', $this->id)->get();
+        for ($i=0;$i<count($items);$i++) {
+            $ids .= "#" . $items[$i]->availableProduct->id;
+            if ($i != count($items)-1) $ids .= ', ';
+        }
+        return $ids;
+    }
 }

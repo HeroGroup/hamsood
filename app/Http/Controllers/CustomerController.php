@@ -126,7 +126,7 @@ class CustomerController extends Controller
     {
         $userBought = false;
         if ($customer) {
-            $order = Order::where('customer_id', $customer)->where('status', 1)->first();
+            $order = Order::where('customer_id', $customer)/*->where('status', 1)*/->first();
             if ($order) {
                 $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->count();
                 if ($items > 0)
