@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['pageTitle' => 'سفارشات', 'newButton' => false])
+@extends('layouts.admin', ['pageTitle' => 'سفارشات ' . (isset($availableProduct) ? "گروه #$availableProduct ($productName)" : ''), 'newButton' => false])
 @section('content')
     <style>
         .nav > li > a {

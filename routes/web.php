@@ -22,7 +22,8 @@ Route::prefix('admin')->group(function () {
         Route::post('availableProducts/storeDetails', 'AvailableProductController@storeDetails')->name('availableProducts.storeDetails');
         Route::get('availableProducts/{availableProduct}/toggleActivate', 'AvailableProductController@toggleActivate')->name('availableProducts.toggleActivate');
 
-        Route::get('orders', 'OrderController@index')->name('orders.index');
+        Route::get('orders', 'OrderController@index', ['except' => ['index','show']]);
+        Route::get('orders/{availableProduct?}', 'OrderController@index')->name('orders.index');
         Route::get('orders/{order}/delivered', 'OrderController@delivered')->name('orders.delivered');
 
         Route::resource('users', 'UserController');
