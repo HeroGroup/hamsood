@@ -35,11 +35,11 @@
                         <span> غیرفعال </span>
                     </div>
                 </div>
-                <image src="{{$product->image_url}}" alt="{{$product->name}}" />
                 <div class="form-group">
                     <label class="col-sm-2 control-label">عکس محصول:</label>
                     <div class="col-sm-4">
                         <input name="image_file" type="file" accept="image/*" placeholder="یک عکس انتخاب کنید" >
+                        <image src="{{$product->image_url}}" alt="{{$product->name}}" style="width:100%;" />
                     </div>
                 </div>
 
