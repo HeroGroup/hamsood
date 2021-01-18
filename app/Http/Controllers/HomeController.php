@@ -63,12 +63,12 @@ class HomeController extends Controller
 
     public function getRemainingTime($day,$end)
     {
-        $iranStandardTime = 12600;
+        // $iranStandardTime = 12600;
         $hour = $end - 1;
 
         $jalali = explode('/', $day);
         $date = strtotime(jalali_to_gregorian($jalali[0], $jalali[1], $jalali[2], '/') . " $hour:59:59");
-        return ($date - time() - $iranStandardTime); // Iran Standard Time
+        return $date - time();
     }
 
     public function verifyMobile()

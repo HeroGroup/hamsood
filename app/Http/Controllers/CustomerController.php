@@ -125,14 +125,12 @@ class CustomerController extends Controller
     public function checkIfUserBought($availableProductId, $customer)
     {
         $userBought = false;
-        if ($customer) {
-            $order = Order::where('customer_id', $customer)/*->where('status', 1)*/->first();
-            if ($order) {
-                $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->count();
-                if ($items > 0)
-                    $userBought = true;
-            }
+        if ($customer && $availableProductId) {
+            $items = OrderItem::where('available_product_id', $availableProductId)->select('order_id')->distinct()->get();
+            if (Order::where('customer_id', $customer)->whereIn('id', $items)->count() > 0)
+                $userBought = true;
         }
+
         return $userBought;
     }
 }
