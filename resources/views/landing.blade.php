@@ -12,7 +12,7 @@
         <script src="/js/sweetalert.min.js" type="text/javascript"></script>
     </head>
     <body>
-        <div>
+        <div style="margin-bottom:80px;">
             <div class="container">
                 <h4 class="title">صفحه خرید گروهی</h4>
                 <div>
@@ -92,7 +92,7 @@
                         @component('components.suggestCard', ['percent' => $details[$i]->discount."%", 'people' => '1', 'status' => $i<=$peopleBought-2 ? 2 : 1])@endcomponent
                     @endfor
 
-                    <button id="hamsood-btn" onclick="buy()">منم همسود می شوم</button>
+
 
                     @if($userBought)
                         <div style="display: flex;flex-direction: row;border-radius: 3px;background-color:#E9D5BA;margin-top:-40px;">
@@ -109,7 +109,12 @@
                                 </div>
                             </div>
                         </div>
+                    @else
+                        <div class="hamsood-button-container">
+                            <button id="hamsood-btn" onclick="buy()">منم همسود می شوم</button>
+                        </div>
                     @endif
+                    <button style="visibility: hidden;">منم همسود می شوم</button>
                 </div>
 
                 <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;margin-top: 5px;">
@@ -125,34 +130,37 @@
                         </div>
                         <div style="flex:1;text-align: center;font-size: 18px;">زمان باقیمانده</div>
                     </div>
-                    <div style="display:flex;flex-direction:row;margin-top:10px;">
-                        <div style="flex:2;display:flex;flex-direction:column;text-align:center;">
-                            <div style="flex:2;display:flex;">
-                                <div style="flex:1;font-size:16px;color:red;">{{number_format((100-$lastDiscount)/100*$availableProduct->price)}} تومان</div>
-                                <div style="flex:1;font-size:16px;color:red;border:1px solid red;margin:0 5px;">{{$lastDiscount}}%  تخفیف</div>
-                            </div>
-                            <div style="flex:1;color:#222;font-size:10px;">فعال شدن تخفیف با شروع همسود</div>
-                        </div>
-                        <div style="flex:1;text-align: left;">
-                            <button class="btn" onclick="requestSMS()" @if($userBought) style="width:120px;background-color:green;" @else style="width:120px;background-color:gray;cursor:not-allowed;" disabled @endif>
-                                @if(!$userBought)
-                                    <img src="images/ic_lock.png" width="16" height="21" />
-                                @endif
-                                خرید
-                            </button>
-                        </div>
-                    </div>
+
+                    {{--<div style="display:flex;flex-direction:row;margin-top:10px;">--}}
+                        {{--<div style="flex:2;display:flex;flex-direction:column;text-align:center;">--}}
+                            {{--<div style="flex:2;display:flex;">--}}
+                                {{--<div style="flex:1;font-size:16px;color:red;">{{number_format((100-$lastDiscount)/100*$availableProduct->price)}} تومان</div>--}}
+                                {{--<div style="flex:1;font-size:16px;color:red;border:1px solid red;margin:0 5px;">{{$lastDiscount}}%  تخفیف</div>--}}
+                            {{--</div>--}}
+                            {{--<div style="flex:1;color:#222;font-size:10px;">فعال شدن تخفیف با شروع همسود</div>--}}
+                        {{--</div>--}}
+                        {{--<div style="flex:1;text-align: left;">--}}
+                            {{--<button class="btn" onclick="requestSMS()" @if($userBought) style="width:120px;background-color:green;" @else style="width:120px;background-color:gray;cursor:not-allowed;" disabled @endif>--}}
+                                {{--@if(!$userBought)--}}
+                                    {{--<img src="images/ic_lock.png" width="16" height="21" />--}}
+                                {{--@endif--}}
+                                {{--خرید--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+
                 </div>
 
-                <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;display: flex;margin-top: 5px;align-items: center;">
-                    <div style="flex:1;text-align: center;color:#222;">
-                        <h4>{{number_format($availableProduct->price)}} تومان</h4>
-                        <h6>قیمت عادی</h6>
-                    </div>
-                    <div style="flex:1;text-align: left;">
-                        <a class="btn btn-warning" href="{{$product->base_price_url}}" style="width:120px;">خرید</a>
-                    </div>
-                </div>
+                {{--<div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;display: flex;margin-top: 5px;align-items: center;">--}}
+                    {{--<div style="flex:1;text-align: center;color:#222;">--}}
+                        {{--<h4>{{number_format($availableProduct->price)}} تومان</h4>--}}
+                        {{--<h6>قیمت عادی</h6>--}}
+                    {{--</div>--}}
+                    {{--<div style="flex:1;text-align: left;">--}}
+                        {{--<a class="btn btn-warning" href="{{$product->base_price_url}}" style="width:120px;">خرید</a>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
             </div>
         </div>
 
@@ -160,7 +168,7 @@
         <script>
             window.onload = function() {
                 countdown(parseInt("{{$remaining}}") * 1000);
-                document.getElementById("hamsood-btn").style.visibility = "{{$userBought}}" ? "hidden" : "visible";
+                document.getElementsByClassName("hamsood-btn-container").style.visibility = "{{$userBought}}" ? "hidden" : "visible";
 
                 $('.share').on('click', function() {
                     var $temp = $("<input>"), $url = $(location).attr('href');
