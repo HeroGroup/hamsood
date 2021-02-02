@@ -92,10 +92,10 @@
                         @component('components.suggestCard', ['percent' => $details[$i]->discount."%", 'people' => '1', 'status' => $i<=$peopleBought-2 ? 2 : 1])@endcomponent
                     @endfor
 
-                    <button id="hamsood-btn" onclick="buy()">منم همسود می شوم</button>
-
-                    @if($userBought)
-                        <div style="display: flex;flex-direction: row;border-radius: 3px;background-color:#E9D5BA;margin-top:-40px;">
+                    <button id="styling-button" style="visibility:hidden;">منم همسود می شوم</button>
+                    <div class="hamsood-button-container">
+                      @if($userBought)
+                        <div style="display: flex;flex-direction: row;border-radius: 3px;background-color:#E9D5BA;">
                             <div style="flex:1;background-color:#FF6F00;text-align:center;padding:10px 0;">ارسال دعوت نامه</div>
                             <div style="flex:2;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                                 <div style="flex:1;text-align: center;" class="share">
@@ -109,7 +109,11 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                        @else
+                          <button id="hamsood-btn" onclick="buy()">منم همسود می شوم</button>
+                          @endif
+                    </div>
+
                 </div>
 
                 <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;margin-top: 5px;">
@@ -125,7 +129,7 @@
                         </div>
                         <div style="flex:1;text-align: center;font-size: 18px;">زمان باقیمانده</div>
                     </div>
-                    <div style="display:flex;flex-direction:row;margin-top:10px;">
+                    <!-- <div style="display:flex;flex-direction:row;margin-top:10px;">
                         <div style="flex:2;display:flex;flex-direction:column;text-align:center;">
                             <div style="flex:2;display:flex;">
                                 <div style="flex:1;font-size:16px;color:red;">{{number_format((100-$lastDiscount)/100*$availableProduct->price)}} تومان</div>
@@ -141,10 +145,10 @@
                                 خرید
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
-                <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;display: flex;margin-top: 5px;align-items: center;">
+                <!-- <div style="width: 100%; border-radius:3px;padding:5px;background-color:#E5E2E2;display: flex;margin-top: 5px;align-items: center;">
                     <div style="flex:1;text-align: center;color:#222;">
                         <h4>{{number_format($availableProduct->price)}} تومان</h4>
                         <h6>قیمت عادی</h6>
@@ -152,7 +156,7 @@
                     <div style="flex:1;text-align: left;">
                         <a class="btn btn-warning" href="{{$product->base_price_url}}" style="width:120px;">خرید</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -160,7 +164,7 @@
         <script>
             window.onload = function() {
                 countdown(parseInt("{{$remaining}}") * 1000);
-                document.getElementById("hamsood-btn").style.visibility = "{{$userBought}}" ? "hidden" : "visible";
+                // document.getElementById("styling-button").style.visibility = "{{$userBought}}" ? "hidden" : "visible";
 
                 $('.share').on('click', function() {
                     var $temp = $("<input>"), $url = $(location).attr('href');

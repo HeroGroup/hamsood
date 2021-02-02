@@ -24,12 +24,16 @@ class HomeController extends Controller
         if ($mobile && strlen($mobile) == 11) {
             $customer = Customer::where('mobile', 'like', $mobile)->first();
             if ($customer) {
-                $order = Order::where('customer_id', $customer->id)/*->where('status', 1)*/->first();
-                if ($order) {
-                    $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->count();
-                    if ($items > 0)
-                        $userBought = true;
+                $orderMaxId = Order::where('customer_id', $customer->id)/*->where('status', 1)*/->max('id');
+                if($orderMaxId) {
+                  $order = Order::find($orderMaxId);
+                  if ($order) {
+                      $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->count();
+                      if ($items > 0)
+                          $userBought = true;
+                  }
                 }
+
             }
         }
 
