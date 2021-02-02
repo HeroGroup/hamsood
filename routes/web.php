@@ -28,7 +28,7 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('users', 'UserController');
         Route::get('users/{user}/resetPassword', 'UserController@resetPassword')->name('users.resetPassword');
-        Route::get('users/{user}/changePassword', 'UserController@changePassword')->name('users.changePassword');
+        Route::get('users/{user}/profile', 'UserController@changePassword')->name('users.changePassword');
         Route::post('users/updatePassword', 'UserController@updatePassword')->name('users.updatePassword');
     });
 });

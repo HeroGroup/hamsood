@@ -61,7 +61,8 @@ class CustomerController extends Controller
 
             session(['mobile' => $request->mobile]);
 
-            return view('verifyToken');
+            $remainingTime = 60;
+            return view('verifyToken', compact('remainingTime'));
         } else {
             return redirect(route('verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
         }

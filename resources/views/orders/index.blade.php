@@ -2,7 +2,7 @@
 @section('content')
     <style>
         .nav > li > a {
-            padding:5px 25px;
+            /*padding:5px 25px;*/
         }
     </style>
     <div class="panel panel-default">

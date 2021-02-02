@@ -66,7 +66,7 @@ class UserController extends Controller
     public function changePassword($userId)
     {
         $user = User::find($userId);
-        return view('users.changePassword', compact('user'));
+        return view('users.profile', compact('user'));
     }
 
     public function updatePassword(Request $request)
@@ -75,12 +75,12 @@ class UserController extends Controller
             if ($request->password == $request->password_confirmation) {
                 auth()->user()->update(['password' => Hash::make($request->password)]);
 
-                return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور با موفقیت تغییر یافت.')->with('type', 'success');
+                return redirect(route('users.profile', auth()->id()))->with('message', 'رمز عبور با موفقیت تغییر یافت.')->with('type', 'success');
             } else {
-                return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور جدید با تکرار آن همخوانی ندارد.')->with('type', 'danger');
+                return redirect(route('users.profile', auth()->id()))->with('message', 'رمز عبور جدید با تکرار آن همخوانی ندارد.')->with('type', 'danger');
             }
         } else {
-            return redirect(route('users.changePassword', auth()->id()))->with('message', 'رمز عبور فعلی نادرست است.')->with('type', 'danger');
+            return redirect(route('users.profile', auth()->id()))->with('message', 'رمز عبور فعلی نادرست است.')->with('type', 'danger');
         }
     }
 }

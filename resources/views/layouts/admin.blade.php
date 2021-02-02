@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="contor control">
     <meta name="author" content="Navid Hero">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ env('APP_NAME') }} | داشبورد</title>
+    <title>{{ env('APP_NAME') }} | {{$pageTitle}}</title>
 
     <link href="/css/rtl/bootstrap.min.css" rel="stylesheet">
     <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
@@ -16,6 +15,7 @@
     <link href="/css/rtl/sb-admin-2.css" rel="stylesheet">
     <link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/css/my.css" rel="stylesheet" type="text/css">
+    <link href="/css/admin.css" rel="stylesheet" type="text/css">
     <link href="/css/jquery.timepicker.css" rel="stylesheet" type="text/css">
     <link href="/css/persian-datepicker.min.css" rel="stylesheet">
 

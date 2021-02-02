@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{env('APP_NAME')}}</title>
+        <title>همسود</title>
         <link href="/css/rtl/bootstrap.min.css" rel="stylesheet">
         <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
         <link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -12,8 +12,12 @@
         <script src="/js/sweetalert.min.js" type="text/javascript"></script>
     </head>
     <body>
-        <div style="margin-bottom:80px;">
+
+      @include('layouts.topNavigation')
+
+        <div style="margin-top:60px;margin-bottom:80px;">
             <div class="container">
+
                 <h4 class="title">صفحه خرید گروهی</h4>
                 <div>
                     <div class="circle">1</div>
@@ -24,7 +28,7 @@
                     <label class="steps">شروع خرید با تخفیف</label>
                 </div>
                 <hr class="horizontal-line">
-                <div class="row" style="border:1px solid #E5E2E2;margin:5px 0;border-radius:3px;">
+                <div class="row" style="border:1px solid #E5E2E2;margin:5px 0;border-radius:3px;z-index:0;">
                     <div class="col-xs-8">
                         <label class="product-title">{{$product->name}}</label>
                         <div class="row">
@@ -177,6 +181,19 @@
                         buttons: ["باشه"],
                     });
                 });
+            }
+
+            document.addEventListener('click', function(e) {
+               if(e.target != document.getElementById("toggleNavigation") && e.target != document.getElementById("myNav"))
+                  closeNav();
+            })
+
+            function openNav() {
+              document.getElementById("myNav").style.width = "80%";
+            }
+
+            function closeNav() {
+              document.getElementById("myNav").style.width = "0%";
             }
 
             function buy() {

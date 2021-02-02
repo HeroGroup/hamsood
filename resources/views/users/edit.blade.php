@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['pageTitle' => 'ایجاد کاربر', 'newButton' => false])
+@extends('layouts.admin', ['pageTitle' => 'ویرایش مشخصات کاربر', 'newButton' => false])
 @section('content')
     <div class="panel panel-default">
         <div class="panel-heading">ویرایش مشخصات کاربر</div>

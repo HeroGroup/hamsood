@@ -5,7 +5,7 @@
                 <a href="{{route('products.index')}}"><i class="fa fa-fw fa-shopping-cart"></i> محصولات</a>
             </li>
             <li>
-                <a href="{{route('availableProducts.index')}}"><i class="fa fa-fw fa-shopping-cart"></i> محصولات موجود</a>
+                <a href="{{route('availableProducts.index')}}"><i class="fa fa-fw fa-shopping-cart"></i> گروه ها</a>
             </li>
             <li>
                 <a href="{{route('orders.index')}}"><i class="fa fa-fw fa-list"></i> سفارشات</a>

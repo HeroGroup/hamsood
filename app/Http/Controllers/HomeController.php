@@ -82,6 +82,7 @@ class HomeController extends Controller
 
     public function verifyToken()
     {
-        return view('verifyToken');
+        $remainingTime = 60;
+        return view('verifyToken', compact('remainingTime'));
     }
 }
