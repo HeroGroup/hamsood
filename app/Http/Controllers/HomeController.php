@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\AvailableProduct;
 use App\AvailableProductDetail;
+use App\City;
 use App\Customer;
+use App\Neighbourhood;
 use App\Order;
 use App\OrderItem;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {

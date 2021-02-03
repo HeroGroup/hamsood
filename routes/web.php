@@ -10,7 +10,6 @@ Route::get('/verifyToken', 'HomeController@verifyToken');
 Route::post('/verifyMobile', 'CustomerController@verifyMobile')->name('verifyMobile');
 Route::post('/verifyToken', 'CustomerController@verifyToken')->name('verifyToken');
 
-
 Route::prefix('admin')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', function () {
