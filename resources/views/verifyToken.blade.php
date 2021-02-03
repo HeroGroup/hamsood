@@ -61,10 +61,10 @@
         </div>
         <div style="width:100%;margin-top:20px;">
             <div style="margin-top:10px;text-align: center;color:#9b59b6;">
-                <a id="resend" disabled href="#">ارسال مجدد</a>
+                <a id="resend" href="#" style="cursor: not-allowed;">ارسال مجدد</a>
                 <div id="resend-text" style="display:inline-block;">
                   <span> بعد از </span>
-                  <span id="remaining-time" style="width:60px;"></span>
+                  <span id="remaining-time"></span>
                   <span> ثانیه</span>
                 </div>
               </div>
@@ -95,6 +95,7 @@
         clearInterval(timerInterval);
         document.getElementById("resend").href = "/verifyMobile";
         document.getElementById("resend-text").style.display = "none";
+        document.getElementById("resend-text").style.cursor = "pointer";
       }
     }, 1000);
   };
