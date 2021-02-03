@@ -19,7 +19,7 @@
         }
 
         .icon {
-            padding: 5px 10px;
+            /*padding: 5px 10px;*/
             color: #222; /* #539BE4; */
             min-width: 50px;
             text-align: center;
@@ -40,7 +40,7 @@
         <div>
             <img src="images/verify_mobile.png" width="150" height="150" />
         </div>
-        <div style="flex:1;color:#222;margin-top:20px;">
+        <div style="flex:1;color:#222;margin-top:50px;">
             <p>جهت وارد شدن در فروشگاه اینترنتی</p>
             <p>خرید گروهی <b>همسود</b></p>
             <p>شماره تلفن همراه خود را وارد کنید</p>
