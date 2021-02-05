@@ -200,3 +200,93 @@ td {
     height:30px;
     margin:5px;
 }
+
+.input-container {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    /* width: 70%; */
+    border: 1px solid #539BE4;
+    border-radius:5px;
+    text-align: center;
+}
+
+.icon {
+    /*padding: 5px 10px;*/
+    color: #222; /* #539BE4; */
+    min-width: 50px;
+    text-align: center;
+    font-size:36px;
+}
+
+.input-field {
+    /* width: 100%; */
+    padding: 0 10px;
+    color:#222;
+    border:none;
+}
+
+.dashed-button-container {
+    margin-top:50px;
+}
+
+.dashed-button {
+    border:1px dashed #31AC6B;;
+    border-radius:3px;
+    padding: 10px 30px;
+    color:#31AC6B;;
+    background-color:white;
+    font-size:22px;
+    cursor:pointer;
+    text-decoration: none;
+}
+
+.dashed-button:hover {
+    color:white;
+    background-color:#31AC6B;
+    text-decoration: none;
+}
+
+.confirm-button {
+    width:100%;
+    background-color:#31AC6B;
+    padding: 15px 0;
+    border-radius:0;
+    font-size:20px;
+}
+
+.dark-overlay {
+  height: 100%;
+  width: 100%;
+  z-index: 4;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.overlay-container {
+    height: 80%;
+    width: 100%;
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    right: 0;
+    background-color: white;
+    color:#222;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding:25px;
+    overflow-y: scroll;
+}
+
+.inactive {
+    background-color:gray;
+    color:white;
+    cursor:not-allowed;
+}
+
+.active {
+    background-color:#31AC6B;
+    color:white;
+    cursor:pointer;
+}

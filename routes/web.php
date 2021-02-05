@@ -10,6 +10,15 @@ Route::get('/verifyToken', 'HomeController@verifyToken');
 Route::post('/verifyMobile', 'CustomerController@verifyMobile')->name('verifyMobile');
 Route::post('/verifyToken', 'CustomerController@verifyToken')->name('verifyToken');
 
+Route::middleware('customer.auth')->group(function () {
+    Route::get('/orders', 'CustomerController@orders')->name('customer.orders');
+    Route::get('/addresses', 'CustomerController@addresses')->name('customer.addresses');
+    Route::get('/selectNeighbourhood', 'CustomerController@selectNeighbourhood')->name('customer.selectNeighbourhood');
+    Route::get('/getNeighbourhoods/{city}/{keyword?}', 'CustomerController@getNeighbourhoods');
+    Route::get('/postNeighbourhood/{neighbourhood}', 'CustomerController@postNeighbourhood')->name('customer.postNeighbourhood');
+    Route::post('/postAddressDetail', 'CustomerController@postAddressDetail')->name('customers.postAddressDetail');
+});
+
 Route::prefix('admin')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', function () {
