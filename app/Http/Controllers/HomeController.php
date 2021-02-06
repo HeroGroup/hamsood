@@ -62,9 +62,11 @@ class HomeController extends Controller
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
 
-            return view('landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount'));
+            session(['mobile' => "09177048781"]);
+
+            return view('customers.landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount'));
         } else {
-            return view('notActive');
+            return view('customers.notActive');
         }
     }
 
@@ -80,12 +82,12 @@ class HomeController extends Controller
 
     public function verifyMobile()
     {
-        return view('verifyMobile');
+        return view('customers.verifyMobile');
     }
 
     public function verifyToken()
     {
         $remainingTime = 60;
-        return view('verifyToken', compact('remainingTime'));
+        return view('customers.verifyToken', compact('remainingTime'));
     }
 }

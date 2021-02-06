@@ -1,40 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
-    <title>{{env('APP_NAME')}} | شماره موبایل</title>
-    <link href="/css/rtl/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
-    <link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/css/my.css" rel="stylesheet" type="text/css">
-    <style>
-        .input-container {
-            display: -ms-flexbox; /* IE10 */
-            display: flex;
-            /* width: 70%; */
-            border: 1px solid #539BE4;
-            border-radius:5px;
-            text-align: center;
-        }
+@extends('layouts.customer', ['pageTitle' => 'شماره موبایل'])
+@section('content')
 
-        .icon {
-            /*padding: 5px 10px;*/
-            color: #222; /* #539BE4; */
-            min-width: 50px;
-            text-align: center;
-            font-size:36px;
-        }
-
-        .input-field {
-            /* width: 100%; */
-            padding: 0 10px;
-            color:#222;
-            border:none;
-        }
-    </style>
-</head>
-<body>
 <div class="container" style="text-align:center;">
     <div style="margin-top:50px;">
         <div>
@@ -68,5 +34,3 @@
         </form>
     </div>
 </div>
-</body>
-</html>

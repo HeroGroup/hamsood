@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\AvailableProduct;
 use App\AvailableProductDetail;
 use App\Customer;
+use App\CustomerAddress;
+use App\Neighbourhood;
 use App\Order;
 use App\OrderItem;
 use App\Product;
@@ -62,9 +64,9 @@ class CustomerController extends Controller
             session(['mobile' => $request->mobile]);
 
             $remainingTime = 60;
-            return view('verifyToken', compact('remainingTime'));
+            return view('customers.verifyToken', compact('remainingTime'));
         } else {
-            return redirect(route('verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
+            return redirect('/verifyMobile')->with('error', 'شماره موبایل نامعتبر');
         }
     }
 
@@ -80,16 +82,16 @@ class CustomerController extends Controller
                 if ($token) {
                     if (Hash::check(strval($token), $tokenFromDatabase)) {
                         $this->submitOrder($customer->id);
-                        return redirect(route('landing'));
+                        return redirect(route('customers.landing'));
                     } else {
-                        return redirect(route('verifyToken'))->with('error', 'کد نادرست وارد شده است');
+                        return redirect('/verifyToken')->with('error', 'کد نادرست وارد شده است');
                     }
                 } else {
-                    return redirect(route('verifyToken'))->with('error', 'کد نامعتبر');
+                    return redirect('/verifyToken')->with('error', 'کد نامعتبر');
                 }
             }
         } else {
-            return redirect(route('verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
+            return redirect('/verifyMobile')->with('error', 'شماره موبایل نامعتبر');
         }
     }
 
@@ -133,5 +135,38 @@ class CustomerController extends Controller
         }
 
         return $userBought;
+    }
+
+    public function addresses()
+    {
+        $addresses = CustomerAddress::all();
+        return view('customers.addresses', compact('addresses'));
+    }
+
+    public function selectNeighbourhood()
+    {
+        return view('customers.neighbourhood');
+    }
+
+    public function getNeighbourhoods($city, $keyword=null)
+    {
+        $neighbourhoods = Neighbourhood::where('city_id',$city);
+        if ($keyword)
+            $neighbourhoods = $neighbourhoods->where('name','LIKE',"%$keyword%")->select('id','name')->get();
+        else
+            $neighbourhoods = $neighbourhoods->select('id','name')->get();
+
+        return response()->json($neighbourhoods);
+    }
+
+    public function postNeighbourhood($neighbourhood)
+    {
+        $neighbourhood = Neighbourhood::find($neighbourhood);
+        return view('customers.addressDetails', compact('neighbourhood'));
+    }
+
+    public function postAddressDetail(Request $request)
+    {
+        dd($request);
     }
 }

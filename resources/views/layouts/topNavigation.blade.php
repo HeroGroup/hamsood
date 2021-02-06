@@ -1,20 +1,9 @@
-<div id="myNav" class="overlay">
-  <div class="overlay-content">
-    @if(session('mobile'))
-    <p>name</p>
-    @else
-    <img src="/images/not_entered.png" width="150" height="150" />
-    <p style="color:#222;margin-top:80px;">شما هنوز وارد نشده اید</p>
-    <div>
-      <a class="btn btn-success" href="/verifyMobile" style="/*background-color:#008B44;*/width:150px;">ورود</a>
-    </div>
-    @endif
-  </div>
-</div>
-
-<div class="top-navigation">
-  <span id="toggleNavigation" onclick="openNav()">&#9776;</span>
-  &nbsp;
-  <span class="logo-title">همسود</span>
-  <img src="/images/logo.png" width="45" height="45" style="float:left;" />
+<div class="top-navigation" style="display:flex;justify-content:space-between;align-items:center;">
+    <a href="/">
+        <img src="/images/home_icon.png" width="45" height="45" />
+    </a>
+    <h4 style="color:#222;">{{$pageTitle}}</h4>
+    <a href="#" onclick="event.preventDefault(); window.history.back();">
+        <img src="/images/back_icon.png" width="12" height="22" />
+    </a>
 </div>

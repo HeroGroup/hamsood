@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>همسود</title>
-        <link href="/css/rtl/bootstrap.min.css" rel="stylesheet">
-        <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
-        <link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link href="/css/my.css" rel="stylesheet" type="text/css">
-        <script src="/js/jquery-1.11.0.js" type="text/javascript"></script>
-        <script src="/js/sweetalert.min.js" type="text/javascript"></script>
-    </head>
-    <body>
-
-      @include('layouts.topNavigation')
-
+@extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true])
+@section('content')
         <div style="margin-top:60px;margin-bottom:80px;">
             <div class="container">
 
@@ -183,19 +168,6 @@
                 });
             }
 
-            document.addEventListener('click', function(e) {
-               if(e.target != document.getElementById("toggleNavigation") && e.target != document.getElementById("myNav"))
-                  closeNav();
-            })
-
-            function openNav() {
-              document.getElementById("myNav").style.width = "80%";
-            }
-
-            function closeNav() {
-              document.getElementById("myNav").style.width = "0%";
-            }
-
             function buy() {
                 window.location = '/verifyMobile';
             }
@@ -207,5 +179,4 @@
                 });
             }
         </script>
-    </body>
-</html>
+@endsection
