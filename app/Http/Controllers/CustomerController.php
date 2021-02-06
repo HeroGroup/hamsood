@@ -136,4 +136,15 @@ class CustomerController extends Controller
 
         return $userBought;
     }
+
+    public function getOrderProduct($product)
+    {
+        $availableProduct = AvailableProduct::where('product_id', $product)->where('is_active', 1)->first();
+        $product = Product::find($product);
+        $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+        $peopleBought = $availableProduct->getOrdersCount();
+        $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
+
+        return view('customers.orderProduct',compact('availableProduct', 'product', 'lastDiscount'));
+    }
 }

@@ -11,7 +11,7 @@
             border:1px dashed #222
         }
         .selected {
-            border:1px solid #31AC6B;
+            border:2px solid #31AC6B;
         }
     </style>
     <div style="text-align:center;margin-top:80px;color:#222;padding:15px;">
@@ -19,17 +19,21 @@
         @foreach($addresses as $address)
             <div id="address-card-{{$address->id}}" class="address-card @if($address->is_default) selected @else not-selected @endif" onclick="makeDefault({{$address->id}})" >
                 @if($address->is_default)
-                    <img src='/images/checked_icon.png' width='20' height='20' class='checked' />
+                    <!--<img src='/images/checked_icon.png' width='20' height='20' class='checked' />-->
                 @endif
                 <div style="float: left">
-                    <a href="/selectNeighbourhood/{{$address->id}}">ویرایش</a>&nbsp;
-                    <a href="/removeAddress/{{$address->id}}">حذف</a>&nbsp;
+                    <a href="/selectNeighbourhood/{{$withConfirm}}/{{$address->id}}">
+                        <img src="/images/edit_icon.png" height="20" width="20" />
+                    </a>&nbsp;
+                    <a href="/removeAddress/{{$address->id}}">
+                        <img src="/images/delete_icon.png" height="20" width="20" />
+                    </a>&nbsp;
                 </div>
                 <p>{{$address->neighbourhood->name}}</p>
                 <p>{{$address->details}}</p>
             </div>
         @endforeach
-        @if(isset($withConfirm) && $withConfirm)
+        @if(isset($withConfirm) && $withConfirm == 1)
             <div style="position:fixed;bottom:0;left:0;width:100%;">
                 <button class="btn confirm-button">
                     تائید آدرس
@@ -44,7 +48,7 @@
                 <p>دکمه <b>ثبت آدرس جدید</b> ثبت کنید</p>
             </div>
         </div>
-        @if(isset($withConfirm) && $withConfirm)
+        @if(isset($withConfirm) && $withConfirm == 1)
             <div style="position:fixed;bottom:0;left:0;width:100%;">
                 <button class="btn confirm-button" disabled style="background-color:lightgray;color:darkgray;">
                     تائید آدرس
@@ -52,9 +56,8 @@
             </div>
         @endif
     @endif
-
         <div class="dashed-button-container">
-            <a href="{{route('customer.selectNeighbourhood')}}" class="dashed-button">ثبت آدرس جدید</a>
+            <a href="selectNeighbourhood/{{$withConfirm}}" class="dashed-button">ثبت آدرس جدید</a>
         </div>
     </div>
 
@@ -68,10 +71,10 @@
             //
         } else {
             defaultAddressId = addressId;
-            $('.checked').remove();
+            // $('.checked').remove();
             $(".address-card").removeClass("selected").addClass("not-selected");
             $(`#address-card-${addressId}`).removeClass("not-selected").addClass("selected");
-            $(`#address-card-${addressId}`).prepend(`<img src='/images/checked_icon.png' width='20' height='20' class='checked' />`);
+            // $(`#address-card-${addressId}`).prepend(`<img src='/images/checked_icon.png' width='20' height='20' class='checked' />`);
 
             $.ajax(`addresses/makeDefault/${addressId}`, {
                 type:"get",

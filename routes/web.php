@@ -14,12 +14,13 @@ Route::middleware('customer.auth')->group(function () {
     Route::get('/orders', 'CustomerController@orders')->name('customer.orders');
     Route::get('/addresses', 'AddressController@addresses')->name('customer.addresses');
     Route::get('/selectAddress', 'AddressController@selectAddress')->name('customer.selectAddress');
-    Route::get('/selectNeighbourhood/{address?}', 'AddressController@selectNeighbourhood')->name('customer.selectNeighbourhood');
+    Route::get('/selectNeighbourhood/{redirect}/{address?}', 'AddressController@selectNeighbourhood')->name('customer.selectNeighbourhood');
     Route::get('/getNeighbourhoods/{city}/{keyword?}', 'AddressController@getNeighbourhoods');
     Route::get('/postNeighbourhood/{neighbourhood}/{address?}', 'AddressController@postNeighbourhood')->name('customer.postNeighbourhood');
     Route::post('/postAddressDetail', 'AddressController@postAddressDetail')->name('customers.postAddressDetail');
     Route::get('addresses/makeDefault/{addressId}','AddressController@makeDefaultAddress')->name('customers.makeDefaultAddress');
     Route::get('/removeAddress/{address}','AddressController@removeAddress')->name('customers.removeAddress');
+    Route::get('/orderProduct/{product}','CustomerController@getOrderProduct')->name('customers.orderProduct');
 });
 
 Route::prefix('admin')->group(function () {

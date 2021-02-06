@@ -11,19 +11,22 @@ class AddressController extends Controller
     public function addresses()
     {
         $addresses = CustomerAddress::where('customer_id',\request()->customer->id)->get();
-        $withConfirm = false;
+        $withConfirm = 0;
+        session(['withConfirm' => $withConfirm]);
         return view('customers.addresses', compact('addresses', 'withConfirm'));
     }
 
     public function selectAddress()
     {
         $addresses = CustomerAddress::where('customer_id',\request()->customer->id)->get();
-        $withConfirm = true;
+        $withConfirm = 1;
+        session(['withConfirm' => $withConfirm]);
         return view('customers.addresses', compact('addresses', 'withConfirm'));
     }
 
-    public function selectNeighbourhood($address=null)
+    public function selectNeighbourhood($redirect, $address=null)
     {
+        session(['withConfirm' => $redirect]);
         $neighbourhood_id = 0;
         if ($address > 0) { // edit
             $cu = CustomerAddress::find($address);
@@ -75,7 +78,7 @@ class AddressController extends Controller
             ]);
         }
 
-        return redirect(route('customer.addresses'));
+        return (session('withConfirm') == "1" ? redirect(route('customer.selectAddress')) : redirect(route('customer.addresses')));
     }
 
     public function makeDefaultAddress($addressId)
@@ -105,12 +108,12 @@ class AddressController extends Controller
                         $defaultAddress->update(['is_default' => 1]);
                 }
                 $customerAddress->delete();
-                return redirect(route('customer.addresses'))->with('message','آدرس با موفقیت حذف شد')->with('type','danger');
+                return (session('withConfirm') == "1" ? redirect(route('customer.selectAddress')) : redirect(route('customer.addresses')));
             } else {
-                return redirect(route('customer.addresses'))->with('message','خطا در حذف آدرس')->with('type','danger');
+                return (session('withConfirm') == "1" ? redirect(route('customer.selectAddress')) : redirect(route('customer.addresses')));
             }
         } catch (\Exception $exception) {
-            redirect(route('customer.addresses'))->with('message','خطا در حذف آدرس')->with('type','danger');
+            return (session('withConfirm') == "1" ? redirect(route('customer.selectAddress')) : redirect(route('customer.addresses')));
         }
     }
 }

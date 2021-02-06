@@ -169,7 +169,7 @@
             }
 
             function buy() {
-                window.location = '/verifyMobile';
+                window.location = "/orderProduct/"+"{{$product->id}}";
             }
 
             function requestSMS() {
