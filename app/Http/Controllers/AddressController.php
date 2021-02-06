@@ -43,9 +43,9 @@ class AddressController extends Controller
     {
         $neighbourhoods = Neighbourhood::where('city_id',$city);
         if ($keyword)
-            $neighbourhoods = $neighbourhoods->where('name','LIKE',"%$keyword%")->select('id','name')->get();
-        else
-            $neighbourhoods = $neighbourhoods->select('id','name')->get();
+            $neighbourhoods = $neighbourhoods->where('name','LIKE',"%$keyword%");
+
+        $neighbourhoods = $neighbourhoods->select('id','name')->get();
 
         return response()->json($neighbourhoods);
     }
