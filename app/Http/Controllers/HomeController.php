@@ -36,7 +36,6 @@ class HomeController extends Controller
                           $userBought = true;
                   }
                 }
-
             }
         }
 

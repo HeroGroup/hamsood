@@ -230,7 +230,7 @@ td {
 }
 
 .dashed-button {
-    border:1px dashed #31AC6B;;
+    border:1px dashed #31AC6B;
     border-radius:3px;
     padding: 10px 30px;
     color:#31AC6B;;
@@ -265,7 +265,7 @@ td {
 }
 
 .overlay-container {
-    height: 80%;
+    height: 0;
     width: 100%;
     position: fixed;
     z-index: 5;
@@ -277,6 +277,7 @@ td {
     border-top-right-radius: 15px;
     padding:25px;
     overflow-y: scroll;
+    transition: 0.5s;
 }
 
 .inactive {

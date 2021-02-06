@@ -136,37 +136,4 @@ class CustomerController extends Controller
 
         return $userBought;
     }
-
-    public function addresses()
-    {
-        $addresses = CustomerAddress::all();
-        return view('customers.addresses', compact('addresses'));
-    }
-
-    public function selectNeighbourhood()
-    {
-        return view('customers.neighbourhood');
-    }
-
-    public function getNeighbourhoods($city, $keyword=null)
-    {
-        $neighbourhoods = Neighbourhood::where('city_id',$city);
-        if ($keyword)
-            $neighbourhoods = $neighbourhoods->where('name','LIKE',"%$keyword%")->select('id','name')->get();
-        else
-            $neighbourhoods = $neighbourhoods->select('id','name')->get();
-
-        return response()->json($neighbourhoods);
-    }
-
-    public function postNeighbourhood($neighbourhood)
-    {
-        $neighbourhood = Neighbourhood::find($neighbourhood);
-        return view('customers.addressDetails', compact('neighbourhood'));
-    }
-
-    public function postAddressDetail(Request $request)
-    {
-        dd($request);
-    }
 }

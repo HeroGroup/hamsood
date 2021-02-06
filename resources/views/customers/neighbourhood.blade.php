@@ -1,10 +1,10 @@
 @extends('layouts.customer', ['pageTitle' => 'آدرس محل دریافت کالا', 'withNavigation' => true])
 @section('content')
 <style>
-.checked {
-    float:left;
-    margin-left:10px;
-}
+    .checked {
+        float:left;
+        margin-left:10px;
+    }
 </style>
 <div class="dark-overlay">
     <div class="overlay-container">
@@ -16,14 +16,16 @@
         <div id="neighbourhoods-list" style="margin-top:10px;margin-bottom:60px;padding:0 10px;"></div>
         <div style="padding:25px 40px;;background-color:white;position:fixed;bottom:0;left:0;width:100%;z-index:6;display:flex;justify-content:space-between;">
             <a class="btn inactive" href="#" style="width:100px;" id="confirm-button">تائید</a>
-            <button class="btn" onclick="event.preventDefault(); window.history.back();" style="width:100px;color:#222;background-color:white;">انصراف</a>
+            <button class="btn" onclick="event.preventDefault(); window.history.back();" style="width:100px;color:#222;background-color:white;">انصراف</button>
         </div>
     </div>
 </div>
 
 <script>
-    var selected = 0;
+    var selected = "{{$neighbourhood_id}}";
     $(document).ready(function() {
+        $(".overlay-container").css({"height":"80%"});
+
         if (selected > 0) {
             activateConfirmButton();
         } else {
@@ -35,7 +37,11 @@
 
     function activateConfirmButton() {
         $("#confirm-button").removeClass("inactive").addClass("active");
-        $("#confirm-button").attr("href","postNeighbourhood/"+selected);
+        var newUrl = "/postNeighbourhood/"+selected;
+        @if(isset($address) && $address > 0)
+            newUrl = "/postNeighbourhood/"+selected+"/{{$address}}";
+        @endif
+        $("#confirm-button").attr("href",newUrl);
     }
 
     function disableConfirmButton() {

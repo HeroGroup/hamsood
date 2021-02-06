@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomerAddress extends Model
 {
-    protected $fillable = ['neighbourgood_id','details'];
+    protected $fillable = [
+        'customer_id',
+        'neighbourhood_id',
+        'details',
+        'is_default'
+    ];
 
     public function neighbourhood()
     {
-        return $this->belonngsTo(Neighbourhood::class);
+        return $this->belongsTo(Neighbourhood::class);
     }
 }
