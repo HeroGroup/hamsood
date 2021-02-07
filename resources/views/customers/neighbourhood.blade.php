@@ -37,9 +37,9 @@
 
     function activateConfirmButton() {
         $("#confirm-button").removeClass("inactive").addClass("active");
-        var newUrl = "/postNeighbourhood/"+selected;
+        var newUrl = `/addresses/postNeighbourhood/${selected}`;
         @if(isset($address) && $address > 0)
-            newUrl = "/postNeighbourhood/"+selected+"/{{$address}}";
+            newUrl = `/addresses/postNeighbourhood/${selected}/{{$address}}`;
         @endif
         $("#confirm-button").attr("href",newUrl);
     }
@@ -51,7 +51,7 @@
     }
 
     function getNeighbourhoods(word=null) {
-        var url = word ? `/getNeighbourhoods/1/${word}` : `/getNeighbourhoods/1`;
+        var url = word ? `/addresses/getNeighbourhoods/1/${word}` : `/addresses/getNeighbourhoods/1`;
         $.ajax(url, {
             method:"get",
             success:function(response) {

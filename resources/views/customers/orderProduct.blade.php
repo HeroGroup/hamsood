@@ -70,7 +70,7 @@
         </div>
 
         <div style="position:fixed;bottom:0;left:0;width:100%;">
-            <a class="btn submit-order-button" href="/selectAddress">
+            <a class="btn submit-order-button" href="{{route('customers.orderFirstStep', ['product' => $product->id, 'weight' => 1])}}">
                 ثبت سفارش
             </a>
         </div>
@@ -81,11 +81,13 @@
         function add() {
             quantity = quantity > 3 ? 4 : quantity += 0.5;
             $("#quantity").text(quantity);
+            $(".submit-order-button").attr("href", `/order/orderFirstStep/{{$product->id}}/${quantity}`);
         }
 
         function subtrack() {
             quantity = quantity < 2 ? 1 : quantity -= 0.5;
             $("#quantity").text(quantity);
+            $(".submit-order-button").attr("href", `/order/orderFirstStep/{{$product->id}}/${quantity}`);
         }
     </script>
 @endsection

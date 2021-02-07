@@ -78,7 +78,7 @@ class AddressController extends Controller
             ]);
         }
 
-        return (session('withConfirm') == "1" ? redirect(route('customer.selectAddress')) : redirect(route('customer.addresses')));
+        return (session('withConfirm') == "1" ? redirect(route('customers.selectAddress')) : redirect(route('customers.addresses')));
     }
 
     public function makeDefaultAddress($addressId)
@@ -108,12 +108,12 @@ class AddressController extends Controller
                         $defaultAddress->update(['is_default' => 1]);
                 }
                 $customerAddress->delete();
-                return (session('withConfirm') == "1" ? redirect(route('customer.selectAddress')) : redirect(route('customer.addresses')));
+                return (session('withConfirm') == "1" ? redirect(route('customers.selectAddress')) : redirect(route('customers.addresses')));
             } else {
-                return (session('withConfirm') == "1" ? redirect(route('customer.selectAddress')) : redirect(route('customer.addresses')));
+                return (session('withConfirm') == "1" ? redirect(route('customers.selectAddress')) : redirect(route('customers.addresses')));
             }
         } catch (\Exception $exception) {
-            return (session('withConfirm') == "1" ? redirect(route('customer.selectAddress')) : redirect(route('customer.addresses')));
+            return (session('withConfirm') == "1" ? redirect(route('customers.selectAddress')) : redirect(route('customers.addresses')));
         }
     }
 }

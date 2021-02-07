@@ -11,16 +11,27 @@ Route::post('/verifyMobile', 'CustomerController@verifyMobile')->name('verifyMob
 Route::post('/verifyToken', 'CustomerController@verifyToken')->name('verifyToken');
 
 Route::middleware('customer.auth')->group(function () {
-    Route::get('/orders', 'CustomerController@orders')->name('customer.orders');
-    Route::get('/addresses', 'AddressController@addresses')->name('customer.addresses');
-    Route::get('/selectAddress', 'AddressController@selectAddress')->name('customer.selectAddress');
-    Route::get('/selectNeighbourhood/{redirect}/{address?}', 'AddressController@selectNeighbourhood')->name('customer.selectNeighbourhood');
-    Route::get('/getNeighbourhoods/{city}/{keyword?}', 'AddressController@getNeighbourhoods');
-    Route::get('/postNeighbourhood/{neighbourhood}/{address?}', 'AddressController@postNeighbourhood')->name('customer.postNeighbourhood');
-    Route::post('/postAddressDetail', 'AddressController@postAddressDetail')->name('customers.postAddressDetail');
-    Route::get('addresses/makeDefault/{addressId}','AddressController@makeDefaultAddress')->name('customers.makeDefaultAddress');
-    Route::get('/removeAddress/{address}','AddressController@removeAddress')->name('customers.removeAddress');
-    Route::get('/orderProduct/{product}','CustomerController@getOrderProduct')->name('customers.orderProduct');
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/', 'CustomerController@orders')->name('customers.orders');
+    });
+
+    Route::prefix('addresses')->group(function () {
+        Route::get('/', 'AddressController@addresses')->name('customers.addresses');
+        Route::get('/selectNeighbourhood/{redirect}/{address?}', 'AddressController@selectNeighbourhood')->name('customers.selectNeighbourhood');
+        Route::get('/getNeighbourhoods/{city}/{keyword?}', 'AddressController@getNeighbourhoods')->name('customers.getNeighbourhoods');
+        Route::get('/postNeighbourhood/{neighbourhood}/{address?}', 'AddressController@postNeighbourhood')->name('customers.postNeighbourhood');
+        Route::post('/postAddressDetail', 'AddressController@postAddressDetail')->name('customers.postAddressDetail');
+        Route::get('/makeDefault/{addressId}','AddressController@makeDefaultAddress')->name('customers.makeDefaultAddress');
+        Route::get('/removeAddress/{address}','AddressController@removeAddress')->name('customers.removeAddress');
+    });
+
+    Route::prefix('order')->group(function () {
+        Route::get('/orderProduct/{product}','CustomerController@getOrderProduct')->name('customers.orderProduct');
+        Route::get('/orderFirstStep/{product}/{weight}','CustomerController@orderFirstStep')->name('customers.orderFirstStep');
+        Route::get('/selectAddress', 'AddressController@selectAddress')->name('customers.selectAddress');
+        Route::get('/getTime','CustomerController@getTime')->name('customers.getTime');
+    });
 });
 
 Route::prefix('admin')->group(function () {

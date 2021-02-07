@@ -169,7 +169,7 @@
             }
 
             function buy() {
-                window.location = "/orderProduct/"+"{{$product->id}}";
+                window.location = "{{route('customers.orderProduct', ['product' => $product->id])}}";
             }
 
             function requestSMS() {

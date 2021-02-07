@@ -10,7 +10,7 @@
           <span>سفارشات</span>
         </a>
         <hr style="color:darkgray" />
-        <a href="{{route('customer.addresses')}}" style="padding:0 20px;text-decoration: none;">
+        <a href="{{route('customers.addresses')}}" style="padding:0 20px;text-decoration: none;">
           <img src="/images/addresses.png" width="30" height="30" />
           <span>آدرس ها</span>
         </a>

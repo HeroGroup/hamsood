@@ -22,10 +22,10 @@
                     <!--<img src='/images/checked_icon.png' width='20' height='20' class='checked' />-->
                 @endif
                 <div style="float: left">
-                    <a href="/selectNeighbourhood/{{$withConfirm}}/{{$address->id}}">
+                    <a href="{{route('customers.selectNeighbourhood', ['redirect' => $withConfirm, 'address' => $address->id])}}">
                         <img src="/images/edit_icon.png" height="20" width="20" />
                     </a>&nbsp;
-                    <a href="/removeAddress/{{$address->id}}">
+                    <a href="{{route('customers.removeAddress', ['address' => $address->id])}}">
                         <img src="/images/delete_icon.png" height="20" width="20" />
                     </a>&nbsp;
                 </div>
@@ -35,9 +35,9 @@
         @endforeach
         @if(isset($withConfirm) && $withConfirm == 1)
             <div style="position:fixed;bottom:0;left:0;width:100%;">
-                <button class="btn confirm-button">
+                <a class="btn confirm-button" href="{{route('customers.getTime')}}">
                     تائید آدرس
-                </button>
+                </a>
             </div>
         @endif
     @else
@@ -57,15 +57,13 @@
         @endif
     @endif
         <div class="dashed-button-container">
-            <a href="selectNeighbourhood/{{$withConfirm}}" class="dashed-button">ثبت آدرس جدید</a>
+            <a href="{{route('customers.selectNeighbourhood', ['redirect' => $withConfirm])}}" class="dashed-button">ثبت آدرس جدید</a>
         </div>
     </div>
 
 <script>
     var defaultAddressId = 0;
-    $(document).ready(function() {
 
-    });
     function makeDefault(addressId) {
         if (defaultAddressId === addressId) {
             //
@@ -76,7 +74,7 @@
             $(`#address-card-${addressId}`).removeClass("not-selected").addClass("selected");
             // $(`#address-card-${addressId}`).prepend(`<img src='/images/checked_icon.png' width='20' height='20' class='checked' />`);
 
-            $.ajax(`addresses/makeDefault/${addressId}`, {
+            $.ajax(`/addresse/makeDefault/${addressId}`, {
                 type:"get",
                 success: function() {
                     //

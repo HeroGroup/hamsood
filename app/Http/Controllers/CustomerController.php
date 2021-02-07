@@ -147,4 +147,20 @@ class CustomerController extends Controller
 
         return view('customers.orderProduct',compact('availableProduct', 'product', 'lastDiscount'));
     }
+
+    public function orderFirstStep($product, $weight)
+    {
+        session(['product' => $product, 'weight' => $weight]);
+        return redirect(route('customers.selectAddress'));
+    }
+
+    public function getTime()
+    {
+        return view('customers.selectTime');
+    }
+
+    public function selectTime()
+    {
+        //
+    }
 }
