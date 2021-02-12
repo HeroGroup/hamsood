@@ -5,7 +5,7 @@
       <p style="color:#222;padding: 10px 0;">{{session('mobile')}}</p>
       <div style="padding:0 20px; text-align:right; margin-bottom:100px;">
         <hr style="color:darkgray" />
-        <a href="#" style="padding:0 20px;text-decoration: none;">
+        <a href="{{route('customers.orders')}}" style="padding:0 20px;text-decoration: none;">
           <img src="/images/orders.png" width="30" height="30" />
           <span>سفارشات</span>
         </a>
@@ -16,7 +16,7 @@
         </a>
         <hr style="color:darkgray" />
       </div>
-      <a href="#" style="padding:10px;border:1px solid red;border-radius:5px;text-decoration: none;">
+      <a href="{{route('customers.logout')}}" style="padding:10px;border:1px solid red;border-radius:5px;text-decoration: none;">
         <img src="/images/exit_icon.png" width="20" height="25" />
         <span style="color:red;">خروج</span>
       </a>

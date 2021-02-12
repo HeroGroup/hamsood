@@ -11,6 +11,12 @@
                 <a href="{{route('orders.index')}}"><i class="fa fa-fw fa-list"></i> سفارشات</a>
             </li>
             <li>
+                <a href="{{route('customers.index')}}"><i class="fa fa-fw fa-users"></i> مشتری ها</a>
+            </li>
+            <li>
+                <a href="{{route('neighbourhoods.index')}}"><i class="fa fa-fw fa-list"></i> مناطق</a>
+            </li>
+            <li>
                 <a href="{{route('users.index')}}"><i class="fa fa-fw fa-users"></i> کاربران</a>
             </li>
         </ul>

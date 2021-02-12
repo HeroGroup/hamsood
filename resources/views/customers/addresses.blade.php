@@ -14,13 +14,16 @@
             border:2px solid #31AC6B;
         }
     </style>
-    <div style="text-align:center;margin-top:80px;color:#222;padding:15px;">
+    <div style="margin-top:70px;color:#222;padding:15px;">
+        @if(isset($withConfirm) && $withConfirm == 1)
+            <input type="text" name="customer_name" id="customer_name" value="{{$customerName ?? ''}}" class="form-control" placeholder="تحویل گیرنده" required />
+            <div id="customer_name_required" class="help-block" style="color:red;display:none;">نام تحویل گیرنده را وارد کنید</div>
+            <hr />
+        @endif
+
     @if(count($addresses) > 0)
         @foreach($addresses as $address)
             <div id="address-card-{{$address->id}}" class="address-card @if($address->is_default) selected @else not-selected @endif" onclick="makeDefault({{$address->id}})" >
-                @if($address->is_default)
-                    <!--<img src='/images/checked_icon.png' width='20' height='20' class='checked' />-->
-                @endif
                 <div style="float: left">
                     <a href="{{route('customers.selectNeighbourhood', ['redirect' => $withConfirm, 'address' => $address->id])}}">
                         <img src="/images/edit_icon.png" height="20" width="20" />
@@ -35,10 +38,38 @@
         @endforeach
         @if(isset($withConfirm) && $withConfirm == 1)
             <div style="position:fixed;bottom:0;left:0;width:100%;">
-                <a class="btn confirm-button" href="{{route('customers.getTime')}}">
+                <a class="btn confirm-button" href="#" onclick="confirm()">
                     تائید آدرس
                 </a>
             </div>
+            <script>
+                $("#customer_name").on("keyup", function() {
+                    if ($(this).val().length > 3) {
+                        disableRequired();
+                    } else {
+                        enableRequired();
+                    }
+                });
+
+                function confirm() {
+                    event.preventDefault();
+                    if ($("#customer_name").val().length > 3) {
+                        window.location.href = "/order/getTime/"+$("#customer_name").val();
+                    } else {
+                        enableRequired();
+                    }
+                }
+
+                function enableRequired() {
+                    $("#customer_name").css({"border":"1px solid red"});
+                    $("#customer_name_required").css({"display":"block"});
+                }
+
+                function disableRequired() {
+                    $("#customer_name").css({"border" : "1px solid lightgray"});
+                    $("#customer_name_required").css({"display":"none"});
+                }
+            </script>
         @endif
     @else
         <div>

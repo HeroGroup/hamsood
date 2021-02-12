@@ -13,6 +13,11 @@ class CustomerAddress extends Model
         'is_default'
     ];
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function neighbourhood()
     {
         return $this->belongsTo(Neighbourhood::class);

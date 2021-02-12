@@ -8,6 +8,11 @@ use App\Neighbourhood;
 
 class AddressController extends Controller
 {
+    public function neighbourhoodsList()
+    {
+        $neighbourhoods = Neighbourhood::orderBy('name')->get();
+        return view('admin.neighbourhoods.index', compact('neighbourhoods'));
+    }
     public function addresses()
     {
         $addresses = CustomerAddress::where('customer_id',\request()->customer->id)->get();
@@ -20,8 +25,9 @@ class AddressController extends Controller
     {
         $addresses = CustomerAddress::where('customer_id',\request()->customer->id)->get();
         $withConfirm = 1;
+        $customerName = "hero";
         session(['withConfirm' => $withConfirm]);
-        return view('customers.addresses', compact('addresses', 'withConfirm'));
+        return view('customers.addresses', compact('addresses', 'withConfirm', 'customerName'));
     }
 
     public function selectNeighbourhood($redirect, $address=null)

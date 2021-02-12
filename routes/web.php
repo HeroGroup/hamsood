@@ -13,7 +13,10 @@ Route::post('/verifyToken', 'CustomerController@verifyToken')->name('verifyToken
 Route::middleware('customer.auth')->group(function () {
 
     Route::prefix('orders')->group(function () {
-        Route::get('/', 'CustomerController@orders')->name('customers.orders');
+        Route::get('/', 'CustomerOrderController@index')->name('customers.orders');
+        Route::get('/{order}/products', 'CustomerOrderController@orderProducts')->name('customers.orders.products');
+        Route::get('/{order}/address', 'CustomerOrderController@orderAddress')->name('customers.orders.address');
+        Route::get('/{order}/bill', 'CustomerOrderController@orderBill')->name('customers.orders.bill');
     });
 
     Route::prefix('addresses')->group(function () {
@@ -28,10 +31,15 @@ Route::middleware('customer.auth')->group(function () {
 
     Route::prefix('order')->group(function () {
         Route::get('/orderProduct/{product}','CustomerController@getOrderProduct')->name('customers.orderProduct');
-        Route::get('/orderFirstStep/{product}/{weight}','CustomerController@orderFirstStep')->name('customers.orderFirstStep');
+        Route::get('/orderFirstStep/{weight}','CustomerController@orderFirstStep')->name('customers.orderFirstStep');
         Route::get('/selectAddress', 'AddressController@selectAddress')->name('customers.selectAddress');
-        Route::get('/getTime','CustomerController@getTime')->name('customers.getTime');
+        Route::get('/getTime/{customerName}','CustomerController@getTime')->name('customers.getTime');
+        Route::post('/payment', 'CustomerController@selectTime')->name('customers.selectTime');
+        Route::post('/selectPaymentMethod', 'CustomerController@selectPaymentMethod')->name('customers.selectPaymentMethod');
+        Route::get('/finializeOrder', 'CustomerController@finializeOrder')->name('customers.finializeOrder');
     });
+
+    Route::get('/customer/logout', 'CustomerController@logout')->name('customers.logout');
 });
 
 Route::prefix('admin')->group(function () {
@@ -48,6 +56,9 @@ Route::prefix('admin')->group(function () {
         Route::get('orders', 'OrderController@index', ['except' => ['index','show']]);
         Route::get('orders/{availableProduct?}', 'OrderController@index')->name('orders.index');
         Route::get('orders/{order}/delivered', 'OrderController@delivered')->name('orders.delivered');
+
+        Route::get('/customers', 'CustomerController@index')->name("customers.index");
+        Route::get('/neighbourhoods', 'AddressController@neighbourhoodsList')->name("neighbourhoods.index");
 
         Route::resource('users', 'UserController');
         Route::get('users/{user}/resetPassword', 'UserController@resetPassword')->name('users.resetPassword');

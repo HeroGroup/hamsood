@@ -18,7 +18,14 @@
             @include('layouts.topNavigation', ['pageTitle' => $pageTitle])
         @endif
 
-      @yield('content')
+        @if(\Illuminate\Support\Facades\Session::has('message'))
+            @component('components.alert', [
+                'message' => \Illuminate\Support\Facades\Session::get('message'),
+                'type' => \Illuminate\Support\Facades\Session::get('type')])
+            @endcomponent
+        @endif
+
+        @yield('content')
 
     </body>
   </html>

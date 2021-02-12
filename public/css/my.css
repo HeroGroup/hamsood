@@ -174,16 +174,16 @@ td {
     width:100%;
     padding:10px 15px;
     text-align:center;
-    border-top: 1px solid lightgray;
-    box-shadow: 0 0 3px #888888;
-    background-color: white;
+    /*border-top: 1px solid lightgray;
+    box-shadow: 0 0 3px #888888;*/
+    background-color: #eee;
     z-index:2;
 }
 
 #hamsood-btn {
     width:100%;
     padding:10px;
-    border-radius:3px;
+    border-radius:10px;
     background-color:#64498E;/*#9b59b6;*//*#FF6F00;*/
     color:white;
     border:none;
@@ -191,13 +191,23 @@ td {
     visibility: visible;
 }
 
+.clock-container {
+    flex:2;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+}
+
 .time-item {
-    width:30px;
+    width:40px;
+    height:40px;
+    border-radius:5px;
     background-color:white;
-    color:black;
-    padding:5px;
+    color:#222;
+    font-size: 1.5em;
     text-align:center;
-    height:30px;
+    padding-top:5px;
     margin:5px;
 }
 
@@ -227,6 +237,7 @@ td {
 
 .dashed-button-container {
     margin-top:50px;
+    text-align: center;
 }
 
 .dashed-button {
@@ -252,7 +263,7 @@ td {
     padding: 15px 0;
     border-radius:0;
     font-size:20px;
-    color:#222;
+    color:white;
 }
 
 .dark-overlay {

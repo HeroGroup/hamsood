@@ -9,14 +9,31 @@ class Order extends Model
 {
     protected $fillable = [
         'customer_id',
+        'customer_name',
         'discount',
+        'shippment_price',
         'total_price',
+        'delivery_date',
+        'delivery_time',
+        'neighbourhood_id',
+        'address',
+        'payment_method',
         'status'
     ];
 
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function neighbourhood()
+    {
+        return $this->belongsTo(Neighbourhood::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 
     public function getDetails()
