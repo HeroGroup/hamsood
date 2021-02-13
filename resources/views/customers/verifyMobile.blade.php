@@ -1,10 +1,10 @@
 @extends('layouts.customer', ['pageTitle' => 'شماره موبایل'])
 @section('content')
 
-<div class="container" style="text-align:center;">
+<div class="container" style="text-align:center;margin-bottom:100px;">
     <div style="margin-top:50px;">
         <div>
-            <img src="images/verify_mobile.png" width="150" height="150" />
+            <img src="/images/verify_mobile.png" width="150" height="150" />
         </div>
         <div style="flex:1;color:#222;margin-top:50px;">
             <p>جهت وارد شدن در فروشگاه اینترنتی</p>
@@ -18,7 +18,7 @@
             <div style="display:flex;justify-content:center;">
                 <div class="input-container">
                     <i class="fa fa-fw fa-mobile icon"></i>
-                    <input class="input-field" type="text" name="mobile" maxlength="11" inputmode="numeric">
+                    <input class="input-field" type="text" name="mobile" maxlength="11" inputmode="numeric" />
                 </div>
             </div>
             @if(\Illuminate\Support\Facades\Session::has('error'))

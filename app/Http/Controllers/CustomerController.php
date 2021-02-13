@@ -62,7 +62,7 @@ class CustomerController extends Controller
                 $customer = Customer::where('mobile', 'like', $request->mobile)->first();
                 $check = self::checkLastLogin($customer->updated_at);
                 if ($check['status'] < 0) {
-                    return redirect('/verifyMobile')->with('error', $check['message']);
+                    return redirect(route('customers.verifyMobile'))->with('error', $check['message']);
                 } else {
                     $token = Hash::make(self::sendTokenSms($request->mobile));
                     $customer->update(['token' => $token]);
@@ -76,11 +76,9 @@ class CustomerController extends Controller
                 $customer->save();
             }
 
-            $mobile = $request->mobile;
-            $remainingTime = 60;
-            return view('customers.verifyToken', compact('remainingTime', 'mobile'));
+            return redirect(route('customers.verifyToken', $request->mobile));
         } else {
-            return redirect('/verifyMobile')->with('error', 'شماره موبایل نامعتبر');
+            return redirect(route('customers.verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
         }
     }
 
@@ -95,17 +93,18 @@ class CustomerController extends Controller
                 $token = $request->token;
                 if ($token) {
                     if (Hash::check(strval($token), $tokenFromDatabase)) {
-                        session(['mobile' => $mobile]);
-                        return redirect(route('landing'));
+                        $path = session('path');
+                        session(['mobile' => $mobile, 'path' => '']);
+                        return redirect($path ?? route('landing'));
                     } else {
-                        return redirect('/verifyToken')->with('error', 'کد نادرست وارد شده است');
+                        return rredirect(route('customers.verifyToken', $mobile))->with('error', 'کد نادرست وارد شده است');
                     }
                 } else {
-                    return redirect('/verifyToken')->with('error', 'کد نامعتبر');
+                    return redirect(route('customers.verifyToken', $mobile))->with('error', 'کد نامعتبر');
                 }
             }
         } else {
-            return redirect('/verifyMobile')->with('error', 'شماره موبایل نامعتبر');
+            return redirect(route('customers.verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
         }
     }
 
@@ -211,6 +210,9 @@ class CustomerController extends Controller
         // get customer default address and make to string
         $customerAddress = CustomerAddress::where('customer_id', \request()->customer->id)->where('is_default',1)->first();
         $address = /*$customerAddress->neighbourhood->city->name . ' ' . $customerAddress->neighbourhood->name . ' ' . */$customerAddress->details;
+        $customer = Customer::find(\request()->customer->id);
+        $customer->update(['name' => $customerName]);
+
         session([
             'customer_name' => $customerName,
             'neighbourhood_id' => $customerAddress->neighbourhood_id,

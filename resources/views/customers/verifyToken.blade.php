@@ -4,7 +4,7 @@
 <div class="container" style="text-align:center;">
     <div style="margin-top:50px;">
         <div>
-            <img src="images/verify_token.png" width="150" height="150" />
+            <img src="/images/verify_token.png" width="150" height="150" />
         </div>
         <div style="flex:1;color:#222;margin-top:50px;">
             <p>کد ورود به شماره</p>
@@ -18,7 +18,7 @@
             <div class="input-container">
                 <img src="/images/keyboard.png" width="36" height="36" style="text-align:center;padding:5px;" />
                 <input type="hidden" name="mobile" value="{{$mobile}}" />
-                <input class="input-field" type="text" name="token" maxlength="4" inputmode="numeric" style="padding-top:5px;padding-bottom:5px;text-align: center;">
+                <input class="input-field" type="text" name="token" maxlength="4" inputmode="numeric" style="padding-top:5px;padding-bottom:5px;">
             </div>
             @if(\Illuminate\Support\Facades\Session::has('error'))
                 <p style="color:red;margin-top:5px;text-align: center;">

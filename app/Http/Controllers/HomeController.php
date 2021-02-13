@@ -82,9 +82,13 @@ class HomeController extends Controller
         return view('customers.verifyMobile');
     }
 
-    public function verifyToken()
+    public function verifyToken($mobile=null)
     {
-        $remainingTime = 60;
-        return view('customers.verifyToken', compact('remainingTime'));
+        if ($mobile && strlen($mobile) == 11) {
+            $remainingTime = 60;
+            return view('customers.verifyToken', compact('mobile', 'remainingTime'));
+        } else {
+            return redirect(route('customers.verifyMobile'));
+        }
     }
 }

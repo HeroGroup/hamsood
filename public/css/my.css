@@ -233,6 +233,8 @@ td {
     padding: 0 10px;
     color:#222;
     border:none;
+    text-align:center;
+    font-size:1em;
 }
 
 .dashed-button-container {

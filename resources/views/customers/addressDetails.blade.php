@@ -24,7 +24,7 @@
 </div>
 <script>
     $(document).ready(function() {
-        $(".overlay-container").css({"height":"50%"});
+        $(".overlay-container").css({"height":"80%"});
 
         if (document.getElementById("details").value.length >= 5)
             activateConfirmButton();

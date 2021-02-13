@@ -5,7 +5,7 @@
     <h4>{{$tomorrow}}</h4>
     <form method="post" action="{{route('customers.selectTime')}}">
         @csrf
-        <div style="padding:5px 35px;height:140px;overflow:scroll;border-radius:5px;margin:5px 35px;box-shadow: 0 0 2px gray;">
+        <div style="padding:5px 35px;height:160px;overflow:scroll;border-radius:5px;margin:5px 35px;box-shadow: 0 0 2px gray;">
             <?php $i=0; ?>
             @foreach($times as $key => $value)
                 <div style="padding-top:7px;">

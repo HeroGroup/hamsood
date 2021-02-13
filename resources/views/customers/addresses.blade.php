@@ -21,7 +21,7 @@
     </style>
     <div style="margin-top:70px;color:#222;padding:15px;text-align:center;">
         @if(isset($withConfirm) && $withConfirm == 1)
-            <input type="text" name="customer_name" id="customer_name" value="{{$customerName ?? ''}}" class="form-control" placeholder="تحویل گیرنده" required />
+            <input type="text" name="customer_name" id="customer_name" value="{{$customerName ?? ''}}" class="form-control" placeholder="نام تحویل گیرنده" required />
             <div id="customer_name_required" class="help-block" style="color:red;display:none;">نام تحویل گیرنده را وارد کنید</div>
             <hr />
         @endif
@@ -110,7 +110,7 @@
             $(`#address-card-${addressId}`).removeClass("not-selected").addClass("selected");
             // $(`#address-card-${addressId}`).prepend(`<img src='/images/checked_icon.png' width='20' height='20' class='checked' />`);
 
-            $.ajax(`/addresse/makeDefault/${addressId}`, {
+            $.ajax(`/addresses/makeDefault/${addressId}`, {
                 type:"get",
                 success: function() {
                     //

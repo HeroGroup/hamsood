@@ -5,7 +5,7 @@
     <p>{{$order->address}}</p>
     <hr />
 
-    <h5>تحویل گیرنده: <b>{{$order->customer->name}}</b></h5>
+    <h5>تحویل گیرنده: <b>{{$order->customer_name}}</b></h5>
 
     <hr />
 

@@ -8,5 +8,11 @@
         'yourProfit' => $order->discount,
         'yourPayment' => $order->total_price
     ])@endcomponent
+
+    <hr />
+    <div style="display:flex;padding:0 10px;justify-content:space-between">
+        <p>روش پرداخت</p>
+        <p style="font-size:1.1em;font-weight:bold;">{{config('enums.payment_method.'.$order->payment_method)}}</p>
+    </div>
 </div>
 @endsection

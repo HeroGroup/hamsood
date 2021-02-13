@@ -8,7 +8,7 @@
 </style>
 <div class="dark-overlay">
     <div class="overlay-container">
-        <span style="font-size:22px;">انتخاب محله</span>
+        <span style="font-size:22px;">انتخاب محله (شیراز)</span>
         <img src="/images/search_icon.png" width="25" height="25" style="float:left;cursor:pointer;" />
         <div style="margin-top:10px" id="search-container">
             <input type="text" placeholder="جستجو ..." class="form-control" onkeyup="getNeighbourhoods(this.value);" />

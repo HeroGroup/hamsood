@@ -13,10 +13,13 @@ Route::get('/clear-cache', function() {
 });
 
 Route::get('/', 'HomeController@landing')->name('landing');
-Route::get('/verifyMobile', 'HomeController@verifyMobile');
-Route::get('/verifyToken', 'HomeController@verifyToken');
-Route::post('/verifyMobile', 'CustomerController@verifyMobile')->name('verifyMobile');
-Route::post('/verifyToken', 'CustomerController@verifyToken')->name('verifyToken');
+
+Route::middleware('customer.notLoggedIn')->group(function () {
+    Route::get('/verifyMobile', 'HomeController@verifyMobile')->name('customers.verifyMobile');
+    Route::get('/verifyToken/{mobile?}', 'HomeController@verifyToken')->name('customers.verifyToken');
+    Route::post('/verifyMobile', 'CustomerController@verifyMobile')->name('verifyMobile');
+    Route::post('/verifyToken', 'CustomerController@verifyToken')->name('verifyToken');
+});
 
 Route::middleware('customer.auth')->group(function () {
 
