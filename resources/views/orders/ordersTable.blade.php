@@ -7,7 +7,8 @@
                 <th>پرداختی مشتری</th>
                 <th>تخفیف</th>
                 <th>هزینه ارسال</th>
-                <!-- <th>محصولات سفارش</th> -->
+                <th>نحوه پرداخت</th>
+                <th>محصولات سفارش</th>
                 <th>شناسه گروه</th>
                 <th>زمان ثبت سفارش</th>
                 <th>زمان تحویل</th>
@@ -22,11 +23,12 @@
                     <td>{{number_format($order->total_price)}} تومان</td>
                     <td>{{number_format($order->discount)}} تومان</td>
                     <td>{{$order->shippment_price}}</td>
-                    <!-- <td>{{$order->getDetails()}}</td> -->
+                    <td>{{config('enums.payment_method.'.$order->payment_method)}}</td>
+                    <td>{{$order->getDetails()}}</td>
                     <td style="color:lightblue;">{{$order->getItemsIds()}}</td>
                     <td style="direction:ltr; text-align:center;">{{jdate('Y/m/j H:i', strtotime($order->created_at))}}</td>
                     <td>{{$order->delivery_time}} {{$order->delivery_date}}</td>
-                    <td>{{$order->address}}</td>
+                    <td>{{$order->neighbourhood_id > 0 ? $order->neighbourhood->name . ' ' . $order->address: ''}}</td>
                     <td>
                         @if($order->status == 1) <!--   ثبت -->
                             <a href="{{ route('orders.delivered', $order) }}" class="btn btn-xs btn-success" data-toggle="tooltip" title="تغییر وضعیت به ارسال شده">

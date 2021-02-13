@@ -41,7 +41,7 @@ class Order extends Model
         $details = "";
         $items = OrderItem::where('order_id', $this->id)->get();
         for ($i=0;$i<count($items);$i++) {
-            $details .= $items[$i]->availableProduct->product->name;
+            $details .= $items[$i]->availableProduct->product->name . ($items[$i]->weight > 0 ? ' ' . $items[$i]->weight . ' کیلو' : '');
             if ($i != count($items)-1) $details .= ', ';
         }
         return $details;
