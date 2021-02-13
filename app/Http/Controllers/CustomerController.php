@@ -76,10 +76,9 @@ class CustomerController extends Controller
                 $customer->save();
             }
 
-            session(['mobile' => $request->mobile]);
-
+            $mobile = $request->mobile;
             $remainingTime = 60;
-            return view('customers.verifyToken', compact('remainingTime'));
+            return view('customers.verifyToken', compact('remainingTime', 'mobile'));
         } else {
             return redirect('/verifyMobile')->with('error', 'شماره موبایل نامعتبر');
         }
@@ -87,7 +86,7 @@ class CustomerController extends Controller
 
     public function verifyToken(Request $request)
     {
-        $mobile = session('mobile');
+        $mobile = $request->mobile;
         if ($mobile && strlen($mobile) == 11) {
             $customer = Customer::where('mobile', 'like', $mobile)->first();
 
@@ -96,8 +95,8 @@ class CustomerController extends Controller
                 $token = $request->token;
                 if ($token) {
                     if (Hash::check(strval($token), $tokenFromDatabase)) {
-                        $this->submitOrder($customer->id);
-                        return redirect(route('customers.landing'));
+                        session(['mobile' => $mobile]);
+                        return redirect(route('landing'));
                     } else {
                         return redirect('/verifyToken')->with('error', 'کد نادرست وارد شده است');
                     }
@@ -117,7 +116,7 @@ class CustomerController extends Controller
                 'customer_id' => \request()->customer->id,
                 'customer_name' => session('customer_name'),
                 'discount' => session('discount'),
-                'shippment_price' => 'رایگان', // session('shippment_price'),
+                'shippment_price' => 0, // session('shippment_price'),
                 'total_price' => session('total_price'),
                 'payment_method' => session('payment_method'),
                 'neighbourhood_id' => session('neighbourhood_id'),
@@ -167,6 +166,8 @@ class CustomerController extends Controller
             $items = OrderItem::where('available_product_id', $availableProductId)->select('order_id')->distinct()->get();
             if (Order::where('customer_id', $customer)->whereIn('id', $items)->count() > 0)
                 $userBought = true;
+        } else { // customer or product is not valid
+            $userBought = true;
         }
 
         return $userBought;
@@ -253,11 +254,11 @@ class CustomerController extends Controller
         $customer->update(['name' => session('customer_name')]);
 
         // store order with fields available product id , weight, date, time, payment_method, customer_name, address from session
-        if (!$this->checkIfUserBought(session('available_product_id'), \request()->customer->id)) {
+        if ($this->checkIfUserBought(session('available_product_id'), \request()->customer->id)) {
+            return redirect(route('customers.orders'))->with('message', 'این خرید را قبلا انجام داده اید.')->with('type', 'danger');
+        } else {
             $orderId = $this->submitOrder();
             return redirect(route('customers.orders.products', $orderId));
-        } else {
-            return redirect(route('customers.orders'))->with('message', 'این خرید را قبلا انجام داده اید.')->with('type', 'danger');
         }
     }
 

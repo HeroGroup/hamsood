@@ -5,12 +5,12 @@
         border-radius:15px;
         display: flex;
         flex-direction: column;
+        height:320px;
         overflow:hidden;
     }
     .row-item {
-        height:80px;
-        background-color:#ddd;
         flex:1;
+        background-color:#ddd;
         display: flex;
         flex-direction: row;
         justify-content: space-between;align-items: center;
@@ -37,7 +37,7 @@
     <div class="row-item" style="background-color:#eee;">
         <p class="txt fs-16">هزینه ارسال</p>
         <div class="price">
-            <p class="fs-16"><strike>{{number_format($shippmentPrice)}} تومان</strike></p>
+            @if($shippmentPrice > 0)<p class="fs-16"><strike>{{number_format($shippmentPrice) . ' تومان'}}</strike></p>@endif
             <p class="fs-16"><b>رایگان</b></p>
         </div>
     </div>

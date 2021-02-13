@@ -25,7 +25,7 @@ class AddressController extends Controller
     {
         $addresses = CustomerAddress::where('customer_id',\request()->customer->id)->get();
         $withConfirm = 1;
-        $customerName = "hero";
+        $customerName = \request()->customer ? \request()->customer->name : '';
         session(['withConfirm' => $withConfirm]);
         return view('customers.addresses', compact('addresses', 'withConfirm', 'customerName'));
     }

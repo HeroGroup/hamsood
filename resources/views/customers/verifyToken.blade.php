@@ -17,7 +17,8 @@
         <div style="display:flex;justify-content:center;">
             <div class="input-container">
                 <img src="/images/keyboard.png" width="36" height="36" style="text-align:center;padding:5px;" />
-                <input class="input-field" type="text" name="token" maxlength="4" style="padding-top:5px;padding-bottom:5px;text-align: center;">
+                <input type="hidden" name="mobile" value="{{$mobile}}" />
+                <input class="input-field" type="text" name="token" maxlength="4" inputmode="numeric" style="padding-top:5px;padding-bottom:5px;text-align: center;">
             </div>
             @if(\Illuminate\Support\Facades\Session::has('error'))
                 <p style="color:red;margin-top:5px;text-align: center;">

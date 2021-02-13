@@ -18,7 +18,7 @@
             <div style="display:flex;justify-content:center;">
                 <div class="input-container">
                     <i class="fa fa-fw fa-mobile icon"></i>
-                    <input class="input-field" type="text" name="mobile" maxlength="11">
+                    <input class="input-field" type="text" name="mobile" maxlength="11" inputmode="numeric">
                 </div>
             </div>
             @if(\Illuminate\Support\Facades\Session::has('error'))

@@ -4,6 +4,14 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    return "Cache is cleared";
+});
+
 Route::get('/', 'HomeController@landing')->name('landing');
 Route::get('/verifyMobile', 'HomeController@verifyMobile');
 Route::get('/verifyToken', 'HomeController@verifyToken');
