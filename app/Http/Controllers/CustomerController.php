@@ -172,22 +172,36 @@ class CustomerController extends Controller
         return $userBought;
     }
 
+    public function getRemainingTime($day,$end)
+    {
+        $hour = $end - 1;
+        $jalali = explode('/', $day);
+        $date = strtotime(jalali_to_gregorian($jalali[0], $jalali[1], $jalali[2], '/') . " $hour:59:59");
+        return $date - time();
+    }
+
     public function getOrderProduct($product)
     {
         $availableProduct = AvailableProduct::where('product_id', $product)->where('is_active', 1)->first();
-        $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
-        $peopleBought = $availableProduct->getOrdersCount();
-        $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
+        $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
 
-        session([
-            'product' => $product,
-            'available_product_id' => $availableProduct->id,
-            'real_price' => $availableProduct->price,
-            'discount' => $nextDiscount
-        ]);
+        if ($remaining > 0) {
+            $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+            $peopleBought = $availableProduct->getOrdersCount();
+            $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
 
-        $product = Product::find($product);
-        return view('customers.orderProduct',compact('availableProduct', 'product', 'nextDiscount'));
+            session([
+                'product' => $product,
+                'available_product_id' => $availableProduct->id,
+                'real_price' => $availableProduct->price,
+                'discount' => $nextDiscount
+            ]);
+
+            $product = Product::find($product);
+            return view('customers.orderProduct',compact('availableProduct', 'product', 'nextDiscount'));
+        } else {
+            return redirect(route('landing'));
+        }
     }
 
     public function orderFirstStep($weight)
