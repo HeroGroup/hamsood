@@ -76,9 +76,9 @@ class CustomerController extends Controller
                 $customer->save();
             }
 
-            return redirect(route('customers.verifyToken', $request->mobile));
+            return $request->has('ajax') ? $this->success('request sent') : redirect(route('customers.verifyToken', $request->mobile));
         } else {
-            return redirect(route('customers.verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
+            return $request->has('ajax') ? $this->fail('invalid mobile') : redirect(route('customers.verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
         }
     }
 

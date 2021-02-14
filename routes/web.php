@@ -12,7 +12,8 @@ Route::get('/clear-cache', function() {
     return "Cache is cleared";
 });
 
-Route::get('/', 'HomeController@landing')->name('landing');
+Route::get('/', 'HomeController@landing');
+Route::get('/landing/{reference?}', 'HomeController@landing')->name('landing');
 
 Route::middleware('customer.notLoggedIn')->group(function () {
     Route::get('/verifyMobile', 'HomeController@verifyMobile')->name('customers.verifyMobile');
@@ -24,14 +25,14 @@ Route::middleware('customer.notLoggedIn')->group(function () {
 Route::middleware('customer.auth')->group(function () {
 
     Route::prefix('orders')->group(function () {
-        Route::get('/', 'CustomerOrderController@index')->name('customers.orders');
+        Route::get('/list', 'CustomerOrderController@index')->name('customers.orders');
         Route::get('/{order}/products', 'CustomerOrderController@orderProducts')->name('customers.orders.products');
         Route::get('/{order}/address', 'CustomerOrderController@orderAddress')->name('customers.orders.address');
         Route::get('/{order}/bill', 'CustomerOrderController@orderBill')->name('customers.orders.bill');
     });
 
     Route::prefix('addresses')->group(function () {
-        Route::get('/', 'AddressController@addresses')->name('customers.addresses');
+        Route::get('/list', 'AddressController@addresses')->name('customers.addresses');
         Route::get('/selectNeighbourhood/{redirect}/{address?}', 'AddressController@selectNeighbourhood')->name('customers.selectNeighbourhood');
         Route::get('/getNeighbourhoods/{city}/{keyword?}', 'AddressController@getNeighbourhoods')->name('customers.getNeighbourhoods');
         Route::get('/postNeighbourhood/{neighbourhood}/{address?}', 'AddressController@postNeighbourhood')->name('customers.postNeighbourhood');

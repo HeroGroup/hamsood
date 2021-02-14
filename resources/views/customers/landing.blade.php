@@ -214,13 +214,13 @@
                     <div style="flex:1;background-color:#FF6F00;text-align:center;padding:10px 0;">ارسال دعوت نامه</div>
                     <div style="flex:2;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                         <div style="flex:1;text-align: center;" class="share">
-                            <a href="#"><img src="images/instagram.png" width="25" height="25" /></a>
+                            <a href="#"><img src="/images/instagram.png" width="25" height="25" /></a>
                         </div>
                         <div style="flex:1;text-align: center;" class="share">
-                            <a href="#"><img src="images/telegram.png" width="25" height="25" /></a>
+                            <a href="#"><img src="/images/telegram.png" width="25" height="25" /></a>
                         </div>
                         <div style="flex:1;text-align: center;" class="share">
-                            <a href="#"><img src="images/text-lines.png" width="25" height="25" /></a>
+                            <a href="#"><img src="/images/text-lines.png" width="25" height="25" /></a>
                         </div>
                     </div>
                 </div>
@@ -270,6 +270,7 @@
         countdown(parseInt("{{$remaining}}") * 1000);
         // document.getElementById("styling-button").style.visibility = "{{$userBought}}" ? "hidden" : "visible";
 
+        /*
         $('.share').on('click', function() {
             var $temp = $("<input>"), $url = $(location).attr('href');
             $("body").append($temp);
@@ -281,7 +282,23 @@
                 buttons: ["باشه"],
             });
         });
-    }
+        */
+    };
+
+    $('.share').on('click', async () => {
+        const reference = "{{$referenceId}}";
+        const shareData = {
+            title: 'همسود',
+            text: 'شما هم در این خرید، همسود شوید',
+            url: 'https://hamsod.com/landing/'+reference,
+        };
+        try {
+            await navigator.share(shareData)
+            // resultPara.textContent = 'MDN shared successfully'
+        } catch(err) {
+            // resultPara.textContent = 'Error: ' + err
+        }
+    });
 
     function buy() {
         window.location = "{{route('customers.orderProduct', ['product' => $product->id])}}";

@@ -42,7 +42,7 @@ class HomeController extends Controller
         return $userBought;
     }
 
-    public function landing()
+    public function landing($reference=null)
     {
         $product = Product::where('is_active',1)->first();
         if ($product) {
@@ -60,8 +60,9 @@ class HomeController extends Controller
 
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
+            $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
 
-            return view('customers.landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount'));
+            return view('customers.landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount', 'referenceId'));
         } else {
             return view('customers.notActive');
         }
