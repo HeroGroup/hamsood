@@ -263,7 +263,7 @@
     </div>
 </div>
 
-<script src="js/custom.js" type="text/javascript"></script>
+<script src="/js/custom.js" type="text/javascript"></script>
 <script>
     window.onload = function() {
         $("#main-div").parent().css({"background-color":"#eee"});

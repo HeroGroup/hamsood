@@ -97,7 +97,7 @@ class CustomerController extends Controller
                         session(['mobile' => $mobile, 'path' => '']);
                         return redirect($path ?? route('landing'));
                     } else {
-                        return rredirect(route('customers.verifyToken', $mobile))->with('error', 'کد نادرست وارد شده است');
+                        return redirect(route('customers.verifyToken', $mobile))->with('error', 'کد نادرست وارد شده است');
                     }
                 } else {
                     return redirect(route('customers.verifyToken', $mobile))->with('error', 'کد نامعتبر');
