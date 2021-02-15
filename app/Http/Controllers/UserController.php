@@ -26,6 +26,7 @@ class UserController extends Controller
             'email' => $request->email,
             'mobile' => $request->mobile,
             'password' => Hash::make($request->password),
+            'send_sms' => $request->send_sms
         ]);
 
         return redirect('/admin/users');

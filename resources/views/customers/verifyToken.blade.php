@@ -20,13 +20,12 @@
                 <input type="hidden" name="mobile" value="{{$mobile}}" />
                 <input class="input-field" type="text" name="token" maxlength="4" inputmode="numeric" autofocus style="padding-top:5px;padding-bottom:5px;">
             </div>
-            @if(\Illuminate\Support\Facades\Session::has('error'))
-                <p style="color:red;margin-top:5px;text-align: center;">
-                    {{\Illuminate\Support\Facades\Session::get('error')}}
-                </p>
-            @endif
-
         </div>
+        @if(\Illuminate\Support\Facades\Session::has('error'))
+            <p style="color:red;margin-top:5px;text-align: center;">
+                {{\Illuminate\Support\Facades\Session::get('error')}}
+            </p>
+        @endif
         <div style="width:100%;margin-top:20px;">
             <div style="margin-top:10px;text-align: center;color:#9b59b6;">
                 <a id="resend" href="#" style="cursor: not-allowed;color:gray;text-decoration: none;">ارسال مجدد</a>

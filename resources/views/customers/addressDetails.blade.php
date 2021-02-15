@@ -15,7 +15,7 @@
                 <p style="padding-top:15px; padding-right:5px;">{{$neighbourhood->name}}</p>
                 <textarea name="details" id="details" rows="4" class="form-control" onkeyup="enterDetails(this.value)" placeholder="مثلا خیابان مهر، کوچه ۲، پلاک ۱۳۶، واحد ۲">{{$details}}</textarea>
             </div>
-            <div style="padding:25px 40px;;background-color:white;position:fixed;bottom:0;left:0;width:100%;z-index:6;display:flex;justify-content:space-between;">
+            <div id="buttons-container" style="padding:25px 40px;;background-color:white;position:fixed;bottom:0;left:0;width:100%;z-index:6;display:flex;justify-content:space-between;">
                 <button type="submit" class="btn inactive" disabled style="width:100px;" id="confirm-button">تائید</button>
                 <button class="btn" onclick="event.preventDefault(); window.history.back();" style="width:100px;color:#222;background-color:white;">انصراف</button>
             </div>
@@ -24,13 +24,21 @@
 </div>
 <script>
     $(document).ready(function() {
-        $(".overlay-container").css({"height":"80%"});
+        $(".overlay-container").css({"height":"65%"});
 
         if (document.getElementById("details").value.length >= 5)
             activateConfirmButton();
         else
             disableConfirmButton();
     });
+
+    $("#details").on("focus", function() {
+        $("#buttons-container").css({"position":"relative"});
+    });
+    $("#details").on("blur", function() {
+        $("#buttons-container").css({"position":"fixed"});
+    });
+
     function enterDetails(val) {
         if (val.length >= 5) {
             activateConfirmButton();

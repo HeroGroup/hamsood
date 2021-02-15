@@ -10,6 +10,7 @@ use App\Neighbourhood;
 use App\Order;
 use App\OrderItem;
 use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Kavenegar\KavenegarApi;
@@ -132,10 +133,17 @@ class CustomerController extends Controller
                 'weight' => session('weight')
             ]);
 
+            $admins = User::where('send_sms',1)->get();
+            foreach ($admins as $admin) {
+                $token = session('available_product_id');
+                $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
+                $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
+            }
+
             $this->clearSession();
 
             return $order->id;
-        } catch(Exception $exception) {
+        } catch(\Exception $exception) {
             return 0;
         }
     }

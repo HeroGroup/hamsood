@@ -31,6 +31,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="send_sms" class="col-sm-2 control-label">دریافت sms تائید</label>
+                    <div class="col-sm-4">
+                        {!! Form::select('send_sms', config('enums.yes_no'), 0, array('class' => 'form-control', 'placeholder' => 'انتخاب کنید...')) !!}
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-4 text-left">
                         <a class="btn btn-default" href="{{route('users.index')}}">انصراف</a>
                         <button type="submit" class="btn btn-success">ذخیره</button>
