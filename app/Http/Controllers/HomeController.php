@@ -50,19 +50,12 @@ class HomeController extends Controller
             $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
             $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
 
-            /*
-            $items = OrderItem::where('available_product_id', $availableProduct->id)->select('order_id')->distinct()->get();
-            $peopleBought = (Order::whereIn('id', $items)->where('status', 1)->count()) % $availableProduct->maximum_group_members;
-            */
-
             $peopleBought = $availableProduct->getOrdersCount();
             $userBought = $this->checkIfUserBought($availableProduct->id);
 
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
             $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-
-            session(['mobile'=>'09177048781']);
 
             return view('customers.landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount', 'referenceId'));
         } else {

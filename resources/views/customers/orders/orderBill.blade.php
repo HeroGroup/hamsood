@@ -6,7 +6,7 @@
         'yourPrice' => $order->total_price,
         'shippmentPrice' => $order->shippment_price,
         'yourProfit' => $order->discount,
-        'yourPayment' => $order->total_price
+        'yourPayment' => $order->total_price+$order->shippment_price
     ])@endcomponent
 
     <hr />

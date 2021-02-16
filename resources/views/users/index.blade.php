@@ -4,7 +4,7 @@
         <div class="panel-heading">کاربران</div>
         <div class="panel-body">
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered data-table">
                     <thead>
                     <tr>
                         <th>نام</th>
