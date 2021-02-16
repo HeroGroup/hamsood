@@ -6,7 +6,9 @@ use App\AvailableProduct;
 use App\AvailableProductDetail;
 use App\Customer;
 use App\CustomerAddress;
+use App\DeliveryTimeFee;
 use App\Neighbourhood;
+use App\NeighbourhoodDeliveryTimeFee;
 use App\Order;
 use App\OrderItem;
 use App\Product;
@@ -17,15 +19,6 @@ use Kavenegar\KavenegarApi;
 
 class CustomerController extends Controller
 {
-    protected $times = [
-        "۸ تا ۱۰ صبح",
-        "۱۰ تا ۱۲ ظهر",
-        "۱۲ تا ۱۴ بعدارظهر",
-        "۱۴ تا ۱۶ عصر",
-        "۱۶ تا ۱۸ شب",
-        "۱۸ تا ۲۰ شب"
-    ];
-
     public function index()
     {
         $customers = Customer::orderBy('id', 'desc')->get();
@@ -116,7 +109,7 @@ class CustomerController extends Controller
                 'customer_id' => \request()->customer->id,
                 'customer_name' => session('customer_name'),
                 'discount' => session('discount'),
-                'shippment_price' => 0, // session('shippment_price'),
+                'shippment_price' => session('shippment_price_for_now'),
                 'total_price' => session('total_price'),
                 'payment_method' => session('payment_method'),
                 'neighbourhood_id' => session('neighbourhood_id'),
@@ -133,18 +126,18 @@ class CustomerController extends Controller
                 'weight' => session('weight')
             ]);
 
-            $admins = User::where('send_sms',1)->get();
-            foreach ($admins as $admin) {
-                $token = session('available_product_id');
-                $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
-                $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
-            }
+//            $admins = User::where('send_sms',1)->get();
+//            foreach ($admins as $admin) {
+//                $token = session('available_product_id');
+//                $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
+//                $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
+//            }
 
             $this->clearSession();
 
             return $order->id;
         } catch(\Exception $exception) {
-            return 0;
+            dd($exception->getMessage()); // return 0;
         }
     }
 
@@ -162,6 +155,7 @@ class CustomerController extends Controller
             'payment_method' => '',
             'discount' => '',
             'shippment_price' => '',
+            'shippment_price_for_now' => '',
             'total_price' => ''
         ]);
     }
@@ -227,6 +221,23 @@ class CustomerController extends Controller
         return redirect(route('customers.selectAddress'));
     }
 
+    public function times($neighbourhood=null)
+    {
+        if ($neighbourhood > 0) {
+            $times = NeighbourhoodDeliveryTimeFee::where('neighbourhood_id', $neighbourhood)->get();
+
+            if ($times->count() > 0) {
+                return $times;
+            } else {
+                $times = DeliveryTimeFee::get();
+                return $times;
+            }
+        } else {
+            $times = DeliveryTimeFee::get();
+            return $times;
+        }
+    }
+
     public function getTime($customerName)
     {
         // get customer default address and make to string
@@ -243,13 +254,21 @@ class CustomerController extends Controller
         ]);
         $tomorrow = 'فردا - ' . session('date');
 
-        $times = $this->times;
+        $times = $this->times($customerAddress->neighbourhood_id);
         return view('customers.selectTime', compact('tomorrow', 'times'));
     }
 
     public function selectTime(Request $request)
     {
-        session(['time' => $this->times[$request->times]]);
+        $times = NeighbourhoodDeliveryTimeFee::where('neighbourhood_id', session('neighbourhood_id'))->get();
+        $time = $times->count() > 0 ? NeighbourhoodDeliveryTimeFee::find($request->times) : $time = DeliveryTimeFee::find($request->times);
+
+        session([
+            'time' => $time->delivery_start_time.' - '.$time->delivery_end_time,
+            'shippment_price' => $time->delivery_fee,
+            'shippment_price_for_now' => $time->delivery_fee_for_now,
+        ]);
+
         return view('customers.payment');
     }
 
@@ -258,15 +277,17 @@ class CustomerController extends Controller
         $prices = [
             'realPrice' => session('weight') * session('real_price'),
             'yourPrice' => session('total_price'),
+            'shippmentPrice' => session('shippment_price'),
+            'shippmentPriceForNow' => session('shippment_price_for_now'),
             'yourProfit' => session('weight') * session('real_price') - session('total_price'),
-            'shippmentPrice' => 5000,
             'yourPayment' => session('total_price')
         ];
 
         session([
             'payment_method' => $request->payment_method,
-            'shippment_price' => $prices['shippmentPrice'],
+            'shippment_price_for_now' => session('shippmentPriceForNow')
         ]);
+
         return view('customers.finalizeOrder', compact('prices'));
     }
 
@@ -282,7 +303,7 @@ class CustomerController extends Controller
             return redirect(route('customers.orders'))->with('message', 'این خرید را قبلا انجام داده اید.')->with('type', 'danger');
         } else {
             $orderId = $this->submitOrder();
-            return redirect(route('customers.orders.products', $orderId));
+            return $orderId > 0 ? redirect(route('customers.orders.products', $orderId)) : redirect(route('landing'));
         }
     }
 

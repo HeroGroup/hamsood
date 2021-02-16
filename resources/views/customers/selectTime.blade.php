@@ -7,11 +7,11 @@
         @csrf
         <div style="padding:5px 35px;height:160px;overflow:scroll;border-radius:5px;margin:5px 35px;box-shadow: 0 0 2px gray;">
             <?php $i=0; ?>
-            @foreach($times as $key => $value)
+            @foreach($times as $time)
                 <div style="padding-top:7px;">
                     <?php $i++; ?>
-                    <input type="radio" id="{{$key}}" name="times" value="{{$key}}" @if($i==1) checked @endif>
-                    <label for="{{$key}}">{{$value}}</label><br>
+                    <input type="radio" id="{{$time->id}}" name="times" value="{{$time->id}}" @if($i==1) checked @endif>
+                    <label for="{{$time->id}}">{{$time->delivery_start_time}} - {{$time->delivery_end_time}} ({{$time->delivery_fee_for_now > 0 ? $time->delivery_fee_for_now : 'رایگان'}})</label><br>
                     @if(count($times) != $i) <hr style="border-color:lightgray; margin:10px 0;" /> @endif
                 </div>
             @endforeach

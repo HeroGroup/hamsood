@@ -37,8 +37,12 @@
     <div class="row-item" style="background-color:#eee;">
         <p class="txt fs-16">هزینه ارسال</p>
         <div class="price">
-            @if($shippmentPrice > 0)<p class="fs-16"><del>{{number_format($shippmentPrice) . ' تومان'}}</del></p>@endif
-            <p class="fs-16"><b>رایگان</b></p>
+            @if(isset($shippmentPrice) && isset($shippmentPriceForNow) && $shippmentPrice != $shippmentPriceForNow)
+                <p class="fs-16"><del>{{number_format($shippmentPrice) . ' تومان'}}</del></p>
+                <p class="fs-16"><b>{{$shippmentPriceForNow > 0 ? $shippmentPriceForNow : 'رایگان'}}</b></p>
+            @else
+                <p class="fs-16">{{$shippmentPrice > 0 ? number_format($shippmentPrice) . ' تومان' : 'رایگان'}}</p>
+            @endif
         </div>
     </div>
     <div class="row-item" style="color:#31AC6B;">

@@ -5,6 +5,7 @@
         'realPrice' => $prices['realPrice'],
         'yourPrice' => $prices['yourPrice'],
         'shippmentPrice' => $prices['shippmentPrice'],
+        'shippmentPriceForNow' => $prices['shippmentPriceForNow'],
         'yourProfit' => $prices['yourProfit'],
         'yourPayment' => $prices['yourPayment']
     ])@endcomponent

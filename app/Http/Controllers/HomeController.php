@@ -62,6 +62,8 @@ class HomeController extends Controller
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
             $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
 
+            session(['mobile'=>'09177048781']);
+
             return view('customers.landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount', 'referenceId'));
         } else {
             return view('customers.notActive');
