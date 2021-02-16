@@ -8,12 +8,16 @@
                     <thead>
                     <tr>
                         <th>نام</th>
+                        <th>هزینه ها</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($neighbourhoods as $neighbourhood)
                         <tr>
                             <td>{{$neighbourhood->name}}</td>
+                            <td>
+                                <a href="{{route('neighbourhoodDeliveries.index', $neighbourhood->id)}}" class="btn btn-info btn-xs">ساعات و هزینه ارسال</a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -4,13 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class NeighbourhoodDelivery extends Model
+class NeighbourhoodDeliveryTimeFee extends Model
 {
     protected $fillable = [
         'neighbourhood_id',
-        'delivery_time_from',
-        'delivery_time_to',
-        'delivery_fee'
+        'delivery_start_time',
+        'delivery_end_time',
+        'delivery_fee',
+        'delivery_fee_for_now',
     ];
 
     public function neighbourhood()

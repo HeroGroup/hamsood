@@ -30,14 +30,14 @@
     <div class="row-item">
         <p class="txt fs-16">قیمت کالا</p>
         <div class="price">
-            <p class="fs-16"><strike>{{number_format($realPrice)}} تومان</strike></p>
+            <p class="fs-16"><del>{{number_format($realPrice)}} تومان</del></p>
             <p class="fs-16"><b>{{number_format($yourPrice)}} تومان</b></p>
         </div>
     </div>
     <div class="row-item" style="background-color:#eee;">
         <p class="txt fs-16">هزینه ارسال</p>
         <div class="price">
-            @if($shippmentPrice > 0)<p class="fs-16"><strike>{{number_format($shippmentPrice) . ' تومان'}}</strike></p>@endif
+            @if($shippmentPrice > 0)<p class="fs-16"><del>{{number_format($shippmentPrice) . ' تومان'}}</del></p>@endif
             <p class="fs-16"><b>رایگان</b></p>
         </div>
     </div>

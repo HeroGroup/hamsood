@@ -72,6 +72,12 @@ Route::prefix('admin')->group(function () {
         Route::get('/customers', 'CustomerController@index')->name("customers.index");
         Route::get('/neighbourhoods', 'AddressController@neighbourhoodsList')->name("neighbourhoods.index");
 
+        Route::resource('/deliveries', 'DeliveryController')->except(['show', 'edit']);
+
+        Route::resource('/neighbourhoodDeliveries', 'NeighbourhoodDeliveryController')->except(['index', 'create', 'show', 'edit']);
+        Route::get('/neighbourhoodDeliveries/{neighbourhood}', 'NeighbourhoodDeliveryController@index')->name('neighbourhoodDeliveries.index');
+        Route::get('/neighbourhoodDeliveries/create/{neighbourhood}', 'NeighbourhoodDeliveryController@create')->name('neighbourhoodDeliveries.create');
+
         Route::resource('users', 'UserController');
         Route::get('users/{user}/resetPassword', 'UserController@resetPassword')->name('users.resetPassword');
         Route::get('users/{user}/profile', 'UserController@changePassword')->name('users.changePassword');
