@@ -22,11 +22,11 @@
             <img src="{{$product->image_url}}" width="90" height="90" style="border:1px solid lightgray;border-radius:5px;padding:5px;">
         </div>
         <h4 style="text-align:center;">{{$product->name}}</h4>
-        <p style="padding:8px 38px;">توضیحات: {{$product->description}}</p>
+        <div style="padding:8px 38px;">توضیحات: <?php echo $product->description; ?> </div>
         <button class="btn plus-minus" onclick="add()">+</button>
-        <span id="quantity" style="display: inline-block;width:30px;font-size:22px;padding:0 8px 5px 38px;">1</span><span style="padding-left:8px;font-size:12px;">کیلو</span>
+        <span id="quantity" style="display: inline-block;width:30px;font-size:22px;padding:0 8px 5px 38px;">1</span><span style="padding-left:8px;font-size:12px;">بسته</span>
         <button class="btn plus-minus" onclick="subtrack()">-</button>
-        <h6 style="color:red;padding:8px 0;">سفارش حداقل ۱ کیلو و حداکثر ۴ کیلو</h4>
+        <h6 style="color:red;padding:8px 0;">سفارش حداقل ۱ بسته و حداکثر ۴ بسته</h4>
 
         <hr />
 
@@ -42,13 +42,13 @@
     <script>
         var quantity = 1;
         function add() {
-            quantity = quantity > 3 ? 4 : quantity += 0.5;
+            quantity = quantity > 3 ? 4 : quantity += 1;
             $("#quantity").text(quantity);
             $(".submit-order-button").attr("href", `/order/orderFirstStep/${quantity}`);
         }
 
         function subtrack() {
-            quantity = quantity < 2 ? 1 : quantity -= 0.5;
+            quantity = quantity < 2 ? 1 : quantity -= 1;
             $("#quantity").text(quantity);
             $(".submit-order-button").attr("href", `/order/orderFirstStep/${quantity}`);
         }

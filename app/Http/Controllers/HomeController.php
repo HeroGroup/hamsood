@@ -50,7 +50,7 @@ class HomeController extends Controller
             $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
             $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
 
-            $peopleBought = $availableProduct->getOrdersCount();
+            $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
             $userBought = $this->checkIfUserBought($availableProduct->id);
 
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');

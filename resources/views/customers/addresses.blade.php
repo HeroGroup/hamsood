@@ -19,7 +19,7 @@
             border:2px solid #31AC6B;
         }
     </style>
-    <div style="margin-top:70px;color:#222;padding:15px;text-align:center;">
+    <div style="margin-top:70px;margin-bottom:65px;color:#222;padding:15px;text-align:center;">
         @if(isset($withConfirm) && $withConfirm == 1)
             <input type="text" name="customer_name" id="customer_name" value="{{$customerName ?? ''}}" class="form-control" placeholder="نام تحویل گیرنده" required />
             <div id="customer_name_required" class="help-block" style="color:red;display:none;">نام تحویل گیرنده را وارد کنید</div>
