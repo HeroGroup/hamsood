@@ -7,7 +7,7 @@
         'shippmentPrice' => $prices['shippmentPrice'],
         'shippmentPriceForNow' => $prices['shippmentPriceForNow'],
         'yourProfit' => $prices['yourProfit'],
-        'yourPayment' => $prices['yourPayment']
+        'yourPayment' => $prices['yourPayment']+$prices['shippmentPrice']
     ])@endcomponent
 </div>
 <div style="position:fixed;bottom:0;left:0;width:100%;">

@@ -32,7 +32,7 @@
 </style>
     <div class="price-container">
         <h4>مبلغ قابل پرداخت</h4>
-        <h4 style="color:#539BE4;">{{number_format(session('total_price'))}} تومان</h4>
+        <h4 style="color:#539BE4;">{{number_format(session('total_price')+session('shippment_price_for_now'))}} تومان</h4>
     </div>
     <div class="payment-method" style="border-color:#31AC6B;">پرداخت در محل</div>
     <div class="payment-method payment-inactive">پرداخت اینترنتی</div>

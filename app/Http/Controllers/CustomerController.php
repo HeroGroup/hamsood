@@ -126,12 +126,12 @@ class CustomerController extends Controller
                 'weight' => session('weight')
             ]);
 
-//            $admins = User::where('send_sms',1)->get();
-//            foreach ($admins as $admin) {
-//                $token = session('available_product_id');
-//                $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
-//                $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
-//            }
+           $admins = User::where('send_sms',1)->get();
+           foreach ($admins as $admin) {
+               $token = session('available_product_id');
+               $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
+               $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
+           }
 
             $this->clearSession();
 
@@ -280,12 +280,12 @@ class CustomerController extends Controller
             'shippmentPrice' => session('shippment_price'),
             'shippmentPriceForNow' => session('shippment_price_for_now'),
             'yourProfit' => session('weight') * session('real_price') - session('total_price'),
-            'yourPayment' => session('total_price')
+            'yourPayment' => session('total_price')+session('shippment_price_for_now'),
         ];
 
         session([
             'payment_method' => $request->payment_method,
-            'shippment_price_for_now' => session('shippmentPriceForNow')
+            'shippment_price' => session('shippment_price_for_now')
         ]);
 
         return view('customers.finalizeOrder', compact('prices'));
