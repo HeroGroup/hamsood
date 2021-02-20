@@ -56,11 +56,13 @@
                     <img src="{{$product->image_url}}" style="width:100%;border:1px solid lightgray;border-radius:10px;padding:5px;" />
                 </div>
                 <div style="flex:2;text-align:center;">
-                    <h3>{{$product->name}}</h3>
-                    <p>{{$product->description}}</p>
-                    <p style="color:gray;">قیمت باراز {{number_format($availableProduct->price)}} تومان</p>
+                    <h4 style="margin-top:0;padding-top:0;">{{$product->name}}</h4>
+                    <div style="text-align: right;padding-left: 15px; padding-right:15px;font-size:14px;">
+                        <?php echo $product->description ?>
+                    </div>
                 </div>
             </div>
+            <p style="color:gray;text-align: center;">قیمت باراز {{number_format($availableProduct->price)}} تومان</p>
             <div style="display:flex;flex-direction:row;color:gray;">
                 <!-- <div style="flex:1;text-align:center;border-left:1px solid lightgray;padding:5px;">
                     <p>قیمت</p>

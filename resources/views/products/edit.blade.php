@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">توضیحات</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="description" name="description" value="{{$product->description}}">
+                        <textarea id="description" name="description" class="form-control" rows="5">{{$product->description}}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
