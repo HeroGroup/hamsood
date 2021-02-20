@@ -57,7 +57,7 @@
                 </div>
                 <div style="flex:2;text-align:center;">
                     <h4 style="margin-top:0;padding-top:0;">{{$product->name}}</h4>
-                    <div style="text-align: right;padding-left: 15px; padding-right:15px;font-size:12px;">
+                    <div style="text-align:right;padding-left:15px;padding-right:15px;font-size:12px;">
                         <?php echo $product->description ?>
                     </div>
                 </div>
