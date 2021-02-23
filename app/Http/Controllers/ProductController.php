@@ -37,7 +37,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect(route('products.index'))->with('message', 'محصئل جدید با موفقیت ایجاد شد.')->with('type', 'success');
+        return redirect(route('products.index'))->with('message', 'محصول جدید با موفقیت ایجاد شد.')->with('type', 'success');
     }
 
     public function show(Product $product)
@@ -67,7 +67,7 @@ class ProductController extends Controller
             'is_active' => $request->is_active ? 1 : 0
         ]);
 
-        return redirect(route('products.index'))->with('message', 'محصئل با موفقیت بروزرسانی شد.')->with('type', 'success');
+        return redirect(route('products.index'))->with('message', 'محصول با موفقیت بروزرسانی شد.')->with('type', 'success');
     }
 
     public function destroy(Product $product)

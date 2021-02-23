@@ -47,17 +47,21 @@ class HomeController extends Controller
         $product = Product::where('is_active',1)->first();
         if ($product) {
             $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
-            $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
-            $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
+            if($availableProduct) {
+                $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+                $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
 
-            $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
-            $userBought = $this->checkIfUserBought($availableProduct->id);
+                $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
+                $userBought = $this->checkIfUserBought($availableProduct->id);
 
-            $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
-            $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
-            $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
+                $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
+                $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
+                $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
 
-            return view('customers.landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount', 'referenceId'));
+                return view('customers.landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount', 'referenceId'));
+            } else {
+                return view('customers.notActive');
+            }
         } else {
             return view('customers.notActive');
         }

@@ -38,7 +38,7 @@
     color:white;
 }
 </style>
-<div id="main-div" style="margin-top:70px;margin-bottom:60px;background-color:#eee;color:#222;">
+<div id="main-div" style="margin-top:70px;margin-bottom:70px;background-color:#eee;color:#222;">
     <div class="container">
         <!-- <h4 class="title">صفحه خرید گروهی</h4>
         <div>
@@ -292,7 +292,7 @@
         const shareData = {
             title: 'همسود',
             text: 'شما هم در این خرید، همسود شوید',
-            url: 'https://hamsod.com/landing/'+reference,
+            url: 'https://survey.porsline.ir/s/gP5ZKVE/' // 'https://hamsod.com/landing/'+reference,
         };
         try {
             await navigator.share(shareData)
