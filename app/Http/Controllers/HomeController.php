@@ -44,26 +44,61 @@ class HomeController extends Controller
 
     public function landing($reference=null)
     {
-        $product = Product::where('is_active',1)->first();
-        if ($product) {
-            $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
-            if($availableProduct) {
-                $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
-                $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
+        session(['mobile' => '09177048781']);
+        $referenceId = "g6Z";
+        $products = Product::where('is_active',1)->get();
+        $result = [];
+        if ($products->count() > 0) {
+            foreach ($products as $product) {
+                $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
+                if($availableProduct) {
+                    $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+                    $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
 
-                $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
-                $userBought = $this->checkIfUserBought($availableProduct->id);
+                    $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
+                    $userBought = $this->checkIfUserBought($availableProduct->id);
 
-                $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
-                $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
-                $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
+                    $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
+                    $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
 
-                session(['mobile' => '09177048781']);
+                    $item = [
+                        'product' => $product,
+                        'availableProduct' => $availableProduct,
+                        'details' => $details,
+                        'remaining' => $remaining,
+                        'peopleBought' => $peopleBought,
+                        'userBought' => $userBought,
+                        'nextDiscount' => $nextDiscount,
+                        'lastDiscount' => $lastDiscount
+                    ];
 
-                return view('customers.landing', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount', 'referenceId'));
-            } else {
-                return view('customers.notActive');
+                    array_push($result, $item);
+                }
             }
+            // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
+            return view('customers.landing', compact('result', 'referenceId'));
+
+        } else {
+            return view('customers.notActive');
+        }
+    }
+
+    public function productDetailPage($productId)
+    {
+        $referenceId = "g6Z";
+        $product = Product::find($productId);
+        $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
+        if($availableProduct) {
+            $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+            $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
+
+            $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
+            $userBought = $this->checkIfUserBought($availableProduct->id);
+
+            $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
+            $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
+
+            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount', 'referenceId'));
         } else {
             return view('customers.notActive');
         }

@@ -14,6 +14,7 @@ Route::get('/clear-cache', function() {
 
 Route::get('/', 'HomeController@landing');
 Route::get('/landing/{reference?}', 'HomeController@landing')->name('landing');
+Route::get('/product/{product}', 'HomeController@productDetailPage')->name('productDetailPage');
 
 Route::middleware('customer.notLoggedIn')->group(function () {
     Route::get('/verifyMobile', 'HomeController@verifyMobile')->name('customers.verifyMobile');
