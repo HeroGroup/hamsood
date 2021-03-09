@@ -140,7 +140,7 @@
 
             <!--<button id="styling-button" style="visibility:hidden;">منم همسود می شوم</button>-->
             <div class="hamsood-button-container">
-              @if($userBought)
+              @if($userWeight > 0)
                 <!--<div style="display: flex;flex-direction: row;border-radius: 3px;background-color:#E9D5BA;">
                     <div style="flex:1;background-color:#FF6F00;text-align:center;padding:10px 0;">ارسال دعوت نامه</div>
                     <div style="flex:2;display: flex;flex-direction: row;justify-content: center;align-items: center;">

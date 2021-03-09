@@ -9,7 +9,7 @@
                     <tr>
                         <th>شهر</th>
                         <th>نام</th>
-                        <th>هزینه ها</th>
+                        <th>عملیات</th>
                     </tr>
                     </thead>
                     <tbody>

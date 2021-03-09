@@ -33,8 +33,8 @@
 <div class="top-navigation">
   <span id="toggleNavigation" onclick="openNav()">&#9776;</span>
   &nbsp;
-  <span class="logo-title">همسود</span>
-  <img src="/images/logo.png" width="45" height="45" style="float:left;" />
+  <a href="/" style="text-decoration:none;"><span class="logo-title">همسود</span></a>
+    <a href="/" style="text-decoration:none;"><img src="/images/logo.png" width="45" height="45" style="float:left;" /></a>
 </div>
 
 <script>
