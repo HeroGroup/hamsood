@@ -67,7 +67,7 @@ class HomeController extends Controller
                         'details' => $details,
                         'remaining' => $remaining,
                         'peopleBought' => $peopleBought,
-                        'userBought' => $userWeight,
+                        'userWeight' => $userWeight,
                         'nextDiscount' => $nextDiscount,
                         'lastDiscount' => $lastDiscount
                     ];
