@@ -2,17 +2,21 @@
 
 namespace App;
 
-use App\AvailableProduct;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderItem extends Model
+class CustomerCart extends Model
 {
     protected $fillable = [
-        'order_id',
+        'customer_id',
         'available_product_id',
         'weight',
         'base_price'
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 
     public function availableProduct()
     {

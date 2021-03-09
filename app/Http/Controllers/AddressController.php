@@ -13,6 +13,23 @@ class AddressController extends Controller
         $neighbourhoods = Neighbourhood::orderBy('name')->get();
         return view('admin.neighbourhoods.index', compact('neighbourhoods'));
     }
+
+    public function toggleActivateNeighbourhood($id)
+    {
+        try {
+            $neighbourhood = Neighbourhood::find($id);
+            if ($neighbourhood) {
+                $newStatus = $neighbourhood->is_active ? 0 : 1;
+                $neighbourhood->update(['is_active' => $newStatus]);
+                return $this->success("updated successfully", ['is_active' => $newStatus]);
+            } else {
+                return $this->fail("invalid neighbourhood");
+            }
+        } catch (\Exception $exception) {
+            return $this->fail($exception->getMessage());
+        }
+    }
+
     public function addresses()
     {
         $addresses = CustomerAddress::where('customer_id',\request()->customer->id)->get();
@@ -50,7 +67,7 @@ class AddressController extends Controller
 
     public function getNeighbourhoods($city, $keyword=null)
     {
-        $neighbourhoods = Neighbourhood::where('city_id',$city);
+        $neighbourhoods = Neighbourhood::where('city_id',$city)->where('is_active',1);
         if ($keyword)
             $neighbourhoods = $neighbourhoods->where('name','LIKE',"%$keyword%");
 

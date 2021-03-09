@@ -20,9 +20,9 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function checkIfUserBought($availableProductId)
+    public function checkIfUserBought($availableProductId) // in new edition, check if exists in cart
     {
-        $userBought = false;
+        $userBought = 0;
         $mobile = session('mobile');
         if ($mobile && strlen($mobile) == 11) {
             $customer = Customer::where('mobile', 'like', $mobile)->first();
@@ -31,9 +31,9 @@ class HomeController extends Controller
                 if($orderMaxId) {
                   $order = Order::find($orderMaxId);
                   if ($order) {
-                      $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->count();
+                      $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->sum('weight');
                       if ($items > 0)
-                          $userBought = true;
+                          $userBought = $items;
                   }
                 }
             }
@@ -56,7 +56,7 @@ class HomeController extends Controller
                     $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
 
                     $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
-                    $userBought = $this->checkIfUserBought($availableProduct->id);
+                    $userWeight = $this->checkIfUserBought($availableProduct->id);
 
                     $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
                     $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
@@ -67,7 +67,7 @@ class HomeController extends Controller
                         'details' => $details,
                         'remaining' => $remaining,
                         'peopleBought' => $peopleBought,
-                        'userBought' => $userBought,
+                        'userBought' => $userWeight,
                         'nextDiscount' => $nextDiscount,
                         'lastDiscount' => $lastDiscount
                     ];
@@ -93,12 +93,12 @@ class HomeController extends Controller
             $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
 
             $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
-            $userBought = $this->checkIfUserBought($availableProduct->id);
+            $userWeight = $this->checkIfUserBought($availableProduct->id);
 
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
 
-            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userBought', 'nextDiscount', 'lastDiscount', 'referenceId'));
+            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'nextDiscount', 'lastDiscount', 'referenceId'));
         } else {
             return view('customers.notActive');
         }

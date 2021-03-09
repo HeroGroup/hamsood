@@ -75,6 +75,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/customers', 'CustomerController@index')->name("customers.index");
         Route::get('/neighbourhoods', 'AddressController@neighbourhoodsList')->name("neighbourhoods.index");
+        Route::get('/toggleActivateNeighbourhood/{id}', 'AddressController@toggleActivateNeighbourhood')->name("neighbourhoods.toggleActivateNeighbourhood");
 
         Route::resource('/deliveries', 'DeliveryController')->except(['show', 'edit']);
 
