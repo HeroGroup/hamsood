@@ -61,6 +61,9 @@ Route::prefix('admin')->group(function () {
             return redirect('/admin/products');
         });
 
+        Route::get('/settings', 'SettingController@getSettings')->name('settings');
+        Route::post('/settings', 'SettingController@postSettings')->name('settings.post');
+
         Route::resource('products', 'ProductController');
         Route::resource('availableProducts', 'AvailableProductController');
         Route::post('availableProducts/storeDetails', 'AvailableProductController@storeDetails')->name('availableProducts.storeDetails');
