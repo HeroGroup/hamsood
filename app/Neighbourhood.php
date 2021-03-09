@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Neighbourhood extends Model
 {
     protected $fillable = [
-        'city_id', 'name'
+        'city_id', 'name', 'is_active'
     ];
 
     public function city()

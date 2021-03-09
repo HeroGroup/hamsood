@@ -20,7 +20,7 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function checkIfUserBought($availableProductId)
+    public function checkIfUserBought($availableProductId) // in new edition, check if exists in cart
     {
         $userBought = false;
         $mobile = session('mobile');

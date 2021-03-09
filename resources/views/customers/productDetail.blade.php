@@ -1,32 +1,6 @@
 @extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true])
 @section('content')
 <style>
-.bottom-menu {
-  overflow: hidden;
-  background-color: #222;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  display:flex;
-  justify-content:space-between;
-}
-
-.bottom-menu a {
-  flex:1;
-  /*float: left;*/
-  /*display: block;*/
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.bottom-menu a:hover {
-  background: #ddd;
-  color: black;
-}
-
 .text-badge {
     display:inline-block;
     width:50px;
@@ -167,7 +141,7 @@
             <!--<button id="styling-button" style="visibility:hidden;">منم همسود می شوم</button>-->
             <div class="hamsood-button-container">
               @if($userBought)
-                <div style="display: flex;flex-direction: row;border-radius: 3px;background-color:#E9D5BA;">
+                <!--<div style="display: flex;flex-direction: row;border-radius: 3px;background-color:#E9D5BA;">
                     <div style="flex:1;background-color:#FF6F00;text-align:center;padding:10px 0;">ارسال دعوت نامه</div>
                     <div style="flex:2;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                         <div style="flex:1;text-align: center;" class="share">
@@ -180,9 +154,13 @@
                             <a href="#"><img src="/images/text-lines.png" width="25" height="25" /></a>
                         </div>
                     </div>
-                </div>
+                </div>-->
+                <!--<button style="background-color:white;color:#64498E;width:100%;border:none;border-top:2px solid #64498E;padding: 15px 10px;font-size:18px;font-weight:bold;">ارسال دعوت نامه</button>-->
+                <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:35px;border-radius:5px;">+</button>
+                <span style="margin:0 15px;font-size:20px;">1</span>
+                <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:35px;border-radius:5px;">-</button>
             @else
-                  <!--<button id="hamsood-btn" onclick="buy()">منم همسود می شوم</button>-->
+                  <button id="hamsood-btn" onclick="buy()">اضافه به سبد خرید</button>
             @endif
             </div>
     </div>
