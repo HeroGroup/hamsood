@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/sort','TestController@sort');
+
 Auth::routes(['register' => false]);
 
 Route::get('/clear-cache', function() {

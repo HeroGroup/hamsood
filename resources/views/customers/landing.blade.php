@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true])
+@extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true, 'cartItemsCount' => $cartItemsCount])
 @section('content')
 <style>
 .text-badge {
@@ -55,7 +55,7 @@
         </div>
         @foreach($result as $item)
         <div style="background-color:white;border-radius:10px;box-shadow: 0 0 5px #888888;">
-            <div style="display:flex;flex-direction:row;padding:10px;" onclick="goToDetailPage('{{$item['product']->id}}')">
+            <div style="display:flex;flex-direction:row;padding:10px;cursor:pointer;" onclick="goToDetailPage('{{$item['product']->id}}')">
                 <div style="flex:1">
                     <img src="{{$item['product']->image_url}}" style="width:100%;border:1px solid lightgray;border-radius:10px;padding:5px;" />
                 </div>
@@ -110,10 +110,20 @@
                         <span id="weight-{{$item['availableProduct']->id}}" style="margin:0 15px;font-size:20px;">1</span>
                         <button id="subtract-{{$item['availableProduct']->id}}" style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:40px;border-radius:5px;" onclick="subtractWeight('{{$item['availableProduct']->id}}')">-</button>
                     @else
-                        <button class="btn" style="background-color:#64498E;width:100%;color:white">منم همسود می شوم</button>
+                        <button class="btn hamsood-btn" style="background-color:#64498E;width:100%;color:white" onclick="goToDetailPage('{{$item['product']->id}}')">منم همسود می شوم</button>
                     @endif
                 </div>
-                <div style="flex:1"></div>
+                <div style="flex:1;text-align:center;">
+                    <div style="display:flex;">
+                        <div style="flex:1">
+                            <label for="peopleBought-{{$item['availableProduct']->id}}">{{$item['peopleBought']}} نفر همسودی</label>
+                        </div>
+                        <div style="flex:1">
+                            <img src="/images/group_icon.png" width="80" height="35" />
+                        </div>
+                    </div>
+                    <progress id="peopleBought-{{$item['availableProduct']->id}}" value="{{$item['peopleBought']}}" max="{{$item['availableProduct']->maximum_group_members}}" style="width:90%;"></progress>
+                </div>
             </div>
         </div>
         <br>

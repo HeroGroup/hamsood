@@ -42,12 +42,18 @@ class HomeController extends Controller
         return $userBought;
     }
 
+    public function userCartItemsCount()
+    {
+        return 2;
+    }
+
     public function landing($reference=null)
     {
         session(['mobile' => '09177048781']);
         $referenceId = "g6Z";
         $products = Product::where('is_active',1)->get();
         $result = [];
+        $cartItemsCount = $this->userCartItemsCount();
         if ($products->count() > 0) {
             foreach ($products as $product) {
                 $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
@@ -76,7 +82,7 @@ class HomeController extends Controller
                 }
             }
             // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-            return view('customers.landing', compact('result', 'referenceId'));
+            return view('customers.landing', compact('result', 'referenceId', 'cartItemsCount'));
 
         } else {
             return view('customers.notActive');
@@ -86,6 +92,7 @@ class HomeController extends Controller
     public function productDetailPage($productId)
     {
         $referenceId = "g6Z";
+        $cartItemsCount = $this->userCartItemsCount();;
         $product = Product::find($productId);
         $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
         if($availableProduct) {
@@ -98,7 +105,7 @@ class HomeController extends Controller
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
 
-            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'nextDiscount', 'lastDiscount', 'referenceId'));
+            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'nextDiscount', 'lastDiscount', 'referenceId', 'cartItemsCount'));
         } else {
             return view('customers.notActive');
         }

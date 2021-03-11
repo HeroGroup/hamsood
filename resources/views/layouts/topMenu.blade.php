@@ -34,7 +34,12 @@
   <span id="toggleNavigation" onclick="openNav()">&#9776;</span>
   &nbsp;
   <a href="/" style="text-decoration:none;"><span class="logo-title">همسود</span></a>
-    <a href="/" style="text-decoration:none;"><img src="/images/logo.png" width="45" height="45" style="float:left;" /></a>
+  <div style="cursor:pointer;float:left;position:relative;width:60px;text-align:center;">
+      @if(isset($cartItemsCount) && $cartItemsCount>0)
+          <div style="background-color:#31AC6B;border-radius:50%;color:white;width:20px;text-align:center;position:absolute;top:0;right:0;">{{$cartItemsCount}}</div>
+      @endif
+      <img src="/images/basket_icon.png" width="40" height="40" />
+  </div>
 </div>
 
 <script>

@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true])
+@extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true, 'cartItemsCount' => $cartItemsCount])
 @section('content')
 <style>
 .text-badge {
@@ -160,7 +160,7 @@
                 <span style="margin:0 15px;font-size:20px;">1</span>
                 <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:35px;border-radius:5px;">-</button>
             @else
-                  <button id="hamsood-btn" onclick="buy()">اضافه به سبد خرید</button>
+                  <button id="hamsood-btn" class="hamsood-btn" onclick="buy()">اضافه به سبد خرید</button>
             @endif
             </div>
     </div>
@@ -171,7 +171,6 @@
     window.onload = function() {
         $("#main-div").parent().css({"background-color":"#eee"});
         countdown(parseInt("{{$remaining}}") * 1000);
-        // document.getElementById("styling-button").style.visibility = "{{$userBought}}" ? "hidden" : "visible";
 
         /*
         $('.share').on('click', function() {

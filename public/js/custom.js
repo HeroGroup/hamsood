@@ -3,10 +3,14 @@ function disableButton() {
     document.getElementById("hours").innerHTML = "00";
     document.getElementById("minutes").innerHTML = "00";
     document.getElementById("seconds").innerHTML = "00";
-    document.getElementById("hamsood-btn").innerHTML = "زمان سفارش گیری به اتمام رسید";
-    document.getElementById("hamsood-btn").disabled = true;
-    document.getElementById("hamsood-btn").style.backgroundColor = "lightgray";
-    document.getElementById("hamsood-btn").style.cursor = "not-allowed";
+    var hamsodButtons = document.getElementsByClassName("hamsood-btn");
+    for(var i=0;i<hamsodButtons.length;i++) {
+        hamsodButtons[i].innerHTML = "زمان سفارش گیری به اتمام رسید";
+        hamsodButtons[i].disabled = true;
+        hamsodButtons[i].style.backgroundColor = "lightgray";
+        hamsodButtons[i].style.cursor = "not-allowed";
+        hamsodButtons[i].style.fontSize = "10px";
+    }
 }
 
 function countdown(distance) {

@@ -13,7 +13,7 @@
     </head>
     <body @if(isset($darkBackground)) style="background-color:#222;" @endif>
         @if(isset($withMenu) && $withMenu)
-            @include('layouts.topMenu')
+            @include('layouts.topMenu', ['cartItemsCount' => $cartItemsCount])
         @elseif(isset($withNavigation) && $withNavigation)
             @include('layouts.topNavigation', ['pageTitle' => $pageTitle])
         @endif
