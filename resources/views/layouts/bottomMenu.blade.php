@@ -17,7 +17,7 @@
         text-align: center;
         padding: 4px 6px;
         text-decoration: none;
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .bottom-menu a span {
@@ -31,15 +31,15 @@
 </style>
 <div class="bottom-menu">
     <a href="{{route('customers.orders')}}">
-        <div><img src="/images/home_icon.png" width="25" height="25" /></div>
+        <div><img src="/images/orders_icon.png" width="35" height="35" /></div>
         <span>سفارش ها</span>
     </a>
     <a href="#home">
-        <div><img src="/images/home_icon.png" width="25" height="25" /></div>
+        <div><img src="/images/home_icon.png" width="35" height="35" /></div>
         <span>خانه</span>
     </a>
     <a href="#profile">
-        <div><img src="/images/profile_icon.png" width="18" height="18" style="margin:3px;" /></div>
+        <div><img src="/images/profile_icon.png" width="26" height="26" style="margin:3px;" /></div>
         <span>پروفایل</span>
     </a>
 </div>

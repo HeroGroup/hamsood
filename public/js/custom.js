@@ -43,3 +43,37 @@ function countdown(distance) {
         disableButton();
     }
 }
+
+function addWeight(product, maximum) {
+    var target = $(`#weight-${product}`);
+    var weight = parseInt(target.text());
+    if (weight === maximum) {
+        // do nothing
+    } else {
+        target.text(weight+1);
+        if (weight+1 > 1) {
+            var targetButton = $(`#subtract-${product}`);
+            targetButton.html("");
+            targetButton.text('-');
+        }
+    }
+}
+
+function subtractWeight(product) {
+    var target = $(`#weight-${product}`);
+    var weight = parseInt(target.text());
+    if (weight === 1) {
+        // delete item from cart
+    } else {
+        target.text(weight-1);
+        var targetButton = $(`#subtract-${product}`);
+        if (weight === 2) {
+            // change icon to trash
+            targetButton.html('<i class="fa fa-fw fa-trash-o"></i>');
+        } else {
+            // change text to -
+            targetButton.html("");
+            targetButton.text('-');
+        }
+    }
+}

@@ -6,6 +6,7 @@ use App\AvailableProduct;
 use App\AvailableProductDetail;
 use App\Customer;
 use App\CustomerAddress;
+use App\CustomerCartItem;
 use App\DeliveryTimeFee;
 use App\Neighbourhood;
 use App\NeighbourhoodDeliveryTimeFee;
@@ -182,27 +183,54 @@ class CustomerController extends Controller
         return $date - time();
     }
 
-    public function getOrderProduct($product)
+    public function getCustomerCart()
+    {
+        $cartItems = CustomerCartItem::where('customer_id', \request()->customer->id)->get();
+        return view('customers.customerCart', compact('cartItems'));
+    }
+
+    public function itemExistInCart($product)
     {
         $availableProduct = AvailableProduct::where('product_id', $product)->where('is_active', 1)->first();
-        $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
+        return CustomerCartItem::where('available_product_id',$availableProduct->id)->count();
+    }
 
-        if ($remaining > 0) {
-            $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
-            $peopleBought = $availableProduct->getOrdersCount();
-            $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
+    public function addToCart($product)
+    {
+        if ($this->itemExistInCart($product) == 0) {
+            $availableProduct = AvailableProduct::where('product_id', $product)->where('is_active', 1)->first();
+            $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
 
-            session([
-                'product' => $product,
-                'available_product_id' => $availableProduct->id,
-                'real_price' => $availableProduct->price,
-                'discount' => $nextDiscount
-            ]);
+            if ($remaining > 0) {
+                $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+                $peopleBought = $availableProduct->getOrdersCount();
+                // $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
+                $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
 
-            $product = Product::find($product);
-            return view('customers.orderProduct',compact('availableProduct', 'product', 'nextDiscount'));
+                // add 1 weight to cart
+                CustomerCartItem::create([
+                    'customer_id' => \request()->customer->id,
+                    'available_product_id' => $availableProduct->id,
+                    'weight' => 1,
+                    'real_price' => $availableProduct->price,
+                    'discount' => $nextDiscount
+                ]);
+
+                // session([
+                //     'product' => $product,
+                //     'available_product_id' => $availableProduct->id,
+                //     'real_price' => $availableProduct->price,
+                //     'discount' => $nextDiscount
+                // ]);
+
+                // $product = Product::find($product);
+                // return view('customers.customerCart',compact('availableProduct', 'product', 'nextDiscount'));
+                return redirect(route('customers.customerCart'));
+            } else {
+                return redirect(route('landing'));
+            }
         } else {
-            return redirect(route('landing'));
+            return redirect(route('customers.customerCart'));
         }
     }
 

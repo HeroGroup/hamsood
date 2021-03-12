@@ -203,7 +203,7 @@
     });
 
     function buy() {
-        window.location = "{{route('customers.orderProduct', ['product' => $product->id])}}";
+        window.location = "{{route('customers.addToCart', ['product' => $product->id])}}";
     }
 
     function requestSMS() {

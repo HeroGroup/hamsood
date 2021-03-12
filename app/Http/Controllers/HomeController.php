@@ -6,6 +6,7 @@ use App\AvailableProduct;
 use App\AvailableProductDetail;
 use App\City;
 use App\Customer;
+use App\CustomerCartItem;
 use App\Neighbourhood;
 use App\Order;
 use App\OrderItem;
@@ -42,9 +43,29 @@ class HomeController extends Controller
         return $userBought;
     }
 
-    public function userCartItemsCount()
+    public function checkIfExistsInCart($availableProductId) // in new edition, check if exists in cart
     {
-        return 2;
+        $userWeight = 0;
+        $mobile = session('mobile');
+        if ($mobile && strlen($mobile) == 11) {
+            $customer = Customer::where('mobile', 'like', $mobile)->first();
+            if ($customer) {
+                $cartItem = CustomerCartItem::where('customer_id', $customer->id)->where('available_product_id', $availableProductId)->first();
+                $userWeight = $cartItem ? $cartItem->weight : 0;
+            }
+        }
+
+        return $userWeight;
+    }
+
+    public function userCartItemsCount($customer=null)
+    {
+        if(session('mobile')) {
+            $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
+            return $customer ? CustomerCartItem::where('customer_id', $customer->id)->count() : 0;
+        } else {
+            return 0;
+        }
     }
 
     public function landing($reference=null)
@@ -63,6 +84,7 @@ class HomeController extends Controller
 
                     $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
                     $userWeight = $this->checkIfUserBought($availableProduct->id);
+                    $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
 
                     $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
                     $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
@@ -74,6 +96,7 @@ class HomeController extends Controller
                         'remaining' => $remaining,
                         'peopleBought' => $peopleBought,
                         'userWeight' => $userWeight,
+                        'userCartWeight' => $userCartWeight,
                         'nextDiscount' => $nextDiscount,
                         'lastDiscount' => $lastDiscount
                     ];
@@ -92,7 +115,7 @@ class HomeController extends Controller
     public function productDetailPage($productId)
     {
         $referenceId = "g6Z";
-        $cartItemsCount = $this->userCartItemsCount();;
+        $cartItemsCount = $this->userCartItemsCount();
         $product = Product::find($productId);
         $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
         if($availableProduct) {
@@ -101,11 +124,12 @@ class HomeController extends Controller
 
             $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
             $userWeight = $this->checkIfUserBought($availableProduct->id);
+            $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
 
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
 
-            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'nextDiscount', 'lastDiscount', 'referenceId', 'cartItemsCount'));
+            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'userCartWeight', 'nextDiscount', 'lastDiscount', 'referenceId', 'cartItemsCount'));
         } else {
             return view('customers.notActive');
         }

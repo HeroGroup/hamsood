@@ -45,7 +45,8 @@ Route::middleware('customer.auth')->group(function () {
     });
 
     Route::prefix('order')->group(function () {
-        Route::get('/orderProduct/{product}','CustomerController@getOrderProduct')->name('customers.orderProduct');
+        Route::get('/addToCart/{product}','CustomerController@addToCart')->name('customers.addToCart');
+        Route::get('/customerCart','CustomerController@getCustomerCart')->name('customers.customerCart');
         Route::get('/orderFirstStep/{weight}','CustomerController@orderFirstStep')->name('customers.orderFirstStep');
         Route::get('/selectAddress', 'AddressController@selectAddress')->name('customers.selectAddress');
         Route::get('/getTime/{customerName}','CustomerController@getTime')->name('customers.getTime');
