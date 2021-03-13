@@ -8,7 +8,7 @@
         </div>
         <div style="flex:1;color:#222;margin-top:50px;">
             <p>کد ورود به شماره</p>
-            <p>{{session('mobile')}} پیامک شد</p>
+            <p>{{ isset($mobile) ? $mobile : '-' }} پیامک شد</p>
             <p>کد را وارد کنید</p>
         </div>
     </div>
