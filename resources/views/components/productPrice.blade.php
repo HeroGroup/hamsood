@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<div class="pill-container" style="border:1px solid #64498E;border-radius:5px;">
+<div class="pill-container">
     <div style="flex:1;">
         <span class="pill" style="background-color:#64498E;color:white;">قیمت همسودی</span>
     </div>
