@@ -214,6 +214,7 @@ td {
 .input-container {
     display: -ms-flexbox; /* IE10 */
     display: flex;
+    align-items:center;
     /* width: 70%; */
     border: 1px solid #539BE4;
     border-radius:5px;
@@ -229,12 +230,13 @@ td {
 }
 
 .input-field {
-    /* width: 100%; */
+    width: 220px;
     padding: 0 10px;
     color:#222;
     border:none;
     text-align:center;
-    font-size:1em;
+    font-size:2em;
+    border-radius:5px;
 }
 
 .dashed-button-container {

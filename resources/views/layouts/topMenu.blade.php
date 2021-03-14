@@ -34,7 +34,7 @@
   <span id="toggleNavigation" onclick="openNav()">&#9776;</span>
   &nbsp;
   <a href="/" style="text-decoration:none;"><span class="logo-title">همسود</span></a>
-  <div style="cursor:pointer;float:left;position:relative;width:60px;text-align:center;">
+  <a href="{{route('customers.customerCart')}}" style="cursor:pointer;float:left;position:relative;width:60px;text-align:center;">
       @if(isset($cartItemsCount) && $cartItemsCount>0)
           <div style="background-color:#31AC6B;border-radius:50%;color:white;width:20px;text-align:center;position:absolute;top:0;right:0;">{{$cartItemsCount}}</div>
       @endif
