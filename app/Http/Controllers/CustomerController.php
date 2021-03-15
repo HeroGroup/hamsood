@@ -279,6 +279,27 @@ class CustomerController extends Controller
         }
     }
 
+    public function profile()
+    {
+        if(\request()->customer->id) {
+            $customer = Customer::find(\request()->customer->id);
+            return view('customers.profile', compact('customer'));
+        } else {
+            return abort(404);
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        if($request->customer->id) {
+            $customer = Customer::find($request->customer->id);
+            $customer->update($request->all());
+            return redirect(route('customers.profile'));
+        } else {
+            return abort(404);
+        }
+    }
+
     public function logout()
     {
         session(['mobile' => '']);

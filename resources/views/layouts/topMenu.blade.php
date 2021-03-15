@@ -39,6 +39,7 @@
           <div style="background-color:#31AC6B;border-radius:50%;color:white;width:20px;text-align:center;position:absolute;top:0;right:0;">{{$cartItemsCount}}</div>
       @endif
       <img src="/images/basket_icon.png" width="40" height="40" />
+  </a>
   </div>
 </div>
 

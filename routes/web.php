@@ -57,6 +57,8 @@ Route::middleware('customer.auth')->group(function () {
         Route::get('/finalizeOrder', 'CustomerController@finalizeOrder')->name('customers.finalizeOrder');
     });
 
+    Route::get('/customer/profile', 'CustomerController@profile')->name('customers.profile');
+    Route::post('/customer/updateProfile', 'CustomerController@updateProfile')->name('customers.updateProfile');
     Route::get('/customer/logout', 'CustomerController@logout')->name('customers.logout');
 });
 

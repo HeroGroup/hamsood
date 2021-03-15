@@ -48,7 +48,7 @@ class CustomerCartController extends Controller
                     'available_product_id' => $availableProduct->id,
                     'weight' => 1,
                     'real_price' => $availableProduct->price,
-                    'discount' => $nextDiscount
+                    'discount' => $availableProduct->price*($nextDiscount/100)
                 ]);
 
                 // session([

@@ -19,7 +19,7 @@
 </style>
     <div style="margin:70px 10px;color:#222;">
         @foreach($cartItems as $cartItem)
-        <div style="background-color:white;border-radius:10px;box-shadow: 0 0 5px #888888;">
+        <div style="background-color:white;border-radius:10px;box-shadow: 0 0 5px #888888;margin-bottom:15px;">
             <div style="display:flex;flex-direction:row;padding:10px;">
                 <div style="flex:1;">
                     <img src="{{$cartItem->availableProduct->product->image_url}}" style="width:100%;border:1px solid lightgray;border-radius:10px;padding:5px;" />
@@ -43,11 +43,17 @@
                     <h6 style="color:red;padding:8px 0;">سفارش حداقل ۱ کیلو و حداکثر ۴ کیلو</h4>
                 </div>
                 <div style="flex:2;">
-                    @component('components.productPrice', ['availableProduct' => $cartItem->availableProduct, 'nextDiscount' => $cartItem->discount])@endcomponent
+                    @component('components.productPrice', ['availableProduct' => $cartItem->availableProduct, 'nextDiscount' => $cartItem->discount/$cartItem->real_price*100])@endcomponent
                 </div>
             </div>
         </div>
         @endforeach
+        <div style="border:1px solid #00EFD1;border-radius:5px;text-align:center;">
+            <a href="{{route('landing')}}" style="text-decoration:none;color:#222;">
+                <img src="/images/new_product_icon.png" width="100" height="100" />
+                <h4>ادامه خرید</h4>
+            </a>
+        </div>
         <div style="position:fixed;bottom:0;left:0;width:100%;">
             <a class="btn submit-order-button" href="{{route('customers.orderFirstStep', ['weight' => 1])}}">
                 ثبت سفارش

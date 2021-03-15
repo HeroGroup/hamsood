@@ -34,11 +34,11 @@
         <div><img src="/images/orders_icon.png" width="35" height="35" /></div>
         <span>سفارش ها</span>
     </a>
-    <a href="#home">
+    <a href="{{route('landing')}}">
         <div><img src="/images/home_icon.png" width="35" height="35" /></div>
         <span>خانه</span>
     </a>
-    <a href="#profile">
+    <a href="{{route('customers.profile')}}">
         <div><img src="/images/profile_icon.png" width="26" height="26" style="margin:3px;" /></div>
         <span>پروفایل</span>
     </a>

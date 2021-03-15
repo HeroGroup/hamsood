@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = [ 'mobile' , 'name' , 'token' ];
+    protected $fillable = [
+        'mobile',
+        'name',
+        'token',
+        'gender',
+        'profile_image_url'
+    ];
 
     public function addresses()
     {
