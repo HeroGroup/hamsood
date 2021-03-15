@@ -12,8 +12,8 @@
                     </thead>
                     <tbody>
                     @foreach($addresses as $address)
-                        <tr @if($address->is_default) class="text-success" @endif>
-                            <td>{{$address->neighbourhood->name . ' ' . $address->details}}</td>
+                        <tr>
+                            <td @if($address->is_default) style="background-color:#99ff99;color:#222;" @endif>{{$address->neighbourhood->name . ' ' . $address->details}}</td>
                         </tr>
                     @endforeach
                     </tbody>
