@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <div style="display: flex;padding:10px;justify-content: center;align-items: center;">
+            <div style="display: flex;padding:10px;justify-content: center;align-items: flex-end;">
                 <div style="flex:1;text-align: center;">
                     @if($item['userCartWeight'] > 0)
                         <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:40px;border-radius:5px;" onclick="addWeight('{{$item['availableProduct']->id}}', 4)">+</button>

@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\AvailableProduct;
-use App\AvailableProductDetail;
 use App\Customer;
 use App\CustomerAddress;
-use App\CustomerCartItem;
 use App\DeliveryTimeFee;
 use App\Neighbourhood;
 use App\NeighbourhoodDeliveryTimeFee;
@@ -181,65 +178,6 @@ class CustomerController extends Controller
         return $userBought;
     }
 
-    public function getRemainingTime($day,$end)
-    {
-        $hour = $end - 1;
-        $jalali = explode('/', $day);
-        $date = strtotime(jalali_to_gregorian($jalali[0], $jalali[1], $jalali[2], '/') . " $hour:59:59");
-        return $date - time();
-    }
-
-    public function getCustomerCart()
-    {
-        $cartItems = CustomerCartItem::where('customer_id', \request()->customer->id)->get();
-        return view('customers.customerCart', compact('cartItems'));
-    }
-
-    public function itemExistInCart($product)
-    {
-        $availableProduct = AvailableProduct::where('product_id', $product)->where('is_active', 1)->first();
-        return CustomerCartItem::where('available_product_id',$availableProduct->id)->count();
-    }
-
-    public function addToCart($product)
-    {
-        if ($this->itemExistInCart($product) == 0) {
-            $availableProduct = AvailableProduct::where('product_id', $product)->where('is_active', 1)->first();
-            $remaining = $this->getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
-
-            if ($remaining > 0) {
-                $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
-                $peopleBought = $availableProduct->getOrdersCount();
-                // $lastDiscount = $peopleBought > 1 ? $details[$peopleBought-2]->discount : $details->min('discount');
-                $nextDiscount = $peopleBought > 1 ? $details[$peopleBought-1]->discount : $details->min('discount');
-
-                // add 1 weight to cart
-                CustomerCartItem::create([
-                    'customer_id' => \request()->customer->id,
-                    'available_product_id' => $availableProduct->id,
-                    'weight' => 1,
-                    'real_price' => $availableProduct->price,
-                    'discount' => $nextDiscount
-                ]);
-
-                // session([
-                //     'product' => $product,
-                //     'available_product_id' => $availableProduct->id,
-                //     'real_price' => $availableProduct->price,
-                //     'discount' => $nextDiscount
-                // ]);
-
-                // $product = Product::find($product);
-                // return view('customers.customerCart',compact('availableProduct', 'product', 'nextDiscount'));
-                return redirect(route('customers.customerCart'));
-            } else {
-                return redirect(route('landing'));
-            }
-        } else {
-            return redirect(route('customers.customerCart'));
-        }
-    }
-
     public function orderFirstStep($weight)
     {
         $realPrice = session('real_price');
@@ -325,7 +263,7 @@ class CustomerController extends Controller
         return view('customers.finalizeOrder', compact('prices'));
     }
 
-    public function finializeOrder()
+    public function finalizeOrder()
     {
         // dd(session()->all());
         // store customer name in customers

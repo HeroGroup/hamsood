@@ -160,7 +160,7 @@
                 <span style="margin:0 15px;font-size:20px;">1</span>
                 <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:35px;border-radius:5px;">-</button>
             @else
-                  <button id="hamsood-btn" class="hamsood-btn" onclick="buy()">اضافه به سبد خرید</button>
+                  <button id="hamsood-btn" class="hamsood-btn" onclick="buy('{{$product->id}}')">اضافه به سبد خرید</button>
             @endif
             </div>
     </div>
@@ -202,8 +202,8 @@
         }
     });
 
-    function buy() {
-        window.location = "{{route('customers.addToCart', ['product' => $product->id])}}";
+    function buy(product) {
+        window.location.href = `/order/addToCart/${product}`;
     }
 
     function requestSMS() {

@@ -44,7 +44,7 @@ function countdown(distance) {
     }
 }
 
-function addWeight(product, maximum) {
+function addWeight(product, maximum, withUpdate=true) {
     var target = $(`#weight-${product}`);
     var weight = parseInt(target.text());
     if (weight === maximum) {
@@ -56,24 +56,40 @@ function addWeight(product, maximum) {
             targetButton.html("");
             targetButton.text('-');
         }
+        if(withUpdate)
+            $.ajax(`/order/increaseCartItem/${product}`, {
+                type: "get",
+                success: function (response) {
+                    if (response.status < 0)
+                        subtractWeight(product, false);
+                }
+            });
     }
 }
 
-function subtractWeight(product) {
+function subtractWeight(product, withUpdate=true) {
     var target = $(`#weight-${product}`);
     var weight = parseInt(target.text());
-    if (weight === 1) {
-        // delete item from cart
+    target.text(weight-1);
+    var targetButton = $(`#subtract-${product}`);
+    if (weight === 2) {
+        // change icon to trash
+        targetButton.html('<i class="fa fa-fw fa-trash-o"></i>');
     } else {
-        target.text(weight-1);
-        var targetButton = $(`#subtract-${product}`);
-        if (weight === 2) {
-            // change icon to trash
-            targetButton.html('<i class="fa fa-fw fa-trash-o"></i>');
-        } else {
-            // change text to -
-            targetButton.html("");
-            targetButton.text('-');
-        }
+        // change text to -
+        targetButton.html("");
+        targetButton.text('-');
     }
+    if(withUpdate)
+        $.ajax(`/order/decreaseCartItem/${product}`, {
+            type: "get",
+            success: function (response) {
+                if (response.status < 0) {
+                    addWeight(product, 4, false);
+                } else {
+                    if (response.data === 0)
+                        window.location.href = "customerCart";
+                }
+            }
+        });
 }

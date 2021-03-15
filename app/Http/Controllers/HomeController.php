@@ -135,7 +135,7 @@ class HomeController extends Controller
         }
     }
 
-    public function getRemainingTime($day,$end)
+    public static function getRemainingTime($day,$end)
     {
         // $iranStandardTime = 12600;
         $hour = $end - 1;

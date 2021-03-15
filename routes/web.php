@@ -45,14 +45,16 @@ Route::middleware('customer.auth')->group(function () {
     });
 
     Route::prefix('order')->group(function () {
-        Route::get('/addToCart/{product}','CustomerController@addToCart')->name('customers.addToCart');
-        Route::get('/customerCart','CustomerController@getCustomerCart')->name('customers.customerCart');
+        Route::get('/addToCart/{product}','CustomerCartController@addToCart')->name('customers.addToCart');
+        Route::get('/increaseCartItem/{product}','CustomerCartController@increaseCartItem')->name('customers.increaseCartItem');
+        Route::get('/decreaseCartItem/{product}','CustomerCartController@decreaseCartItem')->name('customers.decreaseCartItem');
+        Route::get('/customerCart','CustomerCartController@getCustomerCart')->name('customers.customerCart');
         Route::get('/orderFirstStep/{weight}','CustomerController@orderFirstStep')->name('customers.orderFirstStep');
         Route::get('/selectAddress', 'AddressController@selectAddress')->name('customers.selectAddress');
         Route::get('/getTime/{customerName}','CustomerController@getTime')->name('customers.getTime');
         Route::post('/payment', 'CustomerController@selectTime')->name('customers.selectTime');
         Route::post('/selectPaymentMethod', 'CustomerController@selectPaymentMethod')->name('customers.selectPaymentMethod');
-        Route::get('/finializeOrder', 'CustomerController@finializeOrder')->name('customers.finializeOrder');
+        Route::get('/finalizeOrder', 'CustomerController@finalizeOrder')->name('customers.finalizeOrder');
     });
 
     Route::get('/customer/logout', 'CustomerController@logout')->name('customers.logout');
