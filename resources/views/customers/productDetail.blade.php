@@ -136,31 +136,15 @@
                 </div>
             </div>
         </div>
-
-
-            <!--<button id="styling-button" style="visibility:hidden;">منم همسود می شوم</button>-->
             <div class="hamsood-button-container">
-              @if($userWeight > 0)
-                <!--<div style="display: flex;flex-direction: row;border-radius: 3px;background-color:#E9D5BA;">
-                    <div style="flex:1;background-color:#FF6F00;text-align:center;padding:10px 0;">ارسال دعوت نامه</div>
-                    <div style="flex:2;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-                        <div style="flex:1;text-align: center;" class="share">
-                            <a href="#"><img src="/images/instagram.png" width="25" height="25" /></a>
-                        </div>
-                        <div style="flex:1;text-align: center;" class="share">
-                            <a href="#"><img src="/images/telegram.png" width="25" height="25" /></a>
-                        </div>
-                        <div style="flex:1;text-align: center;" class="share">
-                            <a href="#"><img src="/images/text-lines.png" width="25" height="25" /></a>
-                        </div>
-                    </div>
-                </div>-->
-                <!--<button style="background-color:white;color:#64498E;width:100%;border:none;border-top:2px solid #64498E;padding: 15px 10px;font-size:18px;font-weight:bold;">ارسال دعوت نامه</button>-->
+            @if($userCartWeight > 0)
                 <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:35px;border-radius:5px;">+</button>
                 <span style="margin:0 15px;font-size:20px;">1</span>
                 <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:35px;border-radius:5px;">-</button>
+            @elseif($userWeight > 0)
+                <button class="btn" style="background-color:#64498E;width:100%;color:white">جزيیات سفارش</button>
             @else
-                  <button id="hamsood-btn" class="hamsood-btn" onclick="buy('{{$product->id}}')">اضافه به سبد خرید</button>
+                <button id="hamsood-btn" class="hamsood-btn" onclick="buy('{{$product->id}}')">اضافه به سبد خرید</button>
             @endif
             </div>
     </div>

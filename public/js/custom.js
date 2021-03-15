@@ -88,7 +88,7 @@ function subtractWeight(product, withUpdate=true) {
                     addWeight(product, 4, false);
                 } else {
                     if (response.data === 0)
-                        window.location.href = "customerCart";
+                        location.reload();
                 }
             }
         });
