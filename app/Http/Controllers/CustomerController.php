@@ -26,6 +26,12 @@ class CustomerController extends Controller
         return view('admin.customers.index', compact('customers'));
     }
 
+    public function customerAddresses($customerId)
+    {
+        $addresses = CustomerAddress::where('customer_id', $customerId)->get();
+        return view('admin.customers.addresses', compact('addresses'));
+    }
+
     public static function checkLastLogin($lastLogin)
     {
         $seconds = 120;

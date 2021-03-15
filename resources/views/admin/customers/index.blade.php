@@ -76,6 +76,7 @@
                         <th>نام</th>
                         <th>شماره موبایل</th>
                         <th>تاریخ عضویت</th>
+                        <th>لیست آدرس ها</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -84,6 +85,7 @@
                             <td>{{$customer->name}}</td>
                             <td>{{$customer->mobile}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime($customer->created_at))}}</td>
+                            <td><a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a></td>
                         </tr>
                     @endforeach
                     </tbody>

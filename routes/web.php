@@ -77,6 +77,7 @@ Route::prefix('admin')->group(function () {
         Route::get('orders/{order}/delivered', 'OrderController@delivered')->name('orders.delivered');
 
         Route::get('/customers', 'CustomerController@index')->name("customers.index");
+        Route::get('/customers/{customer}/addresses', 'CustomerController@customerAddresses')->name("admin.customers.addresses");
         Route::get('/neighbourhoods', 'AddressController@neighbourhoodsList')->name("neighbourhoods.index");
         Route::get('/toggleActivateNeighbourhood/{id}', 'AddressController@toggleActivateNeighbourhood')->name("neighbourhoods.toggleActivateNeighbourhood");
 
