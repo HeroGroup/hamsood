@@ -5,7 +5,7 @@
       <p style="color:#222;padding: 10px 0;">{{session('mobile')}}</p>
       <div style="padding:0 20px; text-align:right; margin-bottom:100px;">
         <hr style="color:darkgray" />
-        <a href="{{route('customers.orders')}}" style="padding:0 20px;text-decoration: none;">
+        <a href="{{route('customers.orders.current')}}" style="padding:0 20px;text-decoration: none;">
           <img src="/images/orders.png" width="30" height="30" />
           <span>سفارشات</span>
         </a>

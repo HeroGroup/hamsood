@@ -30,7 +30,7 @@
     }
 </style>
 <div class="bottom-menu">
-    <a href="{{route('customers.orders')}}">
+    <a href="{{route('customers.orders.current')}}">
         <div><img src="/images/orders_icon.png" width="35" height="35" /></div>
         <span>سفارش ها</span>
     </a>

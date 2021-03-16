@@ -13,7 +13,7 @@
     @csrf
     <div style="margin: 70px 15px;">
         <div style="text-align:center;">
-            <img style="border-radius:50px;" @if($customer->gender=="male") src="/images/avatars/male3.png" @elseif($customer->gender=="female") src="/images/avatars/female2.png" @else src="/images/user_default_image.png" @endif name="profile_image" width="100" height="100" />
+            <img name="profile_image" width="100" height="100" style="border-radius:50px;" @if($customer->gender=="male") src="/images/avatars/male3.png" @elseif($customer->gender=="female") src="/images/avatars/female2.png" @else src="/images/user_default_image.png" @endif />
         </div>
         <div style="margin-top:15px;">
             <input type="text" name="name" id="name" value="{{$customer->name}}" placeholder="نام و نام خانوادگی" class="name-input" />

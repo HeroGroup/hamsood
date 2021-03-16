@@ -34,8 +34,15 @@
                             <a href="{{ route('orders.delivered', $order) }}" class="btn btn-xs btn-success" data-toggle="tooltip" title="تغییر وضعیت به ارسال شده">
                                 تغییر وضعیت به ارسال شده
                             </a>
-                        @else <!--   ارسال شده -->
+                            <a href="{{ route('orders.failed', $order) }}" class="btn btn-xs btn-danger" data-toggle="tooltip" title="لغو سفارش">
+                                لغو سفارش
+                            </a>
+                        @elseif($order->status == 2) <!--   ارسال شده -->
                             <div class="label label-info">ارسال شده</div>
+                        @elseif($order->status == 3) <!--   لفو شده به دلیل حد نصاب -->
+                            <div class="label label-danger">لفو شده به دلیل حد نصاب</div>
+                        @elseif($order->status == 4) <!--   لغو شده توسط کاربر -->
+                            <div class="label label-danger">لغو شده توسط کاربر</div>
                         @endif
                     </td>
                 </tr>

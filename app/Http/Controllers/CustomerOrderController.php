@@ -16,6 +16,44 @@ class CustomerOrderController extends Controller
             return view('customers.orders.index');
     }
 
+    public function currentOrders()
+    {
+        // status = 1
+        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 1)->get();
+        $selected = "current";
+        if ($orders->count() > 0) {
+            $day = $orders->first()->items->first()->availableProduct->until_day;
+            $end = $orders->first()->items->first()->availableProduct->available_until_datetime;
+            $remaining = HomeController::getRemainingTime($day, $end);
+        } else {
+            $remaining = 0;
+        }
+        return view('customers.orders.index', compact('orders', 'selected', 'remaining'));
+    }
+
+    public function successOrders()
+    {
+        // status = 2
+        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 2)->get();
+        $selected = "success";
+        return view('customers.orders.index', compact('orders', 'selected'));
+    }
+
+    public function failedOrders()
+    {
+        // status = 3 and 4
+        $orders = Order::where('customer_id', \request()->customer->id)->whereIn('status', [3,4])->get();
+        $selected = "failed";
+        return view('customers.orders.index', compact('orders', 'selected'));
+    }
+
+    public function cancelOrder($orderId)
+    {
+        $order = Order::find($orderId);
+        $order->update(['status' => 4]);
+        return redirect(route('customers.orders.failed'));
+    }
+
     public function orderProducts($orderId)
     {
         /*if (\request()->customer) {

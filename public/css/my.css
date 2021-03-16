@@ -307,3 +307,52 @@ td {
     color:white;
     cursor:pointer;
 }
+
+.main-container {
+    margin: 80px 10px;
+    border:1px solid lightgray;
+    border-radius:5px;
+    color:#222;
+}
+.page-heading {
+    background-color:#eee;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
+    color:#222;
+}
+.tab-container {
+    background-color:#eee;
+    border-radius:5px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:20px 10px;
+}
+.tab-item {
+    flex:1;
+    text-align:center;
+    color:#222;
+    border:none;
+    padding:5px 0;
+}
+.tab-item:active {
+    text-decoration: none;
+    color:#222;
+}
+.tab-item:hover {
+    text-decoration:none;
+    color:#333;
+}
+.selected {
+    border:1px solid green;
+    border-radius:5px;
+    background-color:white;
+}
+.border-color-yellow {
+    border-color:#FFCC00;
+}
+.border-color-red {
+    border-color:red;
+}

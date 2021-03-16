@@ -29,9 +29,13 @@ Route::middleware('customer.auth')->group(function () {
 
     Route::prefix('orders')->group(function () {
         Route::get('/list', 'CustomerOrderController@index')->name('customers.orders');
+        Route::get('/current', 'CustomerOrderController@currentOrders')->name('customers.orders.current');
+        Route::get('/success', 'CustomerOrderController@successOrders')->name('customers.orders.success');
+        Route::get('/failed', 'CustomerOrderController@failedOrders')->name('customers.orders.failed');
         Route::get('/{order}/products', 'CustomerOrderController@orderProducts')->name('customers.orders.products');
         Route::get('/{order}/address', 'CustomerOrderController@orderAddress')->name('customers.orders.address');
         Route::get('/{order}/bill', 'CustomerOrderController@orderBill')->name('customers.orders.bill');
+        Route::get('/{order}/cancel', 'CustomerOrderController@cancelOrder')->name('customers.orders.cancelOrder');
     });
 
     Route::prefix('addresses')->group(function () {
@@ -79,6 +83,7 @@ Route::prefix('admin')->group(function () {
         Route::get('orders', 'OrderController@index', ['except' => ['index','show']]);
         Route::get('orders/{availableProduct?}', 'OrderController@index')->name('orders.index');
         Route::get('orders/{order}/delivered', 'OrderController@delivered')->name('orders.delivered');
+        Route::get('orders/{order}/failed', 'OrderController@failed')->name('orders.failed');
 
         Route::get('/customers', 'CustomerController@index')->name("customers.index");
         Route::get('/customers/{customer}/addresses', 'CustomerController@customerAddresses')->name("admin.customers.addresses");
