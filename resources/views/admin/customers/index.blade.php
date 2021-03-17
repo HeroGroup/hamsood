@@ -75,8 +75,9 @@
                     <tr>
                         <th>نام</th>
                         <th>شماره موبایل</th>
+                        <th>جنسیت</th>
                         <th>تاریخ عضویت</th>
-                        <th>لیست آدرس ها</th>
+                        <th>عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -84,8 +85,12 @@
                         <tr>
                             <td>{{$customer->name}}</td>
                             <td>{{$customer->mobile}}</td>
+                            <td>{{$customer->gender ? config("enums.gender.$customer->gender") : ""}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime($customer->created_at))}}</td>
-                            <td><a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a></td>
+                            <td>
+                                <a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a>
+                                <a href="{{route('orders.index', ['availableProduct' => 0, 'customer' => $customer->id])}}" class="btn btn-xs btn-warning">لیست سفارش ها</a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

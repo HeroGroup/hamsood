@@ -1,8 +1,9 @@
 @if($orders->count() > 0)
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table id="table-data" class="table table-bordered data-table">
             <thead>
             <tr>
+                <th>شناسه</th>
                 <th>مشتری</th>
                 <th>پرداختی مشتری</th>
                 <th>تخفیف</th>
@@ -19,6 +20,7 @@
             <tbody>
             @foreach($orders as $order)
                 <tr>
+                    <td>{{$order->id}}</td>
                     <td>{{$order->customer_name}} {{$order->customer->mobile}}</td>
                     <td>{{number_format($order->total_price)}} تومان</td>
                     <td>{{number_format($order->discount)}} تومان</td>

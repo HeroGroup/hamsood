@@ -1,7 +1,7 @@
-@extends('layouts.admin', ['pageTitle' => 'ایجاد کاربر', 'newButton' => false])
+@extends('layouts.admin', ['pageTitle' => 'ایجاد مدیر', 'newButton' => false])
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">مشخصات کاربر</div>
+        <div class="panel-heading">مشخصات مدیر</div>
         <div class="panel-body">
             {{ Form::open(array('url' => route('users.store'), 'method' => 'POST')) }}
             @csrf

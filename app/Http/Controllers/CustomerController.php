@@ -291,7 +291,7 @@ class CustomerController extends Controller
 
     public function updateProfile(Request $request)
     {
-        if($request->customer->id) {
+        if ($request->customer->id) {
             $customer = Customer::find($request->customer->id);
             $customer->update($request->all());
             return redirect(route('customers.profile'));

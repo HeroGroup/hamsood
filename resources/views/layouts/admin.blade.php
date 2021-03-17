@@ -109,7 +109,45 @@
             });
 
             $('.current').css({"color":"black !important"});
-        })
+        });
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function createPDF(table) {
+            var sTable = document.getElementById(table).innerHTML;
+
+            var style = "<style>";
+            style = style + "table {width: 100%;}";
+            style = style + "table, th, td {border: solid 1px #DDD;border-collapse:collapse;padding:2px 3px;text-align:center;direction:rtl;}";
+            style = style + "</style>";
+
+            // CREATE A WINDOW OBJECT.
+            var win = window.open('', '', 'height=700,width=1100');
+
+            win.document.write('<html><head>');
+            win.document.write('<title>گزارش</title>');   // <title> FOR PDF HEADER.
+            win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+            win.document.write('</head>');
+            win.document.write('<body><table>');
+            win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+            win.document.write('</table></body></html>');
+
+            win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+            win.print();    // PRINT THE CONTENTS.
+        }
     </script>
 </body>
 </html>

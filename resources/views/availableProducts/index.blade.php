@@ -8,24 +8,18 @@
     <div class="panel panel-default">
         <div class="panel-heading">گروه های محصولات</div>
         <div class="panel-body">
-            <ul class="nav nav-pills">
-                <li class="active">
-                    <a href="#active-pills" data-toggle="tab">فعال</a>
-                </li>
-                <li>
-                    <a href="#inactive-pills" data-toggle="tab">غیرفعال</a>
-                </li>
-            </ul>
+            <div class="tab">
+                <button class="tablinks active" onclick="openTab(event, 'active-pills')">فعال</button>
+                <button class="tablinks" onclick="openTab(event, 'inactive-pills')">غیرفعال</button>
+            </div>
 
-            <hr style="border-color:black;">
+            <hr style="border-color:#666;" />
 
-            <div class="tab-content">
-                <div class="tab-pane fade in active show" id="active-pills">
-                    @component('availableProducts.productsTable', ['products' => $active])@endcomponent
-                </div>
-                <div class="tab-pane fade in" id="inactive-pills">
-                    @component('availableProducts.productsTable', ['products' => $inactive])@endcomponent
-                </div>
+            <div id="active-pills" class="tabcontent" style="display: block;">
+                @component('availableProducts.productsTable', ['products' => $active])@endcomponent
+            </div>
+            <div id="inactive-pills" class="tabcontent">
+                @component('availableProducts.productsTable', ['products' => $inactive])@endcomponent
             </div>
 
         </div>

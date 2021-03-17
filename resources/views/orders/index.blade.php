@@ -1,45 +1,32 @@
-@extends('layouts.admin', ['pageTitle' => 'سفارشات ' . (isset($availableProduct) ? "گروه #$availableProduct ($productName)" : ''), 'newButton' => false])
+@extends('layouts.admin', ['pageTitle' => $title, 'newButton' => false])
 @section('content')
-    <style>
-        .nav > li > a {
-            /*padding:5px 25px;*/
-        }
-    </style>
     <div class="panel panel-default">
-        <div class="panel-heading">سفارشات</div>
+        <div class="panel-heading">
+            سفارشات
+            <button class="btn btn-xs btn-success" style="float: left;" onclick="createPDF('table-data')"><i class="fa fa-fw fa-file-pdf-o" style="color:red;"></i> خروجی PDF</button>
+        </div>
         <div class="panel-body">
-            <ul class="nav nav-pills">
-                <li class="active">
-                    <a href="#active-pills" data-toggle="tab">ثبت شده</a>
-                </li>
-                <li>
-                    <a href="#sent-pills" data-toggle="tab">ارسال شده</a>
-                </li>
-                <li>
-                    <a href="#canceled-pills" data-toggle="tab">لغو توسط کاربر</a>
-                </li>
-                <li>
-                    <a href="#failed-pills" data-toggle="tab">لغو به دلیل نرسیدن به حد نصاب</a>
-                </li>
-            </ul>
-
-            <hr style="border-color:black;">
-
-            <div class="tab-content">
-                <div class="tab-pane fade in active show" id="active-pills">
-                    @component('orders.ordersTable', ['orders' => $active])@endcomponent
-                </div>
-                <div class="tab-pane fade in" id="sent-pills">
-                    @component('orders.ordersTable', ['orders' => $sent])@endcomponent
-                </div>
-                <div class="tab-pane fade in" id="canceled-pills">
-                    @component('orders.ordersTable', ['orders' => $canceled])@endcomponent
-                </div>
-                <div class="tab-pane fade in" id="failed-pills">
-                    @component('orders.ordersTable', ['orders' => $failed])@endcomponent
-                </div>
+            <div class="tab">
+                <button class="tablinks active" onclick="openTab(event, 'active-pills')">ثبت شده</button>
+                <button class="tablinks" onclick="openTab(event, 'sent-pills')">ارسال شده</button>
+                <button class="tablinks" onclick="openTab(event, 'canceled-pills')">لغو توسط کاربر</button>
+                <button class="tablinks" onclick="openTab(event, 'failed-pills')">لغو به دلیل نرسیدن به حد نصاب</button>
             </div>
 
+            <hr style="border-color:#666;" />
+
+            <div id="active-pills" class="tabcontent" style="display: block;">
+                @component('orders.ordersTable', ['orders' => $active])@endcomponent
+            </div>
+            <div id="sent-pills" class="tabcontent">
+                @component('orders.ordersTable', ['orders' => $sent])@endcomponent
+            </div>
+            <div id="canceled-pills" class="tabcontent">
+                @component('orders.ordersTable', ['orders' => $canceled])@endcomponent
+            </div>
+            <div id="failed-pills" class="tabcontent">
+                @component('orders.ordersTable', ['orders' => $failed])@endcomponent
+            </div>
         </div>
     </div>
 @endsection

@@ -23,14 +23,12 @@
                 <label for="gender">جنسیت</label>
             </div>
             <div style="display:flex;">
-                <div style="flex:1;">
-                    <input type="radio" id="male" name="gender" value="male" @if($customer->gender=="male") checked @endif>
-                    <label for="male">آقا</label>
-                </div>
-                <div style="flex:1;">
-                    <input type="radio" id="female" name="gender" value="female" @if($customer->gender=="female") checked @endif>
-                    <label for="female">خانم</label>
-                </div>
+                @foreach(config('enums.gender') as $key=>$gender)
+                    <div style="flex:1;">
+                        <input type="radio" id="{{$key}}" name="gender" value="{{$key}}" @if($customer->gender==$key) checked @endif>
+                        <label for="male">{{$gender}}</label>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
-@extends('layouts.admin', ['pageTitle' => 'ویرایش مشخصات کاربر', 'newButton' => false])
+@extends('layouts.admin', ['pageTitle' => 'ویرایش مشخصات مدیر', 'newButton' => false])
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">ویرایش مشخصات کاربر</div>
+        <div class="panel-heading">ویرایش مشخصات مدیر</div>
         <div class="panel-body">
             {!! Form::model($user, array('route' => array('users.update', $user), 'method' => 'PUT')) !!}
             @csrf

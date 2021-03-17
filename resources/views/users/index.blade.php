@@ -1,7 +1,7 @@
-@extends('layouts.admin', ['pageTitle' => 'کاربران', 'newButton' => true, 'newButtonUrl' => 'users/create', 'newButtonText' => 'ایجاد کاربر'])
+@extends('layouts.admin', ['pageTitle' => 'مدیران', 'newButton' => true, 'newButtonUrl' => 'users/create', 'newButtonText' => 'ایجاد مدیر'])
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">کاربران</div>
+        <div class="panel-heading">مدیران</div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered data-table">
