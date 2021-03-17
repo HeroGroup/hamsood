@@ -90,6 +90,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/neighbourhoods', 'AddressController@neighbourhoodsList')->name("neighbourhoods.index");
         Route::get('/toggleActivateNeighbourhood/{id}', 'AddressController@toggleActivateNeighbourhood')->name("neighbourhoods.toggleActivateNeighbourhood");
 
+        Route::get('/carts', 'CartController@index')->name('carts.index');
+
         Route::resource('/deliveries', 'DeliveryController')->except(['show', 'edit']);
 
         Route::resource('/neighbourhoodDeliveries', 'NeighbourhoodDeliveryController')->except(['index', 'create', 'show', 'edit']);

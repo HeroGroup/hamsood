@@ -1,5 +1,5 @@
 @if($orders->count() > 0)
-    <div class="table-responsive">
+    <div class="container-fluid table-responsive">
         <table id="table-data" class="table table-bordered data-table">
             <thead>
             <tr>

@@ -18,4 +18,15 @@ class Customer extends Model
     {
         return $this->hasMany(CustomerAddress::class);
     }
+
+    public function getCartList()
+    {
+        $details = "";
+        $items = CustomerCartItem::where('customer_id', $this->id)->get();
+        for ($i=0;$i<count($items);$i++) {
+            $details .= $items[$i]->availableProduct->product->name . ($items[$i]->weight > 0 ? ' ' . $items[$i]->weight . ' کیلو' : '');
+            if ($i != count($items)-1) $details .= ', ';
+        }
+        return $details;
+    }
 }

@@ -3,7 +3,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">مدیران</div>
         <div class="panel-body">
-            <div class="table-responsive">
+            <div class="container-fluid table-responsive">
                 <table class="table table-bordered data-table">
                     <thead>
                     <tr>

@@ -1,5 +1,5 @@
 @if($products->count() > 0)
-<div class="table-responsive">
+<div class="container-fluid table-responsive">
     <table class="table table-bordered">
         <thead>
         <tr>
