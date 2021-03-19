@@ -35,9 +35,9 @@
             </div>
             <div style="display:flex;flex-direction:row;padding:10px;vertical-align:center;">
                 <div style="flex:1;text-align:center;">
-                    <button style="padding:0;border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;width:35px;border-radius:5px;font-size:20px;font-weight:bold;" onclick="addWeight('{{$cartItem->availableProduct->id}}', 4)">+</button>
+                    <button  class="add-subtract-button" onclick="addWeight('{{$cartItem->availableProduct->id}}', 4)">+</button>
                     <span id="weight-{{$cartItem->availableProduct->id}}" style="margin:0 5px;font-size:20px;">{{$cartItem->weight}}</span>
-                    <button id="subtract-{{$cartItem->availableProduct->id}}" style="padding:0;border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;width:35px;border-radius:5px;font-size:20px;font-weight:bold;" onclick="subtractWeight('{{$cartItem->availableProduct->id}}')">
+                    <button id="subtract-{{$cartItem->availableProduct->id}}" class="add-subtract-button" onclick="subtractWeight('{{$cartItem->availableProduct->id}}')">
                         @if($cartItem->weight > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
                     </button>
                     <h6 style="color:red;padding:8px 0;">سفارش حداقل ۱ کیلو و حداکثر ۴ کیلو</h4>
@@ -54,11 +54,13 @@
                 <h4>ادامه خرید</h4>
             </a>
         </div>
+        @if($cartItems->count()>0)
         <div style="position:fixed;bottom:0;left:0;width:100%;">
-            <a class="btn submit-order-button" href="{{route('customers.orderFirstStep', ['weight' => 1])}}">
+            <a class="btn submit-order-button" href="{{route('customers.selectAddress')}}">
                 ثبت سفارش
             </a>
         </div>
+        @endif
     </div>
 
     <script src="/js/custom.js" type="text/javascript"></script>

@@ -1,4 +1,4 @@
-<div class="top-navigation" style="display:flex;justify-content:space-between;align-items:center;">
+<div class="top-navigation" style="display:flex;justify-content:space-between;align-items:center;background-color:white;z-index:4;">
     <a href="/">
         <img src="/images/home_icon.png" width="45" height="45" />
     </a>

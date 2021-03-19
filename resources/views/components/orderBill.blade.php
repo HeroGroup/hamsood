@@ -28,7 +28,7 @@
 </style>
 <div class="main-div">
     <div class="row-item">
-        <p class="txt fs-16">قیمت کالا</p>
+        <p class="txt fs-16">مجموع قیمت کالاها</p>
         <div class="price">
             <p class="fs-16"><del>{{number_format($realPrice)}} تومان</del></p>
             <p class="fs-16"><b>{{number_format($yourPrice)}} تومان</b></p>

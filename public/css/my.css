@@ -387,3 +387,14 @@ td {
     /*border: 1px solid #ccc;*/
     border-top: none;
 }
+
+.add-subtract-button {
+    border:none;
+    background-color:white;
+    box-shadow:0 0 3px #888888;
+    color:#222;
+    font-size:20px;
+    font-weight:bold;
+    width:40px;
+    border-radius:5px;
+}

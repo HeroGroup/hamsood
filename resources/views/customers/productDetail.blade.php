@@ -138,11 +138,13 @@
         </div>
         <div class="hamsood-button-container">
         @if($userCartWeight > 0)
-            <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:35px;border-radius:5px;">+</button>
-            <span style="margin:0 15px;font-size:20px;">1</span>
-            <button style="border:none;background-color:white;box-shadow:0 0 3px #888888;color:#222;font-size:20px;font-weight:bold;width:35px;border-radius:5px;">-</button>
+            <button class="add-subtract-button" onclick="addWeight('{{$availableProduct->id}}', 4)">+</button>
+            <span id="weight-{{$availableProduct->id}}"  style="margin:0 15px;font-size:20px;">{{$userCartWeight}}</span>
+            <button class="add-subtract-button" onclick="subtractWeight('{{$availableProduct->id}}')">
+                @if($userCartWeight > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
+            </button>
         @elseif($userWeight > 0)
-            <button class="btn" style="background-color:#64498E;width:100%;color:white">جزيیات سفارش</button>
+            <a class="btn" href="{{route('customers.orders.products', $orderId)}}" style="border-color:#64498E;width:100%;color:#64498E;">جزيیات سفارش</a>
         @else
             <button id="hamsood-btn" class="hamsood-btn" onclick="buy('{{$product->id}}')">اضافه به سبد خرید</button>
         @endif

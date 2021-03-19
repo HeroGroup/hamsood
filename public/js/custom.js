@@ -1,8 +1,10 @@
 function disableButton() {
-    document.getElementById("days").innerHTML = "00";
-    document.getElementById("hours").innerHTML = "00";
-    document.getElementById("minutes").innerHTML = "00";
-    document.getElementById("seconds").innerHTML = "00";
+    if(document.getElementById("days")) {
+        document.getElementById("days").innerHTML = "00";
+        document.getElementById("hours").innerHTML = "00";
+        document.getElementById("minutes").innerHTML = "00";
+        document.getElementById("seconds").innerHTML = "00";
+    }
     var hamsodButtons = document.getElementsByClassName("hamsood-btn");
     for(var i=0;i<hamsodButtons.length;i++) {
         hamsodButtons[i].innerHTML = "زمان سفارش گیری به اتمام رسید";
@@ -10,6 +12,13 @@ function disableButton() {
         hamsodButtons[i].style.backgroundColor = "lightgray";
         hamsodButtons[i].style.cursor = "not-allowed";
         hamsodButtons[i].style.fontSize = "10px";
+    }
+    var cartControlButtons = document.getElementsByClassName("add-subtract-button");
+    for(var j=0;j<cartControlButtons.length;j++) {
+        cartControlButtons[j].disabled = true;
+        cartControlButtons[j].style.color = "gray";
+        cartControlButtons[j].style.backgroundColor = "lightgray";
+        cartControlButtons[j].style.cursor = "not-allowed";
     }
 }
 

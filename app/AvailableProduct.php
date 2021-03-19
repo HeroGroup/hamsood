@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class AvailableProduct extends Model
 {
@@ -39,7 +40,11 @@ class AvailableProduct extends Model
 
     public function getOrdersCount()
     {
-        return OrderItem::where('available_product_id', $this->id)->count();
+        return DB::table('order_items')
+            ->join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->where('order_items.available_product_id', $this->id)
+            ->whereIn('orders.status',[1,2])
+            ->count();
     }
 
     public function getSentOrdersCount()

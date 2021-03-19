@@ -24,23 +24,26 @@ class HomeController extends Controller
     public function checkIfUserBought($availableProductId) // in new edition, check if exists in cart
     {
         $userBought = 0;
+        $orderId = 0;
         $mobile = session('mobile');
         if ($mobile && strlen($mobile) == 11) {
             $customer = Customer::where('mobile', 'like', $mobile)->first();
             if ($customer) {
-                $orderMaxId = Order::where('customer_id', $customer->id)/*->where('status', 1)*/->max('id');
+                $orderMaxId = Order::where('customer_id', $customer->id)->whereIn('status', [1,2])->max('id');
                 if($orderMaxId) {
                   $order = Order::find($orderMaxId);
                   if ($order) {
-                      $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->sum('weight');
-                      if ($items > 0)
-                          $userBought = $items;
+                      $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->get();
+                      if ($items->count() > 0) {
+                          $userBought = $items->sum('weight');
+                          $orderId = $items->first()->order_id;
+                      }
                   }
                 }
             }
         }
 
-        return $userBought;
+        return [$userBought,$orderId];
     }
 
     public function checkIfExistsInCart($availableProductId) // in new edition, check if exists in cart
@@ -83,7 +86,9 @@ class HomeController extends Controller
                     $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
 
                     $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
-                    $userWeight = $this->checkIfUserBought($availableProduct->id);
+                    $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
+                    $userWeight = $userBoughtResult[0];
+                    $orderId = $userBoughtResult[1];
                     $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
 
                     $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
@@ -96,6 +101,7 @@ class HomeController extends Controller
                         'remaining' => $remaining,
                         'peopleBought' => $peopleBought,
                         'userWeight' => $userWeight,
+                        'orderId' => $orderId,
                         'userCartWeight' => $userCartWeight,
                         'nextDiscount' => $nextDiscount,
                         'lastDiscount' => $lastDiscount
@@ -123,13 +129,15 @@ class HomeController extends Controller
             $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
 
             $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
-            $userWeight = $this->checkIfUserBought($availableProduct->id);
+            $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
+            $userWeight = $userBoughtResult[0];
+            $orderId = $userBoughtResult[1];
             $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
 
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
 
-            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'userCartWeight', 'nextDiscount', 'lastDiscount', 'referenceId', 'cartItemsCount'));
+            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'orderId', 'userCartWeight', 'nextDiscount', 'lastDiscount', 'referenceId', 'cartItemsCount'));
         } else {
             return view('customers.notActive');
         }

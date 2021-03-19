@@ -15,7 +15,7 @@
             </div>
         @endif
     @foreach($orders as $order)
-        <div style="border:1px solid lightgray;border-radius:5px;color:#222;overflow:hidden;text-align: center;">
+        <div style="border:1px solid lightgray;border-radius:5px;color:#222;overflow:hidden;text-align: center;margin:10px 0;">
             <div class="page-heading">
                 <span>شماره سفارش: {{$order->id}}</span>
                 <span>{{jdate('d F Y', strtotime($order->created_at))}}</span>
@@ -24,12 +24,12 @@
                 @case("current")
                     <h5><b>سفارش شما در مرحله تکمیل همسودی می باشد</b></h5>
                     <div style="display: flex;align-items: center;">
-                        <div style="flex:1;font-size:1.2rem;">فرصت باقیمانده تا تکمیل همسودی ها:</div>
+                        <div style="flex:1;">فرصت باقیمانده تا تکمیل همسودی ها:</div>
                         <div style="flex:1;text-align: center;color:red;direction: ltr;font-size:2rem;">
-                            <span id="days"></span>:
-                            <span id="hours"></span>:
-                            <span id="minutes"></span>:
-                            <span id="seconds"></span>
+                            <span id="days">00</span>:
+                            <span id="hours">00</span>:
+                            <span id="minutes">00</span>:
+                            <span id="seconds">00</span>
                         </div>
                     </div>
                     <div style="text-align: center;margin-top:15px;">

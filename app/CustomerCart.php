@@ -10,7 +10,8 @@ class CustomerCart extends Model
         'customer_id',
         'available_product_id',
         'weight',
-        'base_price'
+        'real_price',
+        'discount'
     ];
 
     public function customer()

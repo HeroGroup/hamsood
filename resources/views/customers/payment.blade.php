@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'انتخاب نوع پرداخت', 'withNavigation' => true])
+@extends('layouts.customer', ['pageTitle' => 'صورتحساب و نوع پرداخت', 'withNavigation' => true])
 @section('content')
 <style>
     .price-container {
@@ -30,20 +30,27 @@
         margin-right:20px;
     }
 </style>
-    <div class="price-container">
-        <h4>مبلغ قابل پرداخت</h4>
-        <h4 style="color:#539BE4;">{{number_format(session('total_price')+session('shippment_price_for_now'))}} تومان</h4>
+<div style="margin:80px 0;">
+    <div style="margin:0 20px 20px 20px;">
+        @component('components.orderBill', [
+            'realPrice' => $prices['realPrice'],
+            'yourPrice' => $prices['yourPrice'],
+            'shippmentPrice' => $prices['shippmentPrice'],
+            'shippmentPriceForNow' => $prices['shippmentPriceForNow'],
+            'yourProfit' => $prices['yourProfit'],
+            'yourPayment' => $prices['yourPayment']
+        ])@endcomponent
     </div>
     <div class="payment-method" style="border-color:#31AC6B;">پرداخت در محل</div>
     <div class="payment-method payment-inactive">پرداخت اینترنتی</div>
-    <div class="payment-inactive-description">متاسفانه پرداخت اینترنتی فعال نمی باشد.</div>
-
+    <div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>
+</div>
     <div style="position:fixed;bottom:0;left:0;width:100%;">
-        <form method="post" action="{{route('customers.selectPaymentMethod')}}">
+        <form method="post" action="{{route('customers.finalizeOrder')}}">
             @csrf
             <input type="hidden" name="payment_method" value="1" />
             <button type="submit" class="btn confirm-button">
-                انتخاب نوع پرداخت
+                تايید نهایی
             </button>
         </form>
     </div>

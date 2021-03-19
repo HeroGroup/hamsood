@@ -20,6 +20,14 @@ class CustomerCartController extends Controller
     public function getCustomerCart()
     {
         $cartItems = CustomerCartItem::where('customer_id', \request()->customer->id)->get();
+        foreach ($cartItems as $cartItem) {
+            $remaining = $this->getRemainingTime($cartItem->availableProduct->until_day, $cartItem->availableProduct->available_until_datetime);
+            if($remaining <= 0)
+                $cartItem->delete();
+        }
+
+        $cartItems = CustomerCartItem::where('customer_id', \request()->customer->id)->orderBy('id', 'DESC')->get();
+
         return view('customers.customerCart', compact('cartItems'));
     }
 

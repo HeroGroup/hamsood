@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\CustomerAddress;
+use App\CustomerCartItem;
 use App\DeliveryTimeFee;
 use App\Neighbourhood;
 use App\NeighbourhoodDeliveryTimeFee;
@@ -12,6 +13,7 @@ use App\OrderItem;
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Kavenegar\KavenegarApi;
 
@@ -124,18 +126,24 @@ class CustomerController extends Controller
             ]);
             $order->save();
 
-            OrderItem::create([
-                'order_id' => $order->id,
-                'available_product_id' => session('available_product_id'),
-                'weight' => session('weight')
-            ]);
+            $cart = CustomerCartItem::where('customer_id', \request()->customer->id)->get();
+            foreach ($cart as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'available_product_id' => $item->available_product_id,
+                    'weight' => $item->weight
+                ]);
+            }
 
-           $admins = User::where('send_sms',1)->get();
+            // delete cart
+            $deletedRows = CustomerCartItem::where('customer_id', \request()->customer->id)->delete();
+
+           /*$admins = User::where('send_sms',1)->get();
            foreach ($admins as $admin) {
                $token = session('available_product_id');
                $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
                $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
-           }
+           }*/
 
             $this->clearSession();
 
@@ -166,31 +174,16 @@ class CustomerController extends Controller
 
     public function checkIfUserBought($availableProductId, $customer)
     {
-        $userBought = false;
+        $userBought = 0;
         if ($customer && $availableProductId) {
-            $items = OrderItem::where('available_product_id', $availableProductId)->select('order_id')->distinct()->get();
-            if (Order::where('customer_id', $customer)->whereIn('id', $items)->count() > 0)
-                $userBought = true;
-        } else { // customer or product is not valid
-            $userBought = true;
+            $userBought = DB::table('order_items')
+                ->join('orders', 'orders.id', '=', 'order_items.order_id')
+                ->where('orders.customer_id',$customer)
+                ->where('order_items.available_product_id',$availableProductId)
+                ->sum('weight');
         }
 
         return $userBought;
-    }
-
-    public function orderFirstStep($weight)
-    {
-        $realPrice = session('real_price');
-        $discount = $realPrice * (session('discount')/100);
-        $totalPrice = $weight * ($realPrice - $discount);
-
-        session([
-            'weight' => $weight,
-            'discount' => $weight * $discount,
-            'total_price' => $totalPrice
-        ]);
-
-        return redirect(route('customers.selectAddress'));
     }
 
     public function times($neighbourhood=null)
@@ -232,51 +225,49 @@ class CustomerController extends Controller
 
     public function selectTime(Request $request)
     {
-        $times = NeighbourhoodDeliveryTimeFee::where('neighbourhood_id', session('neighbourhood_id'))->get();
-        $time = $times->count() > 0 ? NeighbourhoodDeliveryTimeFee::find($request->times) : $time = DeliveryTimeFee::find($request->times);
+        $neighbourhoodTimes = NeighbourhoodDeliveryTimeFee::where('neighbourhood_id', session('neighbourhood_id'))->get();
+        $time = $neighbourhoodTimes->count() > 0 ? NeighbourhoodDeliveryTimeFee::find($request->times) : DeliveryTimeFee::find($request->times);
+        $cartItems = CustomerCartItem::where('customer_id', \request()->customer->id)->get();
+        $realPrice = 0;
+        $discount = 0;
+        foreach ($cartItems as $cartItem) {
+            $realPrice += $cartItem->weight*$cartItem->real_price;
+            $discount += $cartItem->weight*$cartItem->discount;
+        }
 
-        session([
-            'time' => $time->delivery_start_time.' - '.$time->delivery_end_time,
-            'shippment_price' => $time->delivery_fee,
-            'shippment_price_for_now' => $time->delivery_fee_for_now,
-        ]);
-
-        return view('customers.payment');
-    }
-
-    public function selectPaymentMethod(Request $request)
-    {
         $prices = [
-            'realPrice' => session('weight') * session('real_price'),
-            'yourPrice' => session('total_price'),
-            'shippmentPrice' => session('shippment_price'),
-            'shippmentPriceForNow' => session('shippment_price_for_now'),
-            'yourProfit' => session('weight') * session('real_price') - session('total_price'),
-            'yourPayment' => session('total_price')+session('shippment_price_for_now'),
+            'realPrice' => $realPrice,
+            'yourPrice' => $realPrice - $discount,
+            'yourProfit' => $discount,
+            'shippmentPrice' => $time->delivery_fee,
+            'shippmentPriceForNow' => $time->delivery_fee_for_now,
+            'yourPayment' => $realPrice - $discount + $time->delivery_fee_for_now
         ];
 
         session([
+            'time' => $time->delivery_start_time.' - '.$time->delivery_end_time,
             'payment_method' => $request->payment_method,
-            'shippment_price' => session('shippment_price_for_now')
+            'discount' => $discount,
+            'total_price' => $prices['yourPrice'],
+            'shippment_price' => $time->delivery_fee_for_now
         ]);
 
-        return view('customers.finalizeOrder', compact('prices'));
+        return view('customers.payment', compact('prices'));
     }
 
-    public function finalizeOrder()
+    public function finalizeOrder(Request $request)
     {
-        // dd(session()->all());
-        // store customer name in customers
+        session(['payment_method' => $request->payment_method]);
         $customer = Customer::find(\request()->customer->id);
         $customer->update(['name' => session('customer_name')]);
 
-        // store order with fields available product id , weight, date, time, payment_method, customer_name, address from session
-        if ($this->checkIfUserBought(session('available_product_id'), \request()->customer->id)) {
-            return redirect(route('customers.orders'))->with('message', 'این خرید را قبلا انجام داده اید.')->with('type', 'danger');
-        } else {
-            $orderId = $this->submitOrder();
-            return $orderId > 0 ? redirect(route('customers.orders.products', $orderId)) : redirect(route('landing'));
-        }
+        $customerCart = CustomerCartItem::where('customer_id',\request()->customer->id)->get();
+        foreach ($customerCart as $cartItem)
+            if ($this->checkIfUserBought($cartItem->available_product_id, \request()->customer->id) >= 4)
+                return redirect(route('landing'));
+
+        $orderId = $this->submitOrder();
+        return $orderId > 0 ? redirect(route('customers.orders.products', $orderId)) : redirect(route('landing'));
     }
 
     public function profile()

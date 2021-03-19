@@ -19,7 +19,7 @@ class CustomerOrderController extends Controller
     public function currentOrders()
     {
         // status = 1
-        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 1)->get();
+        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 1)->orderBy('id','DESC')->get();
         $selected = "current";
         if ($orders->count() > 0) {
             $day = $orders->first()->items->first()->availableProduct->until_day;
@@ -34,7 +34,7 @@ class CustomerOrderController extends Controller
     public function successOrders()
     {
         // status = 2
-        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 2)->get();
+        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 2)->orderBy('id','DESC')->get();
         $selected = "success";
         return view('customers.orders.index', compact('orders', 'selected'));
     }
@@ -42,7 +42,7 @@ class CustomerOrderController extends Controller
     public function failedOrders()
     {
         // status = 3 and 4
-        $orders = Order::where('customer_id', \request()->customer->id)->whereIn('status', [3,4])->get();
+        $orders = Order::where('customer_id', \request()->customer->id)->whereIn('status', [3,4])->orderBy('id','DESC')->get();
         $selected = "failed";
         return view('customers.orders.index', compact('orders', 'selected'));
     }

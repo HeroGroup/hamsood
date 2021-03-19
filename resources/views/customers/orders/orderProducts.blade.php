@@ -2,7 +2,7 @@
 @section('tab-content')
 
     @foreach($order->items as $item)
-    <div style="text-align:center;">
+    <div style="text-align:center;margin:10px 0;">
         <img src="{{$item->availableProduct->product->image_url}}" width="100" height="100" />
         <h4>{{$item->availableProduct->product->name}}</h4>
         <p style="padding:0 25px;">توضیحات: <?php echo $item->availableProduct->product->description; ?></p>
