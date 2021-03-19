@@ -180,6 +180,7 @@ class CustomerController extends Controller
                 ->join('orders', 'orders.id', '=', 'order_items.order_id')
                 ->where('orders.customer_id',$customer)
                 ->where('order_items.available_product_id',$availableProductId)
+                ->whereIn('orders.status',[1,2])
                 ->sum('weight');
         }
 

@@ -32,8 +32,17 @@
                             <span id="seconds">00</span>
                         </div>
                     </div>
-                    <div style="text-align: center;margin-top:15px;">
-                        <a style="color:red;border:1px solid red;border-radius:5px;padding:3px 15px;text-decoration:none;" href="{{route('customers.orders.cancelOrder', $order->id)}}">لغو سفارش</a>
+                    <div style="display:flex;justify-content:space-around;margin-top:15px;">
+                        <div style="flex:1">
+                            <button class="btn" style="background-color:#64498E;color:white;" onclick="share('{{$order->id}}')">
+                                ارسال دعوت نامه
+                                <i class="fa fa-fw fa-share"></i>
+                            </button>
+                        </div>
+                        <div style="flex:1">
+                            <button class="btn" style="background-color:white;color:red;border-color:red;" onclick="cancelOrder('{{route('customers.orders.cancelOrder', $order->id)}}')">لغو سفارش</button>
+                        </div>
+
                     </div>
                     @break
                 @case("success")
@@ -75,5 +84,23 @@
     <script>
         var remaining = "{{isset($remaining) ? $remaining : 0}}";
         countdown(parseInt(remaining) * 1000);
+
+        function cancelOrder(cancelRoute) {
+          Swal.fire({
+              title: 'سفارش را لغو می کنید؟',
+              showCancelButton: true,
+              confirmButtonColor:'#d33',
+              confirmButtonText: `لغو می کنم`,
+              cancelButtonText: `انصراف`,
+              showCloseButton: true
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                window.location.href = cancelRoute;
+              } else if (result.isDenied) {
+                //
+              }
+            })
+        }
     </script>
 @endsection

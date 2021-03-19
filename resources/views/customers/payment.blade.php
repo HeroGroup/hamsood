@@ -31,7 +31,10 @@
     }
 </style>
 <div style="margin:80px 0;">
-    <div style="margin:0 20px 20px 20px;">
+    <div class="payment-method" style="border-color:#31AC6B;">پرداخت در محل</div>
+    <div class="payment-method payment-inactive">پرداخت اینترنتی</div>
+    <div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>
+    <div style="margin:20px 20px 0 20px;">
         @component('components.orderBill', [
             'realPrice' => $prices['realPrice'],
             'yourPrice' => $prices['yourPrice'],
@@ -41,9 +44,6 @@
             'yourPayment' => $prices['yourPayment']
         ])@endcomponent
     </div>
-    <div class="payment-method" style="border-color:#31AC6B;">پرداخت در محل</div>
-    <div class="payment-method payment-inactive">پرداخت اینترنتی</div>
-    <div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>
 </div>
     <div style="position:fixed;bottom:0;left:0;width:100%;">
         <form method="post" action="{{route('customers.finalizeOrder')}}">

@@ -173,21 +173,6 @@
         */
     };
 
-    $('.share').on('click', async () => {
-        const reference = "{{$referenceId}}";
-        const shareData = {
-            title: 'همسود',
-            text: 'شما هم در این خرید، همسود شوید',
-            url: 'https://survey.porsline.ir/s/gP5ZKVE/' // 'https://hamsod.com/landing/'+reference,
-        };
-        try {
-            await navigator.share(shareData)
-            // resultPara.textContent = 'MDN shared successfully'
-        } catch(err) {
-            // resultPara.textContent = 'Error: ' + err
-        }
-    });
-
     function buy(product) {
         window.location.href = `/order/addToCart/${product}`;
     }

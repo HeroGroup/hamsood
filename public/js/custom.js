@@ -102,3 +102,18 @@ function subtractWeight(product, withUpdate=true) {
             }
         });
 }
+
+const share = async (reference) => {
+    // const reference = "{{$referenceId}}";
+    console.log(reference);
+    const shareData = {
+        title: 'همسود',
+        text: 'شما هم در این خرید، همسود شوید',
+        url: 'https://survey.porsline.ir/s/gP5ZKVE/' // 'https://hamsod.com/landing/'+reference,
+    };
+    try {
+        await navigator.share(shareData)
+    } catch(err) {
+        // resultPara.textContent = 'Error: ' + err
+    }
+};

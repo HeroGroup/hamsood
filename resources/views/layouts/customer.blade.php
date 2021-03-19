@@ -9,7 +9,7 @@
         <link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="/css/my.css" rel="stylesheet" type="text/css">
         <script src="/js/jquery-1.11.0.js" type="text/javascript"></script>
-        <script src="/js/sweetalert.min.js" type="text/javascript"></script>
+        <script src="/js/sweetalert2.min.js" type="text/javascript"></script>
     </head>
     <body @if(isset($darkBackground)) style="background-color:#222;" @endif>
         @if(isset($withMenu) && $withMenu)
