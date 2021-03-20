@@ -34,7 +34,7 @@
                     </div>
                     <div style="display:flex;justify-content:space-around;margin-top:15px;">
                         <div style="flex:1">
-                            <button class="btn" style="background-color:#64498E;color:white;" onclick="share('{{$order->id}}')">
+                            <button class="btn" style="background-color:#64498E;color:white;" onclick="share('{{$order->uid}}')">
                                 ارسال دعوت نامه
                                 <i class="fa fa-fw fa-share"></i>
                             </button>

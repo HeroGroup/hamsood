@@ -17,6 +17,7 @@ Route::get('/clear-cache', function() {
 Route::get('/', 'HomeController@landing');
 Route::get('/landing/{reference?}', 'HomeController@landing')->name('landing');
 Route::get('/product/{product}', 'HomeController@productDetailPage')->name('productDetailPage');
+Route::get('/suggestion/{uid}', 'HomeController@suggest')->name('suggest');
 
 Route::middleware('customer.notLoggedIn')->group(function () {
     Route::get('/verifyMobile', 'HomeController@verifyMobile')->name('customers.verifyMobile');
@@ -49,7 +50,7 @@ Route::middleware('customer.auth')->group(function () {
     });
 
     Route::prefix('order')->group(function () {
-        Route::get('/addToCart/{product}','CustomerCartController@addToCart')->name('customers.addToCart');
+        Route::get('/addToCart/{product}/{return?}','CustomerCartController@addToCart')->name('customers.addToCart');
         Route::get('/increaseCartItem/{product}','CustomerCartController@increaseCartItem')->name('customers.increaseCartItem');
         Route::get('/decreaseCartItem/{product}','CustomerCartController@decreaseCartItem')->name('customers.decreaseCartItem');
         Route::get('/customerCart','CustomerCartController@getCustomerCart')->name('customers.customerCart');

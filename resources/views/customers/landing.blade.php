@@ -145,7 +145,5 @@
     function goToDetailPage(product) {
         window.location.href = `/product/${product}`;
     }
-
-
 </script>
 @endsection

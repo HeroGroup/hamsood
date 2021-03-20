@@ -15,7 +15,7 @@
 
 </div>
 <div style="position:fixed;bottom:0;left:0;width:100%;">
-    <button onclick="share('{{$order->id}}')" class="btn" style="color:#64498E;border:none;border-top:1px solid #64498E;background-color:white;width:100%;border-radius:0;padding:15px 0;font-size:20px;">
+    <button onclick="share('{{$order->uid}}')" class="btn" style="color:#64498E;border:none;border-top:1px solid #64498E;background-color:white;width:100%;border-radius:0;padding:15px 0;font-size:20px;">
         ارسال دعوت نامه
         <i class="fa fa-fw fa-share"></i>
     </button>

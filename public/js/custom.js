@@ -103,13 +103,11 @@ function subtractWeight(product, withUpdate=true) {
         });
 }
 
-const share = async (reference) => {
-    // const reference = "{{$referenceId}}";
-    console.log(reference);
+const share = async (uid) => {
     const shareData = {
         title: 'همسود',
         text: 'شما هم در این خرید، همسود شوید',
-        url: 'https://survey.porsline.ir/s/gP5ZKVE/' // 'https://hamsod.com/landing/'+reference,
+        url: 'https://hamsod.com/suggestion/'+uid // 'https://survey.porsline.ir/s/gP5ZKVE/'
     };
     try {
         await navigator.share(shareData)

@@ -74,7 +74,6 @@ class HomeController extends Controller
     public function landing($reference=null)
     {
         session(['mobile' => '09177048781']);
-        $referenceId = "g6Z";
         $products = Product::where('is_active',1)->get();
         $result = [];
         $cartItemsCount = $this->userCartItemsCount();
@@ -111,7 +110,7 @@ class HomeController extends Controller
                 }
             }
             // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-            return view('customers.landing', compact('result', 'referenceId', 'cartItemsCount'));
+            return view('customers.landing', compact('result', 'cartItemsCount'));
 
         } else {
             return view('customers.notActive');
@@ -120,7 +119,6 @@ class HomeController extends Controller
 
     public function productDetailPage($productId)
     {
-        $referenceId = "g6Z";
         $cartItemsCount = $this->userCartItemsCount();
         $product = Product::find($productId);
         $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
@@ -137,7 +135,7 @@ class HomeController extends Controller
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
 
-            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'orderId', 'userCartWeight', 'nextDiscount', 'lastDiscount', 'referenceId', 'cartItemsCount'));
+            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'orderId', 'userCartWeight', 'nextDiscount', 'lastDiscount', 'cartItemsCount'));
         } else {
             return view('customers.notActive');
         }
@@ -151,6 +149,45 @@ class HomeController extends Controller
         $jalali = explode('/', $day);
         $date = strtotime(jalali_to_gregorian($jalali[0], $jalali[1], $jalali[2], '/') . " $hour:59:59");
         return $date - time();
+    }
+
+    public function suggest($uid)
+    {
+        $order = Order::where('uid','LIKE',$uid)->get();
+        if($order->count() == 1) {
+            $order = $order->first();
+            $cartItemsCount = $this->userCartItemsCount();
+            $items = [];
+            foreach ($order->items as $item) {
+                $availableProduct = $item->availableProduct;
+                $product = $availableProduct->product;
+                $details = $availableProduct->details;
+                $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
+                $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
+                $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
+                $userWeight = $userBoughtResult[0];
+                $orderId = $userBoughtResult[1];
+                $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
+                $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
+                $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
+
+                $item = [
+                    'availableProduct' => $availableProduct,
+                    'product' => $product,
+                    'remaining' => $remaining,
+                    'peopleBought' => $peopleBought,
+                    'userWeight' => $userWeight,
+                    'orderId' => $orderId,
+                    'userCartWeight' => $userCartWeight,
+                    'nextDiscount' => $nextDiscount,
+                    'lastDiscount' => $lastDiscount
+                ];
+                array_push($items,$item);
+            }
+            return view('customers.suggestions.show', compact('order', 'cartItemsCount', 'items'));
+        } else {
+            return redirect(route('landing'));
+        }
     }
 
     public function verifyMobile()

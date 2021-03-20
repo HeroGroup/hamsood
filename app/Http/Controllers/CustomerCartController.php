@@ -38,7 +38,7 @@ class CustomerCartController extends Controller
         return $cartItem ? $cartItem->weight : 0;
     }
 
-    public function addToCart($product)
+    public function addToCart($product,$return=null)
     {
         if ($this->itemExistInCart($product, \request()->customer->id) == 0) {
             $availableProduct = AvailableProduct::where('product_id', $product)->where('is_active', 1)->first();
@@ -68,7 +68,8 @@ class CustomerCartController extends Controller
 
                 // $product = Product::find($product);
                 // return view('customers.customerCart',compact('availableProduct', 'product', 'nextDiscount'));
-                return redirect(route('customers.customerCart'));
+
+                return $return ? back() : redirect(route('customers.customerCart'));
             } else {
                 return redirect(route('landing'));
             }

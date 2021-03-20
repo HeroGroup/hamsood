@@ -108,14 +108,28 @@ class CustomerController extends Controller
         }
     }
 
+    public function generateUID() {
+        $rand = "";
+        $seed = str_split('abcdefghijklmnopqrstuvwxyz'.'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.'0123456789');
+        shuffle($seed);
+        foreach (array_rand($seed, 5) as $k)
+            $rand .= $seed[$k];
+
+        if (Order::where('uid','LIKE',$rand)->count() > 0)
+            return $this->generateUID();
+
+        return $rand;
+    }
+
     public function submitOrder()
     {
         try {
             $order = new Order([
+                'uid' => $this->generateUID(),
                 'customer_id' => \request()->customer->id,
                 'customer_name' => session('customer_name'),
                 'discount' => session('discount'),
-                'shippment_price' => session('shippment_price_for_now'),
+                'shippment_price' => session('shippment_price'),
                 'total_price' => session('total_price'),
                 'payment_method' => session('payment_method'),
                 'neighbourhood_id' => session('neighbourhood_id'),
