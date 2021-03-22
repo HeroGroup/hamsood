@@ -33,10 +33,10 @@
                     <td>{{$order->neighbourhood_id > 0 ? $order->neighbourhood->name . ' ' . $order->address: ''}}</td>
                     <td>
                         @if($order->status == 1) <!--   ثبت -->
-                            <a href="{{ route('orders.delivered', $order) }}" class="btn btn-xs btn-success" data-toggle="tooltip" title="تغییر وضعیت به ارسال شده">
+                            <a href="{{ route('orders.delivered', $order->id) }}" class="btn btn-xs btn-success" data-toggle="tooltip" title="ارسال شد">
                                 تغییر وضعیت به ارسال شده
                             </a>
-                            <a href="{{ route('orders.failed', $order) }}" class="btn btn-xs btn-danger" data-toggle="tooltip" title="لغو سفارش">
+                            <a href="{{ route('orders.failed', $order->id) }}" class="btn btn-xs btn-danger" data-toggle="tooltip" title="لغو سفارش">
                                 لغو سفارش
                             </a>
                         @elseif($order->status == 2) <!--   ارسال شده -->

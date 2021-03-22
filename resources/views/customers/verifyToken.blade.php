@@ -1,6 +1,18 @@
 @extends('layouts.customer', ['pageTitle' =>'کد تایید'])
 @section('content')
-
+<style>
+.custom-btn {
+    background-color:#eee;
+    border-radius:5px;
+    padding:5px 10px;
+    text-decoration: none;
+    color:#222;
+}
+.custom-btn:hover {
+    color:#222;
+    text-decoration: none;
+}
+</style>
 <div class="container" style="text-align:center;">
     <div style="margin-top:50px;">
         <div>
@@ -27,14 +39,20 @@
             </p>
         @endif
         <div style="width:100%;margin-top:20px;">
-            <div style="margin-top:10px;text-align: center;color:#9b59b6;">
-                <a id="resend" href="#" style="cursor: not-allowed;color:gray;text-decoration: none;">ارسال مجدد</a>
-                <div id="resend-text" style="display:inline-block;">
+
+            <div style="margin-top:10px;text-align: center;color:#9b59b6;display:flex;">
+                <div style="flex:1;text-align:right;">
+                    <a href="#" class="custom-btn" id="resend" style="color:gray;cursor:not-allowed;" onclick="resend('{{$mobile}}')">ارسال مجدد</a>
+                </div>
+                <div id="resend-text" style="flex:1;text-align:right;">
                   <span> بعد از </span>
                   <span id="remaining-time"></span>
                   <span> ثانیه</span>
                 </div>
-              </div>
+                <div style="flex:1;text-align:left;">
+                    <a class="custom-btn" href="{{route('customers.verifyMobile')}}">تغییر شماره</a>
+                </div>
+            </div>
 
               <div style="margin-top:20px;text-align: center;">
                   <a href="#">شرایط و قوانین</a>
@@ -49,8 +67,9 @@
     </form>
 </div>
 <script>
+    var timer = 0;
   window.onload = function() {
-    var timer = parseInt("{{$remainingTime}}");
+    timer = parseInt("{{$remainingTime}}");
     document.getElementById("remaining-time").innerHTML = timer;
 
     var timerInterval = setInterval(function() {
@@ -60,11 +79,30 @@
         document.getElementById("remaining-time").innerHTML = timer;
       } else {
         clearInterval(timerInterval);
-        document.getElementById("resend").href = "{{route('customers.verifyMobile')}}";
-        document.getElementById("resend").style.color = "#9b59b6";
+        // document.getElementById("resend").href = "{{route('customers.verifyMobile')}}";
+        document.getElementById("resend").style.color = "#222";
         document.getElementById("resend").style.cursor = "pointer";
         document.getElementById("resend-text").style.display = "none";
       }
     }, 1000);
   };
+
+  function resend(mobile) {
+      if (timer <= 0) {
+          $.ajax("{{route('verifyMobile')}}", {
+              type:"post",
+              data: {
+                  ajax: true,
+                  mobile: mobile
+              },
+              success: function(response) {
+                  if (response.status) {
+                      //
+                  } else {
+                      //
+                  }
+              }
+          });
+      }
+  }
 </script>

@@ -71,7 +71,7 @@
                     <div style="flex:1;text-align: right;">
                         @if($item['userCartWeight'] > 0)
                             <button class="add-subtract-button" onclick="addWeight('{{$item['availableProduct']->id}}', 4)">+</button>
-                            <span id="weight-{{$item['availableProduct']->id}}" style="margin:0 8px;font-size:20px;">{{$item['userCartWeight']}}</span>
+                            <span id="weight-{{$item['availableProduct']->id}}" style="margin:0 8px;font-size:16px;">{{$item['userCartWeight']}}</span>
                             <button class="add-subtract-button" id="subtract-{{$item['availableProduct']->id}}" onclick="subtractWeight('{{$item['availableProduct']->id}}')">
                                 @if($item['userCartWeight'] > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
                             </button>

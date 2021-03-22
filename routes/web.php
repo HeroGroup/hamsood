@@ -79,10 +79,9 @@ Route::prefix('admin')->group(function () {
         Route::post('availableProducts/storeDetails', 'AvailableProductController@storeDetails')->name('availableProducts.storeDetails');
         Route::get('availableProducts/{availableProduct}/toggleActivate', 'AvailableProductController@toggleActivate')->name('availableProducts.toggleActivate');
 
-        Route::get('orders', 'OrderController@index', ['except' => ['index','show']]);
-        Route::get('orders/{availableProduct?}/{customer?}', 'OrderController@index')->name('orders.index');
-        Route::get('orders/{order}/delivered', 'OrderController@delivered')->name('orders.delivered');
-        Route::get('orders/{order}/failed', 'OrderController@failed')->name('orders.failed');
+        Route::get('orders/index/{availableProduct?}/{customer?}', 'OrderController@index')->name('orders.index');
+        Route::get('orders/delivered/{order}', 'OrderController@delivered')->name('orders.delivered');
+        Route::get('orders/failed/{order}', 'OrderController@failed')->name('orders.failed');
 
         Route::get('/customers', 'CustomerController@index')->name("customers.index");
         Route::get('/customers/{customer}/addresses', 'CustomerController@customerAddresses')->name("admin.customers.addresses");

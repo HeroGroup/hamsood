@@ -139,7 +139,7 @@
         <div class="hamsood-button-container">
         @if($userCartWeight > 0)
             <button class="add-subtract-button" onclick="addWeight('{{$availableProduct->id}}', 4)">+</button>
-            <span id="weight-{{$availableProduct->id}}"  style="margin:0 15px;font-size:20px;">{{$userCartWeight}}</span>
+            <span id="weight-{{$availableProduct->id}}"  style="margin:0 15px;font-size:16px;">{{$userCartWeight}}</span>
             <button class="add-subtract-button" onclick="subtractWeight('{{$availableProduct->id}}')">
                 @if($userCartWeight > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
             </button>

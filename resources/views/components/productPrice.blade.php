@@ -2,7 +2,7 @@
 .pill-container {
     display:flex;
     /*justify-content:space-between;*/
-    margin:0 25px;
+    margin:0 5px;
     padding:5px 0;
 }
 .pill {
@@ -18,7 +18,7 @@
         <span class="pill" style="background-color:#eee;text-align:center;">قیمت بازار</span>
     </div>
     <div style="flex:1;text-align:left;">
-        <span>{{number_format($availableProduct->price)}} تومان</span>
+        <span>{{number_format($availableProduct->price)}} <span style="font-size:12px;">تومان</span></span>
     </div>
 </div>
 
@@ -36,6 +36,6 @@
         <span class="pill" style="background-color:#64498E;color:white;text-align:center;">قیمت همسودی</span>
     </div>
     <div style="flex:1;text-align:left;">
-        <span style="color:#64498E;font-size:16px;">{{number_format($availableProduct->price * (100-$nextDiscount) / 100)}} تومان</span>
+        <span style="color:#64498E;font-size:16px;">{{number_format($availableProduct->price * (100-$nextDiscount) / 100)}} <span style="font-size:12px;">تومان</span></span>
     </div>
 </div>
