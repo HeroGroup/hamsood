@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true, 'cartItemsCount' => $cartItemsCount])
+@extends('layouts.customer', ['pageTitle' => 'جزيیات محصول', 'withNavigation' => true])
 @section('content')
 <style>
 .text-badge {
@@ -52,7 +52,7 @@
                 <p>زمان باقیمانده</p>
             </div>
         </div>
-        <div style="background-color:white;border-radius:10px;box-shadow: 0 0 5px #888888;">
+        <div style="background-color:white;border-radius:10px;box-shadow: 0 0 5px #888888;padding-bottom:10px;">
             <div style="display:flex;flex-direction:row;padding:10px;">
                 <div style="flex:1">
                     <img src="{{$product->image_url}}" style="width:100%;border:1px solid lightgray;border-radius:10px;padding:5px;" />
@@ -64,39 +64,59 @@
                     </div>
                 </div>
             </div>
-            <p style="color:gray;text-align: center;">قیمت باراز {{number_format($availableProduct->price)}} تومان</p>
-            <div style="display:flex;flex-direction:row;color:gray;">
-                <div style="flex:2;border-left:1px solid lightgray;text-align:center;padding:5px;">
-                    <p><b>۲ نفر همسودی</b></p>
-                    <div style="display:flex;">
-                        <p style="flex:1;text-align:center;font-size:1em;">
-                            <span class="text-badge bg-red">تخفیف</span>
-                        </p>
-                        <p style="flex:2;text-align:center;color:red;font-size:1.5em;"><b>{{$details->min('discount')}}%</b></p>
-                    </div>
-                    <div style="display:flex;">
-                        <p style="flex:1;font-size:1em;text-align:center;">
-                            <span class="text-badge bg-gray">قیمت</span>
-                        </p>
-                        <div style="flex:2;text-align:center;">
-                            <p>{{number_format((100-$details->min('discount'))/100*$availableProduct->price)}} <span style="font-size:10px;">تومان</span></p>
+            <div style="border:1px solid lightgray;border-radius:5px;margin:0 10px;">
+                <div style="text-align:center;margin:10px 0">
+                    <span style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت باراز {{number_format($availableProduct->price)}} تومان</span>
+                </div>
+                <div style="display:flex;flex-direction:row;color:gray;">
+                    <div style="flex:2;border-left:1px solid lightgray;text-align:center;padding:5px;">
+                        <p><b>تخفیف با</b></p>
+                        <div style="display:flex;">
+                            <p style="flex:1;text-align:center;font-size:1em;">
+                                نفر
+                            </p>
+                            <p style="flex:2;text-align:center;font-size:1.5em;">
+                                2
+                            </p>
+                        </div>
+                        <div style="display:flex;">
+                            <p style="flex:1;text-align:center;font-size:0.8em;">
+                                <span class="text-badge bg-red">تخفیف</span>
+                            </p>
+                            <p style="flex:2;text-align:center;color:red;font-size:1.5em;"><b>{{$details->min('discount')}}%</b></p>
+                        </div>
+                        <div style="display:flex;">
+                            <p style="flex:1;font-size:0.8em;text-align:center;">
+                                <span class="text-badge bg-gray">همسودی</span>
+                            </p>
+                            <div style="flex:2;text-align:center;">
+                                <p>{{number_format((100-$details->min('discount'))/100*$availableProduct->price)}} <span style="font-size:10px;">تومان</span></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div style="flex:2;text-align:center;padding:5px;">
-                    <p><b>{{$availableProduct->maximum_group_members}} نفر همسودی</b></p>
-                    <div style="display:flex;">
-                        <p style="flex:1;text-align:center;font-size:1em;">
-                            <span class="text-badge bg-red">تخفیف</span>
-                        </p>
-                        <p style="flex:2;text-align:center;color:red;font-size:1.5em;"><b>{{$details->max('discount')}}%</b></p>
-                    </div>
-                    <div style="display:flex;">
-                        <p style="flex:1;font-size:1em;text-align:center;">
-                            <span class="text-badge bg-gray">قیمت</span>
-                        </p>
-                        <div style="flex:2;text-align:center;">
-                            <p>{{number_format((100-$details->max('discount'))/100*$availableProduct->price)}} <span style="font-size:10px;">تومان</span></p>
+                    <div style="flex:2;text-align:center;padding:5px;">
+                        <p><b>تخفیف با</b></p>
+                        <div style="display:flex;">
+                            <p style="flex:1;text-align:center;font-size:1em;">
+                                نفر
+                            </p>
+                            <p style="flex:2;text-align:center;font-size:1.5em;">
+                                {{$availableProduct->maximum_group_members}}
+                            </p>
+                        </div>
+                        <div style="display:flex;">
+                            <p style="flex:1;text-align:center;font-size:0.8em;">
+                                <span class="text-badge bg-red">تخفیف</span>
+                            </p>
+                            <p style="flex:2;text-align:center;color:red;font-size:1.5em;"><b>{{$details->max('discount')}}%</b></p>
+                        </div>
+                        <div style="display:flex;">
+                            <p style="flex:1;font-size:0.8em;text-align:center;">
+                                <span class="text-badge bg-gray">همسودی</span>
+                            </p>
+                            <div style="flex:2;text-align:center;">
+                                <p>{{number_format((100-$details->max('discount'))/100*$availableProduct->price)}} <span style="font-size:10px;">تومان</span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -136,19 +156,26 @@
                 </div>
             </div>
         </div>
-        <div class="hamsood-button-container">
+
         @if($userCartWeight > 0)
+        <div class="hamsood-button-container">
             <button class="add-subtract-button" onclick="addWeight('{{$availableProduct->id}}', 4)">+</button>
             <span id="weight-{{$availableProduct->id}}"  style="margin:0 15px;font-size:16px;">{{$userCartWeight}}</span>
             <button class="add-subtract-button" onclick="subtractWeight('{{$availableProduct->id}}')">
                 @if($userCartWeight > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
             </button>
-        @elseif($userWeight > 0)
-            <a class="btn" href="{{route('customers.orders.products', $orderId)}}" style="border-color:#64498E;width:100%;color:#64498E;">جزيیات سفارش</a>
-        @else
-            <button id="hamsood-btn" class="hamsood-btn" onclick="buy('{{$product->id}}')">اضافه به سبد خرید</button>
-        @endif
         </div>
+        @elseif($userWeight > 0)
+        <div style="position:fixed;bottom:0;left:0;width:100%;">
+            <!--<a class="btn" href="{{route('customers.orders.products', $orderId)}}" style="border-color:#64498E;width:100%;color:#64498E;">جزيیات سفارش</a>-->
+            <button class="btn share-btn" onclick="share(0,'{{$product->id}}')">ارسال دعوتنامه <i class="fa fa-fw fa-share"></i></button>
+        </div>
+        @else
+        <div class="hamsood-button-container">
+            <button id="hamsood-btn" class="hamsood-btn" onclick="buy('{{$product->id}}')">اضافه به سبد خرید</button>
+        </div>
+        @endif
+
     </div>
 </div>
 

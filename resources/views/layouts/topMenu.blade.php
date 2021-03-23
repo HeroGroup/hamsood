@@ -1,7 +1,7 @@
 <div id="myNav" class="overlay">
   <div class="overlay-content">
     @if(session('mobile'))
-      <img src="/images/user_default_image.png" width="100" height="100" />
+      <img src="@if(isset($gender) && $gender=='male') /images/avatars/male.png @elseif(isset($gender) && $gender=='female') /images/avatars/male.png @else /images/user_default_image.png @endif" width="100" height="100" style="border-radius:50%;" />
       <p style="color:#222;padding: 10px 0;">{{session('mobile')}}</p>
       <div style="padding:0 20px; text-align:right; margin-bottom:100px;">
         <hr style="color:darkgray" />
@@ -33,12 +33,9 @@
 <div class="top-navigation">
   <span id="toggleNavigation" onclick="openNav()">&#9776;</span>
   &nbsp;
-  <a href="/" style="text-decoration:none;"><span class="logo-title">همسود</span></a>
-  <a href="{{route('customers.customerCart')}}" style="cursor:pointer;float:left;position:relative;width:60px;text-align:center;">
-      @if(isset($cartItemsCount) && $cartItemsCount>0)
-          <div style="background-color:#31AC6B;border-radius:50%;color:white;width:20px;text-align:center;position:absolute;top:0;right:0;">{{$cartItemsCount}}</div>
-      @endif
-      <img src="/images/basket_icon.png" width="30" height="30" />
+  <a href="{{route('landing')}}" style="text-decoration:none;"><span class="logo-title">همسود</span></a>
+  <a href="{{route('landing')}}" style="cursor:pointer;float:left;">
+      <img src="/images/logo.png" width="40" height="40" />
   </a>
   </div>
 </div>

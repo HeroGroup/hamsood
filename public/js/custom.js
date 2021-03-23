@@ -59,8 +59,9 @@ function addWeight(product, maximum, withUpdate=true) {
     if (weight === maximum) {
         // do nothing
     } else {
-        target.text(weight+1);
-        if (weight+1 > 1) {
+        weight++;
+        target.text(weight);
+        if (weight > 1) {
             var targetButton = $(`#subtract-${product}`);
             targetButton.html("");
             targetButton.text('-');
@@ -79,35 +80,42 @@ function addWeight(product, maximum, withUpdate=true) {
 function subtractWeight(product, withUpdate=true) {
     var target = $(`#weight-${product}`);
     var weight = parseInt(target.text());
-    target.text(weight-1);
-    var targetButton = $(`#subtract-${product}`);
-    if (weight === 2) {
-        // change icon to trash
-        targetButton.html('<i class="fa fa-fw fa-trash-o"></i>');
+    if (weight == 0) {
+        // do nothing
     } else {
-        // change text to -
-        targetButton.html("");
-        targetButton.text('-');
-    }
-    if(withUpdate)
-        $.ajax(`/order/decreaseCartItem/${product}`, {
-            type: "get",
-            success: function (response) {
-                if (response.status < 0) {
-                    addWeight(product, 4, false);
-                } else {
-                    if (response.data === 0)
-                        location.reload();
+        weight--;
+        target.text(weight);
+        var targetButton = $(`#subtract-${product}`);
+        if (weight > 1) {
+            // change text to -
+            targetButton.html("");
+            targetButton.text('-');
+        }
+        else { // weight = 1 or 0
+            // change icon to trash
+            targetButton.html('<i class="fa fa-fw fa-trash-o"></i>');
+        }
+        if(withUpdate)
+            $.ajax(`/order/decreaseCartItem/${product}`, {
+                type: "get",
+                success: function (response) {
+                    if (response.status < 0) {
+                        addWeight(product, 4, false);
+                    } else {
+                        if (response.data === 0)
+                            location.reload();
+                    }
                 }
-            }
-        });
+            });
+    }
 }
 
-const share = async (uid) => {
+const share = async (uid,pid=null) => {
+    const shareURL = uid > 0 ? 'https://hamsod.com/suggestion/'+uid : 'https://hamsod.com/product/'+pid;
     const shareData = {
         title: 'همسود',
-        text: 'شما هم در این خرید، همسود شوید',
-        url: 'https://hamsod.com/suggestion/'+uid // 'https://survey.porsline.ir/s/gP5ZKVE/'
+        text: 'شما هم در این خرید همسود شوید',
+        url:  shareURL // 'https://survey.porsline.ir/s/gP5ZKVE/'
     };
     try {
         await navigator.share(shareData)

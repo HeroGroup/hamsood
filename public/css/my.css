@@ -398,3 +398,12 @@ td {
     width:30px;
     border-radius:5px;
 }
+.share-btn {
+    color:#64498E;
+    border:2px solid #64498E;
+    background-color:white;
+    width:100%;
+    border-radius:0;
+    padding:15px 0;
+    font-size:20px;
+}

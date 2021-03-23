@@ -74,6 +74,11 @@ class HomeController extends Controller
     public function landing($reference=null)
     {
         session(['mobile' => '09177048781']);
+        $gender = "none";
+        if(\request()->customer) {
+            $customer = Customer::find(\request()->customer->id);
+            $gender = $customer->gender;
+        }
         $products = Product::where('is_active',1)->get();
         $result = [];
         $cartItemsCount = $this->userCartItemsCount();
@@ -110,7 +115,7 @@ class HomeController extends Controller
                 }
             }
             // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-            return view('customers.landing', compact('result', 'cartItemsCount'));
+            return view('customers.landing', compact('result', 'cartItemsCount', 'gender'));
 
         } else {
             return view('customers.notActive');

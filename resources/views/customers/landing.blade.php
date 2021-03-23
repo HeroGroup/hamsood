@@ -66,39 +66,59 @@
                     </div>
                 </div>
             </div>
-            <p style="color:gray;text-align: center;">قیمت باراز {{number_format($item['availableProduct']->price)}} تومان</p>
-            <div style="display:flex;flex-direction:row;color:gray;">
-                <div style="flex:2;border-left:1px solid lightgray;text-align:center;padding:5px;">
-                    <p><b>۲ نفر همسودی</b></p>
-                    <div style="display:flex;">
-                        <p style="flex:1;text-align:center;font-size:1em;">
-                            <span class="text-badge bg-red">تخفیف</span>
-                        </p>
-                        <p style="flex:2;text-align:center;color:red;font-size:1.5em;"><b>{{$item['details']->min('discount')}}%</b></p>
-                    </div>
-                    <div style="display:flex;">
-                        <p style="flex:1;font-size:1em;text-align:center;">
-                            <span class="text-badge bg-gray">قیمت</span>
-                        </p>
-                        <div style="flex:2;text-align:center;">
-                            <p>{{number_format((100-$item['details']->min('discount'))/100*$item['availableProduct']->price)}} <span style="font-size:10px;">تومان</span></p>
+            <div style="border:1px solid lightgray;border-radius:5px;margin:0 10px;">
+                <div style="text-align:center;margin:10px 0">
+                    <span style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت باراز {{number_format($item['availableProduct']->price)}} تومان</span>
+                </div>
+                <div style="display:flex;flex-direction:row;color:gray;">
+                    <div style="flex:2;border-left:1px solid lightgray;text-align:center;padding:5px;">
+                        <p><b>تخفیف با</b></p>
+                        <div style="display:flex;">
+                            <p style="flex:1;text-align:center;font-size:1em;">
+                                نفر
+                            </p>
+                            <p style="flex:2;text-align:center;font-size:1.5em;">
+                                2
+                            </p>
+                        </div>
+                        <div style="display:flex;">
+                            <p style="flex:1;text-align:center;font-size:0.8em;">
+                                <span class="text-badge bg-red">تخفیف</span>
+                            </p>
+                            <p style="flex:2;text-align:center;color:red;font-size:1.5em;"><b>{{$item['details']->min('discount')}}%</b></p>
+                        </div>
+                        <div style="display:flex;">
+                            <p style="flex:1;font-size:0.8em;text-align:center;">
+                                <span class="text-badge bg-gray">همسودی</span>
+                            </p>
+                            <div style="flex:2;text-align:center;">
+                                <p>{{number_format((100-$item['details']->min('discount'))/100*$item['availableProduct']->price)}} <span style="font-size:10px;">تومان</span></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div style="flex:2;text-align:center;padding:5px;">
-                    <p><b>{{$item['availableProduct']->maximum_group_members}} نفر همسودی</b></p>
-                    <div style="display:flex;">
-                        <p style="flex:1;text-align:center;font-size:1em;">
-                            <span class="text-badge bg-red">تخفیف</span>
-                        </p>
-                        <p style="flex:2;text-align:center;color:red;font-size:1.5em;"><b>{{$item['details']->max('discount')}}%</b></p>
-                    </div>
-                    <div style="display:flex;">
-                        <p style="flex:1;font-size:1em;text-align:center;">
-                            <span class="text-badge bg-gray">قیمت</span>
-                        </p>
-                        <div style="flex:2;text-align:center;">
-                            <p>{{number_format((100-$item['details']->max('discount'))/100*$item['availableProduct']->price)}} <span style="font-size:10px;">تومان</span></p>
+                    <div style="flex:2;text-align:center;padding:5px;">
+                        <p><b>تخفیف با</b></p>
+                        <div style="display:flex;">
+                            <p style="flex:1;text-align:center;font-size:1em;">
+                                نفر
+                            </p>
+                            <p style="flex:2;text-align:center;font-size:1.5em;">
+                                {{$item['availableProduct']->maximum_group_members}}
+                            </p>
+                        </div>
+                        <div style="display:flex;">
+                            <p style="flex:1;text-align:center;font-size:0.8em;">
+                                <span class="text-badge bg-red">تخفیف</span>
+                            </p>
+                            <p style="flex:2;text-align:center;color:red;font-size:1.5em;"><b>{{$item['details']->max('discount')}}%</b></p>
+                        </div>
+                        <div style="display:flex;">
+                            <p style="flex:1;font-size:0.8em;text-align:center;">
+                                <span class="text-badge bg-gray">همسودی</span>
+                            </p>
+                            <div style="flex:2;text-align:center;">
+                                <p>{{number_format((100-$item['details']->max('discount'))/100*$item['availableProduct']->price)}} <span style="font-size:10px;">تومان</span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,16 +137,18 @@
                         <button class="btn hamsood-btn" style="background-color:#64498E;width:100%;color:white" onclick="goToDetailPage('{{$item['product']->id}}')">منم همسود می شوم</button>
                     @endif
                 </div>
-                <div style="flex:1;text-align:center;">
-                    <div style="display:flex;">
-                        <div style="flex:1">
+                <div style="flex:1;margin:2px 10px;">
+                    <div style="display:flex;align-items:flex-end;">
+                        <div style="flex:1;text-align:right;">
                             <label for="peopleBought-{{$item['availableProduct']->id}}">{{$item['peopleBought']}} نفر همسودی</label>
                         </div>
-                        <div style="flex:1">
-                            <img src="/images/group_icon.png" width="80" height="35" />
+                        <div style="flex:1;text-align:left;">
+                            @for($i=0;$i<$item['peopleBought'];$i++)
+                                <img src="/images/avatars/avatar{{rand(1,9)}}.png" width="25" height="25" style="border-radius:50%" />
+                            @endfor
                         </div>
                     </div>
-                    <progress id="peopleBought-{{$item['availableProduct']->id}}" value="{{$item['peopleBought']}}" max="{{$item['availableProduct']->maximum_group_members}}" style="width:90%;"></progress>
+                    <progress id="peopleBought-{{$item['availableProduct']->id}}" value="{{$item['peopleBought']}}" max="{{$item['availableProduct']->maximum_group_members}}" style="width:100%;"></progress>
                 </div>
             </div>
         </div>
