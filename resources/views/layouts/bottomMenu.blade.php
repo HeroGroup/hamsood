@@ -31,20 +31,24 @@
 </style>
 <div class="bottom-menu">
     <a href="{{route('customers.orders.current')}}">
-        <div><img src="/images/orders_icon.png" width="35" height="35" /></div>
+        <div>
+            <img src="/images/orders_icon.png" width="35" height="35" />
+        </div>
         <span>سفارش ها</span>
     </a>
     <a href="{{route('customers.customerCart')}}">
-        <div style="position:relative;text-align:center;">
+        <div style="text-align:center;position:relative;">
             @if(isset($cartItemsCount) && $cartItemsCount>0)
-                <div style="background-color:#31AC6B;border-radius:50%;color:white;width:22px;font-size:16px;text-align:center;position:absolute;top:0;right:22px;">{{$cartItemsCount}}</div>
+                <label style="background-color:#31AC6B;border-radius:50%;color:white;width:22px;font-size:16px;position:absolute;top:0;margin-right:-15px;">{{$cartItemsCount}}</label>
             @endif
             <img src="/images/basket_icon.png" width="35" height="35" />
         </div>
         <span>سبد خرید</span>
     </a>
     <a href="{{route('customers.profile')}}">
-        <div><img src="/images/profile_icon.png" width="26" height="26" style="margin:3px;" /></div>
+        <div>
+            <img src="/images/profile_icon.png" width="26" height="26" style="margin:3px;" />
+        </div>
         <span>پروفایل</span>
     </a>
 </div>

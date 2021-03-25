@@ -64,15 +64,15 @@
                         <img src="{{$item['availableProduct']->product->image_url}}" style="border:1px solid lightgray;border-radius:5px;width:90%;" />
                     </div>
                     <div style="flex:2;">
-                        @component('components.productPrice', ['availableProduct' => $item['availableProduct'], 'nextDiscount' => $item['nextDiscount']])@endcomponent
+                        @component('components.productPrice', ['availableProduct' => $item['availableProduct'], 'nextDiscount' => $item['nextDiscount'], 'weight' => ($item['userWeight'] ? $item['userWeight'] : ($item['userCartWeight'] ? $item['userCartWeight'] : 1))])@endcomponent
                     </div>
                 </div>
                 <div style="display: flex;padding:10px;justify-content: center;align-items: flex-end;">
                     <div style="flex:1;text-align: right;">
                         @if($item['userCartWeight'] > 0)
-                            <button class="add-subtract-button" onclick="addWeight('{{$item['availableProduct']->id}}', 4)">+</button>
+                            <button class="add-subtract-button" onclick="addWeight('{{$item['availableProduct']->id}}', 4, true, '{{$item['availableProduct']->price}}', '{{$item['nextDiscount']}}')">+</button>
                             <span id="weight-{{$item['availableProduct']->id}}" style="margin:0 8px;font-size:16px;">{{$item['userCartWeight']}}</span>
-                            <button class="add-subtract-button" id="subtract-{{$item['availableProduct']->id}}" onclick="subtractWeight('{{$item['availableProduct']->id}}')">
+                            <button class="add-subtract-button" id="subtract-{{$item['availableProduct']->id}}" onclick="subtractWeight('{{$item['availableProduct']->id}}', true, '{{$item['availableProduct']->price}}', '{{$item['nextDiscount']}}')">
                                 @if($item['userCartWeight'] > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
                             </button>
                         @elseif($item['userWeight'] > 0)

@@ -27,8 +27,9 @@ class CustomerCartController extends Controller
         }
 
         $cartItems = CustomerCartItem::where('customer_id', \request()->customer->id)->orderBy('id', 'DESC')->get();
+        $totals = $this->getCartTotals(\request()->customer->id);
 
-        return view('customers.customerCart', compact('cartItems'));
+        return view('customers.customerCart', compact('cartItems', 'totals'));
     }
 
     public function itemExistInCart($product, $customer)
@@ -36,6 +37,20 @@ class CustomerCartController extends Controller
         $availableProduct = AvailableProduct::where('product_id', $product)->where('is_active', 1)->first();
         $cartItem = CustomerCartItem::where('available_product_id',$availableProduct->id)->where('customer_id', $customer)->first();
         return $cartItem ? $cartItem->weight : 0;
+    }
+
+    public function getCartTotals($customer)
+    {
+        $realTotalPrice = 0;
+        $totalDiscount = 0;
+        $yourTotalPrice = 0;
+        $cart = CustomerCartItem::where('customer_id',$customer)->get();
+        foreach ($cart as $item) {
+            $realTotalPrice += $item->weight*$item->real_price;
+            $totalDiscount += $item->weight*$item->discount;
+        }
+        $yourTotalPrice = $realTotalPrice - $totalDiscount;
+        return ['real_total_price' => $realTotalPrice, 'your_total_price' => $yourTotalPrice];
     }
 
     public function addToCart($product,$return=null)
@@ -97,13 +112,14 @@ class CustomerCartController extends Controller
         try {
             $availableProduct = AvailableProduct::find($product);
             if ($availableProduct) {
-                $newWeight = $this->itemExistInCart($availableProduct->product_id, \request()->customer->id);
+                $customer = \request()->customer->id;
+                $newWeight = $this->itemExistInCart($availableProduct->product_id, $customer);
 
                 if ($newWeight == 0) {
                     $this->addToCart($product);
                     $newWeight++;
                 } else {
-                    $cartItem = CustomerCartItem::where('available_product_id', $product)->where('customer_id', \request()->customer->id)->first();
+                    $cartItem = CustomerCartItem::where('available_product_id', $product)->where('customer_id', $customer)->first();
                     if ($cartItem) {
                         if ($cartItem->weight < 4) {
                             $newWeight++;
@@ -115,7 +131,7 @@ class CustomerCartController extends Controller
                     }
                 }
 
-                return $this->success("increased cart item successfully", $newWeight);
+                return $this->success("increased cart item successfully", $this->getCartTotals($customer));
             } else {
                 return $this->fail("invalid product");
             }
@@ -127,20 +143,21 @@ class CustomerCartController extends Controller
     public function decreaseCartItem($product)
     {
         try {
+            $customer = \request()->customer->id;
             $availableProduct = AvailableProduct::find($product);
             if ($availableProduct) {
-                $newWeight = $this->itemExistInCart($availableProduct->product_id, \request()->customer->id);
+                $newWeight = $this->itemExistInCart($availableProduct->product_id, $customer);
 
                 if ($newWeight > 0) {
-                    $cartItem = CustomerCartItem::where('available_product_id', $product)->where('customer_id', \request()->customer->id)->first();
+                    $cartItem = CustomerCartItem::where('available_product_id', $product)->where('customer_id', $customer)->first();
                     if ($cartItem && $cartItem->weight > 1) {
                         $newWeight--;
                         $cartItem->update(['weight' => $newWeight]);
                     } else {
-                        return $this->success("cart removed successfully", $this->removeFromCart($availableProduct->product_id, \request()->customer->id));
+                        return $this->success("cart removed successfully", $this->removeFromCart($availableProduct->product_id, $customer));
                     }
                 }
-                return $this->success("decreased cart item successfully", $newWeight);
+                return $this->success("decreased cart item successfully", $this->getCartTotals($customer));
             } else {
                 return $this->fail("invalid product");
             }

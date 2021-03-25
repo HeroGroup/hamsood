@@ -6,7 +6,7 @@
             <div style="border:1px solid #31AC6B;border-radius:5px;display: flex;justify-content: center;align-items: center;background-color:#eee;margin-bottom:15px;text-align:center;">
                 <div style="flex:1">
                     <h4 style="color:gray;">مبلغ کل سفارشات</h4>
-                    <h3 style="color:#222">{{number_format($orders->sum('total_price'))}} تومان</h3>
+                    <h3 style="color:#222">{{number_format($orders->sum('total_price')+$orders->sum('shippment_price'))}} تومان</h3>
                 </div>
                 <div style="flex:1">
                     <h4 style="color:gray;">سود کل شما</h4>
@@ -62,7 +62,7 @@
             <div style="display: flex;justify-content: center;align-items: center;">
                 <div style="flex:1">
                     <h4 style="color:gray;">مبلغ سفارش</h4>
-                    <h3 style="color:#222">{{number_format($order->total_price)}} تومان</h3>
+                    <h3 style="color:#222">{{number_format($order->total_price+$order->shippment_price)}} تومان</h3>
                 </div>
                 <div style="flex:1">
                     <h4 style="color:gray;">سود شما</h4>

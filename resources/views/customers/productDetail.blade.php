@@ -26,6 +26,9 @@
     background-color:#8A95F5;
     border-color:#8A95F5;
 }
+.semi-active {
+    background-color: rgba(138,149,245,0.65)
+}
 .discount {
     font-size:1em;
     color:#64498F;
@@ -126,26 +129,32 @@
         <div style="background-color:white;border-radius:10px;box-shadow: 0 0 5px #888888;overflow:hidden;margin-top:10px;">
             <h5 style="margin:0;background-color:#FF5A30;color:white;text-align:center;padding:10px 0;">دیگران را دعوت کنید تا تخفیف ها آغاز شود</h5>
             <br>
-            <div style="text-align:center;color:#222;font-size:0.9em;/*border: 1px solid lightgray;border-radius:10px;*/">
-                <span>با </span>
-                <span class="circle">{{$peopleBought > 0 ? 1 : 2}}</span>
-                <span> نفر همسودی تخفیف </span>
-                <span class="badge red-badge">{{$nextDiscount}}% </span>
-                <span> آغاز می شود.</span>
-            </div>
+            <!--<div style="text-align:center;color:#222;font-size:0.9em;"></div>-->
             <br>
             <div style="display:flex;">
                 <div style="flex:1;text-align:center;">
-                    <div style="margin:0 35px;border:1px solid lightgray;border-radius:10px;overflow:hidden;box-shadow: 0 0 5px #888888;">
+                    <div style="margin:0 15px;border:1px solid lightgray;border-radius:10px;overflow:hidden;box-shadow: 0 0 5px #888888;">
                         @for($i=$details->count()+1;$i>=1;$i--)
-                            <p class="people @if($peopleBought>=$i) people-active @endif" style="@if($i<=$peopleBought && $i>1) border:none; @elseif($i!=1) border-bottom:1px solid lightgray; @endif"><b>{{$i}}</b></p>
+                            <p class="people @if($peopleBought>=$i) people-active @elseif($i==1 || $i==2) semi-active @endif" style="@if($i<=$peopleBought && $i>1) border:none; @elseif($i!=1) border-bottom:1px solid lightgray; @endif"><b>{{$i}}</b></p>
                         @endfor
                     </div>
                     <img src="/images/people_icon.png" width="40" height="40" />
                     <p>نفرات</p>
                 </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="margin:0 15px;border:1px solid lightgray;border-radius:10px;overflow:hidden;box-shadow: 0 0 5px #888888;">
+                            <p>با </p>
+                            <p class="circle">{{$peopleBought > 0 ? 1 : 2}}</p><span> نفر </span>
+                            <p>همسودی </p>
+                            <p>تخفیف </p>
+                            <p class="badge red-badge">{{$nextDiscount}}% </p>
+                            <p> آغاز</p>
+                            <p style="margin:3px;">می شود.</p>
+                        </div>
+                        <img src="/images/alert_icon.png" width="40" height="40" />
+                    </div>
                 <div style="flex:1;text-align:center;">
-                    <div style="margin:0 35px;border:1px solid lightgray;border-radius:10px;overflow:hidden;box-shadow: 0 0 5px #888888;">
+                    <div style="margin:0 15px;border:1px solid lightgray;border-radius:10px;overflow:hidden;box-shadow: 0 0 5px #888888;">
                         @for($i=$details->count()-1;$i>=1;$i--)
                             <p class="discount @if($peopleBought>=$i+2) discount-active @endif" style="@if($peopleBought>=$i+2) border:none; @else border-bottom:1px solid lightgray; @endif"><b>{{$details[$i]->discount ?? '-'}}%</b></p>
                         @endfor
@@ -158,7 +167,7 @@
         </div>
 
         @if($userCartWeight > 0)
-        <div class="hamsood-button-container">
+        <div class="hamsood-button-container" style="background-color:#8A95F5">
             <button class="add-subtract-button" onclick="addWeight('{{$availableProduct->id}}', 4)">+</button>
             <span id="weight-{{$availableProduct->id}}"  style="margin:0 15px;font-size:16px;">{{$userCartWeight}}</span>
             <button class="add-subtract-button" onclick="subtractWeight('{{$availableProduct->id}}')">

@@ -35,19 +35,36 @@
             </div>
             <div style="display:flex;flex-direction:row;padding:10px;vertical-align:center;">
                 <div style="flex:2;text-align:center;">
-                    <button  class="add-subtract-button" onclick="addWeight('{{$cartItem->availableProduct->id}}', 4)">+</button>
+                    <button  class="add-subtract-button" onclick="addWeight('{{$cartItem->availableProduct->id}}', 4, true, '{{$cartItem->availableProduct->price}}', {{$cartItem->discount/$cartItem->real_price*100}})">+</button>
                     <span id="weight-{{$cartItem->availableProduct->id}}" style="margin:0 5px;font-size:16px;">{{$cartItem->weight}}</span>
-                    <button id="subtract-{{$cartItem->availableProduct->id}}" class="add-subtract-button" onclick="subtractWeight('{{$cartItem->availableProduct->id}}')">
+                    <button id="subtract-{{$cartItem->availableProduct->id}}" class="add-subtract-button" onclick="subtractWeight('{{$cartItem->availableProduct->id}}', true, '{{$cartItem->availableProduct->price}}', '{{$cartItem->discount/$cartItem->real_price*100}}')">
                         @if($cartItem->weight > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
                     </button>
                     <h6 style="color:red;padding:8px 0;">سفارش حداقل ۱ کیلو و حداکثر ۴ کیلو</h4>
                 </div>
                 <div style="flex:3;">
-                    @component('components.productPrice', ['availableProduct' => $cartItem->availableProduct, 'nextDiscount' => $cartItem->discount/$cartItem->real_price*100])@endcomponent
+                    @component('components.productPrice', ['availableProduct' => $cartItem->availableProduct, 'nextDiscount' => $cartItem->discount/$cartItem->real_price*100, 'weight' => $cartItem->weight])@endcomponent
                 </div>
             </div>
         </div>
         @endforeach
+        @if($cartItems->count()>0)
+        <div style="margin:10px 0;border:1px solid lightgray;border-radius:5px;background-color:#eee;display:flex;color:#222;justify-content:center;align-items:center;text-align:center;">
+            <div style="flex:1;">جمع کل</div>
+            <div style="flex:2;text-align:center;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:0 8px;">
+                    <div style="background-color:white;border-radius:5px;width:100px;padding:2px 5px;margin:3px;">قیمت بازار</div>
+                    <span id="real-total-price" style="color:gray;">{{number_format($totals['real_total_price'])}}</span>
+                    <span style="color:gray;"> تومان</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:0 8px;">
+                    <div style="background-color:#8A95F5;border-radius:5px;width:100px;padding:2px 5px;margin:3px;">قیمت همسودی</div>
+                    <span id="your-total-price" style="font-size:16px;color:#64498F;">{{number_format($totals['your_total_price'])}}</span>
+                    <span style="color:#64498F;"> تومان</span>
+                </div>
+            </div>
+        </div>
+        @endif
         <div style="border:1px solid #00EFD1;border-radius:5px;text-align:center;">
             <a href="{{route('landing')}}" style="text-decoration:none;color:#222;">
                 <img src="/images/new_product_icon.png" width="100" height="100" />

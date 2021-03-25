@@ -73,7 +73,7 @@ class HomeController extends Controller
 
     public function landing($reference=null)
     {
-        session(['mobile' => '09177048781']);
+        session(['mobile' => '09177120782']);
         $gender = "none";
         if(\request()->customer) {
             $customer = Customer::find(\request()->customer->id);

@@ -53,7 +53,7 @@ function countdown(distance) {
     }
 }
 
-function addWeight(product, maximum, withUpdate=true) {
+function addWeight(product, maximum, withUpdate=true, basePrice=0, discount=0) {
     var target = $(`#weight-${product}`);
     var weight = parseInt(target.text());
     if (weight === maximum) {
@@ -70,14 +70,23 @@ function addWeight(product, maximum, withUpdate=true) {
             $.ajax(`/order/increaseCartItem/${product}`, {
                 type: "get",
                 success: function (response) {
-                    if (response.status < 0)
+                    if (response.status < 0) {
                         subtractWeight(product, false);
+                    } else {
+                        var productPrice = $(`#product-price-${product}`), hamsoodPrice = $(`#hamsood-price-${product}`),
+                            finalPrice=0, realTotalPrice = $("#real-total-price"), yourTotalPrice = $("#your-total-price");
+                        if(productPrice) productPrice.text(numberWithCommas(weight*basePrice) + " ");
+                        finalPrice = basePrice * ((100-discount)/100);
+                        if(hamsoodPrice) hamsoodPrice.text(numberWithCommas(weight*finalPrice) + " ");
+                        if(realTotalPrice) realTotalPrice.text(numberWithCommas(response.data.real_total_price));
+                        if(yourTotalPrice) yourTotalPrice.text(numberWithCommas(response.data.your_total_price));
+                    }
                 }
             });
     }
 }
 
-function subtractWeight(product, withUpdate=true) {
+function subtractWeight(product, withUpdate=true, basePrice=0, discount=0) {
     var target = $(`#weight-${product}`);
     var weight = parseInt(target.text());
     if (weight == 0) {
@@ -102,8 +111,17 @@ function subtractWeight(product, withUpdate=true) {
                     if (response.status < 0) {
                         addWeight(product, 4, false);
                     } else {
-                        if (response.data === 0)
+                        if (response.data === 0) {
                             location.reload();
+                        } else {
+                            var productPrice = $(`#product-price-${product}`), hamsoodPrice = $(`#hamsood-price-${product}`),
+                                finalPrice=0, realTotalPrice = $("#real-total-price"), yourTotalPrice = $("#your-total-price");
+                            if(productPrice) productPrice.text(numberWithCommas(weight*basePrice) + " ");
+                            finalPrice = basePrice * ((100-discount)/100);
+                            if(hamsoodPrice) hamsoodPrice.text(numberWithCommas(weight*finalPrice) + " ");
+                            if(realTotalPrice) realTotalPrice.text(numberWithCommas(response.data.real_total_price));
+                            if(yourTotalPrice) yourTotalPrice.text(numberWithCommas(response.data.your_total_price));
+                        }
                     }
                 }
             });
@@ -123,3 +141,7 @@ const share = async (uid,pid=null) => {
         // resultPara.textContent = 'Error: ' + err
     }
 };
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
