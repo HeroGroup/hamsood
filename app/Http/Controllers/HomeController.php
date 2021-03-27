@@ -73,10 +73,9 @@ class HomeController extends Controller
 
     public function landing($reference=null)
     {
-        session(['mobile' => '09177120782']);
         $gender = "none";
-        if(\request()->customer) {
-            $customer = Customer::find(\request()->customer->id);
+        if(session('mobile')) {
+            $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
             $gender = $customer->gender;
         }
         $products = Product::where('is_active',1)->get();

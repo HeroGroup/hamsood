@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'لیست سفارشات', 'withNavigation' => true])
+@extends('layouts.customer', ['pageTitle' => 'لیست سفارشات', 'withNavigation' => true, 'backUrl' => '/'])
 @section('content')
     <style>
         .badge-number {
@@ -33,4 +33,3 @@
         @yield('tab-content')
     </div>
 @endsection
-

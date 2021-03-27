@@ -10,6 +10,11 @@
 <script>
 function back() {
     event.preventDefault();
-    window.history.back();
+    @if(isset($backUrl) && $backUrl != null)
+        window.location.href = "{{$backUrl}}";
+    @else
+        window.history.back();
+    @endif
+
 }
 </script>

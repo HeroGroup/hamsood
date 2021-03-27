@@ -167,7 +167,10 @@
                             @endfor
                         </div>
                     </div>
-                    <progress id="peopleBought-{{$item['availableProduct']->id}}" value="{{$item['peopleBought']}}" max="{{$item['availableProduct']->maximum_group_members}}" style="width:100%;"></progress>
+                    <!--<progress id="peopleBought-{{$item['availableProduct']->id}}" value="{{$item['peopleBought']}}" max="{{$item['availableProduct']->maximum_group_members}}" style="width:100%;"></progress>-->
+                    <div class="progress" id="peopleBought-{{$item['availableProduct']->id}}" style="margin-bottom:0;margin-top:3px;height:12px;">
+    					<div class="progress-bar" role="progressbar" aria-valuenow="{{$item['peopleBought']}}" aria-valuemin="0" aria-valuemax="{{$item['availableProduct']->maximum_group_members}}" style="width:{{$item['peopleBought']/$item['availableProduct']->maximum_group_members*100}}%"></div>
+  					</div>
                 </div>
             </div>
         </div>

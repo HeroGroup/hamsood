@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'جزئیات سفارش', 'withNavigation' => true])
+@extends('layouts.customer', ['pageTitle' => 'جزئیات سفارش', 'withNavigation' => true, 'backUrl' => '/orders/current'])
 @section('content')
 <div class="main-container">
     <div class="page-heading">

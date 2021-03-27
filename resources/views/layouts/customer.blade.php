@@ -15,7 +15,7 @@
         @if(isset($withMenu) && $withMenu)
             @include('layouts.topMenu', ['cartItemsCount' => isset($cartItemsCount) ? $cartItemsCount : 0])
         @elseif(isset($withNavigation) && $withNavigation)
-            @include('layouts.topNavigation', ['pageTitle' => $pageTitle])
+            @include('layouts.topNavigation', ['pageTitle' => $pageTitle, 'backUrl' => isset($backUrl) ? $backUrl : null])
         @endif
 
         @if(\Illuminate\Support\Facades\Session::has('message'))
