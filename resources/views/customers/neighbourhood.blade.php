@@ -15,14 +15,16 @@
         </div>
         <div id="neighbourhoods-list" style="margin-top:10px;margin-bottom:60px;padding:0 10px;"></div>
         <div style="padding:25px 40px;;background-color:white;position:fixed;bottom:0;left:0;width:100%;z-index:6;display:flex;justify-content:space-between;">
-            <a class="btn inactive" href="#" style="width:100px;" id="confirm-button">تائید</a>
+            <a class="btn inactive" href="#" style="width:100px;" id="confirm-button" onclick="confirm()">تائید</a>
             <button class="btn" onclick="event.preventDefault(); window.history.back();" style="width:100px;color:#222;background-color:white;">انصراف</button>
         </div>
     </div>
 </div>
 
+@component('components.loader')@endcomponent
+
 <script>
-    var selected = "{{$neighbourhood_id}}";
+    var selected = "{{$neighbourhood_id}}", newUrl = "#";
     $(document).ready(function() {
         $(".overlay-container").css({"height":"80%"});
 
@@ -35,13 +37,20 @@
         getNeighbourhoods();
     });
 
+    function confirm() {
+        if(newUrl.length > 1) {
+            turnOnLoader();
+            document.location = newUrl;
+        }
+    }
+
     function activateConfirmButton() {
         $("#confirm-button").removeClass("inactive").addClass("active");
-        var newUrl = `/addresses/postNeighbourhood/${selected}`;
+        newUrl = `/addresses/postNeighbourhood/${selected}`;
         @if(isset($address) && $address > 0)
             newUrl = `/addresses/postNeighbourhood/${selected}/{{$address}}`;
         @endif
-        $("#confirm-button").attr("href",newUrl);
+        // $("#confirm-button").attr("href",newUrl);
     }
 
     function disableConfirmButton() {

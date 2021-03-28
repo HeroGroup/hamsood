@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'آدرس محل دریافت کالا', 'withNavigation' => true])
+@extends('layouts.customer', ['pageTitle' => 'آدرس محل دریافت کالا', 'withNavigation' => true, 'backUrl' => '/'])
 @section('content')
     <style>
         .address-card {
@@ -93,30 +93,38 @@
         @endif
     @endif
         <div class="dashed-button-container">
-            <a href="{{route('customers.selectNeighbourhood', ['redirect' => $withConfirm])}}" class="dashed-button">ثبت آدرس جدید</a>
+            <a href="#" onclick="addNewAddress()" class="dashed-button">ثبت آدرس جدید</a>
         </div>
     </div>
 
-<script>
-    var defaultAddressId = 0;
+    @component('components.loader')@endcomponent
 
-    function makeDefault(addressId) {
-        if (defaultAddressId === addressId) {
-            //
-        } else {
-            defaultAddressId = addressId;
-            // $('.checked').remove();
-            $(".address-card").removeClass("selected").addClass("not-selected");
-            $(`#address-card-${addressId}`).removeClass("not-selected").addClass("selected");
-            // $(`#address-card-${addressId}`).prepend(`<img src='/images/checked_icon.png' width='20' height='20' class='checked' />`);
+    <script>
+        var defaultAddressId = 0;
 
-            $.ajax(`/addresses/makeDefault/${addressId}`, {
-                type:"get",
-                success: function() {
-                    //
-                }
-            })
+        function makeDefault(addressId) {
+            if (defaultAddressId === addressId) {
+                //
+            } else {
+                defaultAddressId = addressId;
+                // $('.checked').remove();
+                $(".address-card").removeClass("selected").addClass("not-selected");
+                $(`#address-card-${addressId}`).removeClass("not-selected").addClass("selected");
+                // $(`#address-card-${addressId}`).prepend(`<img src='/images/checked_icon.png' width='20' height='20' class='checked' />`);
+
+                $.ajax(`/addresses/makeDefault/${addressId}`, {
+                    type:"get",
+                    success: function() {
+                        //
+                    }
+                })
+            }
         }
-    }
-</script>
+
+        function addNewAddress() {
+            event.preventDefault();
+            turnOnLoader();
+            document.location = "{{route('customers.selectNeighbourhood', ['redirect' => $withConfirm])}}";
+        }
+    </script>
 @endsection
