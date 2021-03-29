@@ -39,23 +39,23 @@
             </p>
         @endif
         <div style="width:100%;margin-top:20px;">
-
-            <div style="margin-top:10px;text-align: center;color:#9b59b6;display:flex;">
+            <div style="margin-top:10px;color:#9b59b6;display:flex;">
+                <div style="flex:2;text-align:center;">
+                    <a href="#" class="custom-btn" id="resend" style="font-size:12px;color:gray;cursor:not-allowed;display:inline-block;" onclick="resend('{{$mobile}}')">ارسال مجدد</a>
+                    &nbsp;
+                    <div id="resend-text" style="display:inline-block;">
+                      <span> بعد از </span>
+                      <span id="remaining-time"></span>
+                      <span> ثانیه</span>
+                    </div>
+                </div>
                 <div style="flex:1;text-align:right;">
-                    <a href="#" class="custom-btn" id="resend" style="color:gray;cursor:not-allowed;" onclick="resend('{{$mobile}}')">ارسال مجدد</a>
-                </div>
-                <div id="resend-text" style="flex:1;text-align:right;">
-                  <span> بعد از </span>
-                  <span id="remaining-time"></span>
-                  <span> ثانیه</span>
-                </div>
-                <div style="flex:1;text-align:left;">
-                    <a class="custom-btn" href="{{route('customers.verifyMobile')}}">تغییر شماره</a>
+                    <a class="custom-btn" style="font-size:12px;" href="{{route('customers.verifyMobile')}}">تغییر شماره</a>
                 </div>
             </div>
 
               <div style="margin-top:20px;text-align: center;">
-                  <a href="#">شرایط و قوانین</a>
+                  <a href="http://wp.hamsod.com/قوانین-و-مقررات/" target="_blank">شرایط و قوانین</a>
               </div>
 
               <div style="position:fixed;bottom:0;left:0;width:100%;">
