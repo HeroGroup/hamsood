@@ -71,4 +71,10 @@ class OrderController extends Controller
             return redirect(route('orders.index'))->with('message', 'سفارش نامعتبر')->with('type', 'danger');
         }
     }
+
+    public function bill($order)
+    {
+        $order = Order::find($order);
+        return view('orders.bill', compact('order'));
+    }
 }

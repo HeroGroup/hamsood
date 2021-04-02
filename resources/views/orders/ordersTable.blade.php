@@ -40,12 +40,13 @@
                                 لغو سفارش
                             </a>
                         @elseif($order->status == 2) <!--   ارسال شده -->
-                            <div class="label label-info">ارسال شده</div>
+                            <div class="label label-warning">ارسال شده</div>
                         @elseif($order->status == 3) <!--   لفو شده به دلیل حد نصاب -->
                             <div class="label label-danger">لفو شده به دلیل حد نصاب</div>
                         @elseif($order->status == 4) <!--   لغو شده توسط کاربر -->
                             <div class="label label-danger">لغو شده توسط کاربر</div>
                         @endif
+                        <a href="{{route('orders.bill', $order->id)}}" class="btn btn-xs btn-info" data-toggle="tooltip" title="مشاهده فاکتور">مشاهده فاکتور</a>
                     </td>
                 </tr>
             @endforeach
