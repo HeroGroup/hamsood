@@ -13,7 +13,7 @@
         </div>
     </div>
     <div>
-        <form action="{{route('verifyMobile')}}" method="post">
+        <form action="{{route('verifyMobile')}}" method="post" id="submit-mobile-form">
             @csrf
             <div style="display:flex;justify-content:center;">
                 <div class="input-container">
@@ -27,10 +27,17 @@
                 </p>
             @endif
             <div style="position:fixed;bottom:0;left:0;width:100%;">
-                <button class="btn btn-success" style="width:100%;padding: 15px 0;border-radius:0;font-size:20px;" type="submit">
+                <button class="btn btn-success" style="width:100%;padding: 15px 0;border-radius:0;font-size:20px;" type="button" onclick="submitForm()" id="submit-button">
                     دریافت کد
                 </button>
             </div>
         </form>
     </div>
 </div>
+<script>
+function submitForm() {
+    $("#submit-button").prop("disabled",true);
+    document.getElementById("submit-mobile-form").submit();
+}
+</script>
+@endsection

@@ -74,6 +74,7 @@ class HomeController extends Controller
     public function landing($reference=null)
     {
         $gender = "none";
+        session(['mobile' => '09177048781']);
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
             $gender = $customer->gender;

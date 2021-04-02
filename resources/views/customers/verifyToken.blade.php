@@ -24,7 +24,7 @@
             <p>کد را وارد کنید</p>
         </div>
     </div>
-    <form action="{{route('verifyToken')}}" method="post">
+    <form action="{{route('verifyToken')}}" method="post" id="submit-code-form">
         @csrf
         <div style="display:flex;justify-content:center;">
             <div class="input-container">
@@ -40,7 +40,7 @@
         @endif
         <div style="width:100%;margin-top:20px;">
             <div style="margin-top:10px;color:#9b59b6;display:flex;">
-                <div style="flex:2;text-align:center;">
+                <div style="flex:2;text-align:right;">
                     <a href="#" class="custom-btn" id="resend" style="font-size:12px;color:gray;cursor:not-allowed;display:inline-block;" onclick="resend('{{$mobile}}')">ارسال مجدد</a>
                     &nbsp;
                     <div id="resend-text" style="display:inline-block;">
@@ -55,12 +55,12 @@
             </div>
 
               <div style="margin-top:20px;text-align: center;">
-                  <a href="http://wp.hamsod.com/قوانین-و-مقررات/" target="_blank">شرایط و قوانین</a>
+                  <a href="http://wp.hamsod.com/قوانین-و-مقررات/" target="_blank">قوانین و مقررات</a>
               </div>
 
               <div style="position:fixed;bottom:0;left:0;width:100%;">
-                <button class="btn btn-success" style="width:100%;padding: 15px 0;border-radius:0;font-size:20px;" type="submit">
-                  ورود و پذیرش شرایط و قوانین
+                <button class="btn btn-success" style="width:100%;padding: 15px 0;border-radius:0;font-size:20px;" type="button" onclick="submitForm()" id="submit-button">
+                  ورود و پذیرش قوانین و مقررات
                 </button>
               </div>
         </div>
@@ -104,5 +104,10 @@
               }
           });
       }
+  }
+
+  function submitForm() {
+      $("#submit-button").prop("disabled",true);
+      document.getElementById("submit-code-form").submit();
   }
 </script>

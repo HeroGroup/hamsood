@@ -73,12 +73,20 @@
         </div>
         @if($cartItems->count()>0)
         <div style="position:fixed;bottom:0;left:0;width:100%;">
-            <a class="btn submit-order-button" href="{{route('customers.selectAddress')}}">
+            <a class="btn submit-order-button" onclick="submitOrder()" href="#">
                 ثبت سفارش
             </a>
         </div>
         @endif
     </div>
 
+    @component('components.loader')@endcomponent
+
     <script src="/js/custom.js" type="text/javascript"></script>
+    <script>
+        function submitOrder() {
+            turnOnLoader();
+            window.location.href = "{{route('customers.selectAddress')}}";
+        }
+    </script>
 @endsection

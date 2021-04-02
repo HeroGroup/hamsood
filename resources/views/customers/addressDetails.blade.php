@@ -23,8 +23,6 @@
     </div>
 </div>
 
-@component('components.loader')@endcomponent
-
 <script>
     $(document).ready(function() {
         $(".overlay-container").css({"height":"65%"});
@@ -61,7 +59,7 @@
     }
 
     function beforeSubmit() {
-        turnOnLoader();
+        disableConfirmButton();
         document.getElementById("submit-address-form").submit();
     }
 </script>

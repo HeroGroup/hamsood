@@ -188,6 +188,8 @@
     </div>
 </div>
 
+@component('components.loader')@endcomponent
+
 <script src="/js/custom.js" type="text/javascript"></script>
 <script>
     window.onload = function() {
@@ -210,6 +212,7 @@
     };
 
     function buy(product) {
+        turnOnLoader();
         window.location.href = `/order/addToCart/${product}`;
     }
 

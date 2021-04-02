@@ -46,12 +46,18 @@
     </div>
 </div>
     <div style="position:fixed;bottom:0;left:0;width:100%;">
-        <form method="post" action="{{route('customers.finalizeOrder')}}">
+        <form method="post" action="{{route('customers.finalizeOrder')}}" id="final-form">
             @csrf
             <input type="hidden" name="payment_method" value="1" />
-            <button type="submit" class="btn confirm-button">
+            <button type="button" class="btn confirm-button" onclick="finalSubmit()" id="submit-button">
                 تايید نهایی
             </button>
         </form>
     </div>
+    <script>
+     function finalSubmit() {
+         $("#submit-button").prop("disabled",true);
+         document.getElementById("final-form").submit();
+     }
+    </script>
 @endsection

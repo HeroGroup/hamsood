@@ -21,6 +21,8 @@
     </button>
 </div>
 
+@component('components.loader')@endcomponent
+
 <script src="/js/custom.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(".tab-item").on("click", function() {
@@ -30,6 +32,8 @@
         $(this).addClass("selected");
 
         // console.log($(this).attr("href"));
+
+        turnOnLoader();
 
         window.location.href = $(this).attr("href");
     });

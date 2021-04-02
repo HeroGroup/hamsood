@@ -151,14 +151,14 @@ class CustomerController extends Controller
 
             // delete cart
             $deletedRows = CustomerCartItem::where('customer_id', \request()->customer->id)->delete();
-
+/*
            $admins = User::where('send_sms',1)->get();
            foreach ($admins as $admin) {
                $token = session('available_product_id');
                $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
                $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
            }
-
+*/
             $this->clearSession();
 
             return $order->id;

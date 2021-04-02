@@ -9,7 +9,7 @@
     padding: 5px 15px;
 }
 </style>
-<form method="post" action="{{route('customers.updateProfile')}}">
+<form method="post" action="{{route('customers.updateProfile')}}" id="profile-form">
     @csrf
     <div style="margin: 70px 15px;">
         <div style="text-align:center;">
@@ -33,11 +33,12 @@
         </div>
     </div>
     <div style="position:fixed;bottom:0;left:0;width:100%;">
-        <button type="submit" id="submit-button" class="btn confirm-button" disabled style="color:gray;background-color:#eee;">
+        <button type="button" onclick="submitForm()" id="submit-button" class="btn confirm-button" disabled style="color:gray;background-color:#eee;">
             ثبت مشخصات
         </button>
     </div>
 </form>
+
 <script>
     function activateSubmitButton() {
         var target = $("#submit-button");
@@ -64,5 +65,12 @@
                 break;
         }
     });
+
+    function submitForm() {
+        var target = $("#submit-button");
+        target.css({"color":"gray","background-color":"#eee"});
+        target.prop("disabled",true);
+        document.getElementById("profile-form").submit();
+    }
 </script>
 @endsection
