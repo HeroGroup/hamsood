@@ -62,8 +62,8 @@
 
     <script src="/js/jquery.timepicker.js" type="text/javascript"></script>
     <script src="/js/datepair.js" type="text/javascript"></script>
-    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="/js/popper.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="/js/metisMenu/metisMenu.min.js" type="text/javascript"></script>
     <script src="/js/sb-admin-2.js" type="text/javascript"></script>
     <script src="/js/sweetalert.min.js" type="text/javascript"></script>

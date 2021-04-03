@@ -32,21 +32,25 @@
                     <td>{{$order->delivery_time}} {{$order->delivery_date}}</td>
                     <td>{{$order->neighbourhood_id > 0 ? $order->neighbourhood->name . ' ' . $order->address: ''}}</td>
                     <td>
-                        @if($order->status == 1) <!--   ثبت -->
-                            <a href="{{ route('orders.delivered', $order->id) }}" class="btn btn-xs btn-success" data-toggle="tooltip" title="ارسال شد">
-                                تغییر وضعیت به ارسال شده
-                            </a>
-                            <a href="{{ route('orders.failed', $order->id) }}" class="btn btn-xs btn-danger" data-toggle="tooltip" title="لغو سفارش">
-                                لغو سفارش
-                            </a>
-                        @elseif($order->status == 2) <!--   ارسال شده -->
-                            <div class="label label-warning">ارسال شده</div>
-                        @elseif($order->status == 3) <!--   لفو شده به دلیل حد نصاب -->
-                            <div class="label label-danger">لفو شده به دلیل حد نصاب</div>
-                        @elseif($order->status == 4) <!--   لغو شده توسط کاربر -->
-                            <div class="label label-danger">لغو شده توسط کاربر</div>
-                        @endif
-                        <a href="{{route('orders.bill', $order->id)}}" class="btn btn-xs btn-info" data-toggle="tooltip" title="مشاهده فاکتور">مشاهده فاکتور</a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                عملیات
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-left" role="menu">
+                            @if($order->status == 1) <!--   ثبت -->
+                                <li style="padding:5px 10px;">
+                                    <a href="{{ route('orders.delivered', $order->id) }}" class="btn btn-xs btn-success">تغییر وضعیت به ارسال شده</a>
+                                </li>
+                                <li style="padding:5px 10px;">
+                                    <a href="{{ route('orders.failed', $order->id) }}" class="btn btn-xs btn-danger">لغو سفارش</a>
+                                </li>
+                            @endif
+                                <li style="padding:5px 10px;">
+                                    <a href="{{route('orders.bill', $order->id)}}" class="btn btn-xs btn-info">مشاهده فاکتور</a>
+                                </li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             @endforeach
