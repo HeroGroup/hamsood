@@ -55,7 +55,7 @@
             </div>
 
               <div style="margin-top:20px;text-align: center;">
-                  <a href="http://wp.hamsod.com/قوانین-و-مقررات/" target="_blank">قوانین و مقررات</a>
+                  <a href="/terms" target="_blank">قوانین و مقررات</a>
               </div>
 
               <div style="position:fixed;bottom:0;left:0;width:100%;">
