@@ -76,6 +76,7 @@
                         <th>نام</th>
                         <th>شماره موبایل</th>
                         <th>جنسیت</th>
+                        <th>موجودی کیف پول</th>
                         <th>تاریخ عضویت</th>
                         <th>عملیات</th>
                     </tr>
@@ -86,9 +87,11 @@
                             <td>{{$customer->name}}</td>
                             <td>{{$customer->mobile}}</td>
                             <td>{{$customer->gender ? config("enums.gender.$customer->gender") : ""}}</td>
+                            <td>{{number_format($customer->balance) . ' تومان'}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime($customer->created_at))}}</td>
                             <td>
                                 <a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a>
+                                <a href="{{route('admin.customers.transactions', $customer->id)}}" class="btn btn-xs btn-success">لیست تراکنش ها</a>
                                 <a href="{{route('orders.index', ['availableProduct' => 0, 'customer' => $customer->id])}}" class="btn btn-xs btn-warning">لیست سفارش ها</a>
                             </td>
                         </tr>

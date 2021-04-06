@@ -11,6 +11,7 @@ use App\NeighbourhoodDeliveryTimeFee;
 use App\Order;
 use App\OrderItem;
 use App\Product;
+use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,12 @@ class CustomerController extends Controller
     {
         $addresses = CustomerAddress::where('customer_id', $customerId)->get();
         return view('admin.customers.addresses', compact('addresses'));
+    }
+
+    public function customerTransactions($customerId)
+    {
+        $transactions = Transaction::where('customer_id', $customerId)->orderBy('id','desc')->get();
+        return view('admin.customers.transactions', compact('transactions'));
     }
 
     public static function checkLastLogin($lastLogin)

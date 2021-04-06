@@ -78,6 +78,7 @@ class HomeController extends Controller
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
             $gender = $customer->gender;
+            $profileCompleted = ($customer->gender && $customer->name) ? true : false;
         }
         $products = Product::where('is_active',1)->get();
         $result = [];
@@ -115,7 +116,7 @@ class HomeController extends Controller
                 }
             }
             // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-            return view('customers.landing', compact('result', 'cartItemsCount', 'gender'));
+            return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted'));
 
         } else {
             return view('customers.notActive');

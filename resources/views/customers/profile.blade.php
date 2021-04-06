@@ -16,7 +16,7 @@
             <img name="profile_image" width="100" height="100" style="border-radius:50px;" @if($customer->gender=="male") src="/images/avatars/male.png" @elseif($customer->gender=="female") src="/images/avatars/female.png" @else src="/images/user_default_image.png" @endif />
         </div>
         <div style="margin-top:15px;">
-            <input type="text" name="name" id="name" value="{{$customer->name}}" placeholder="نام و نام خانوادگی" class="name-input" />
+            <input type="text" name="name" id="name" value="{{$customer->name}}" required placeholder="نام و نام خانوادگی" class="name-input" />
         </div>
         <div style="margin-top:15px;color:#222;padding:15px;">
             <div>
@@ -45,9 +45,17 @@
         target.css({"background-color":"#31AC6B","color":"white"});
         target.prop("disabled",false);
     }
+    function deActivateSubmitButton() {
+        var target = $("#submit-button");
+        target.css({"background-color":"#eee","color":"gray"});
+        target.prop("disabled",true);
+    }
 
     $("input[name=name]").on("input", function() {
-        activateSubmitButton();
+        if($(this).val().length >= 3)
+            activateSubmitButton();
+        else
+            deActivateSubmitButton();
     });
 
     $("input[type=radio]").on("change", function() {

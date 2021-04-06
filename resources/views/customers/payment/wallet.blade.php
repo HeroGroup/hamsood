@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'کیف پول', 'withNavigation' => true])
+@extends('layouts.customer', ['pageTitle' => 'کیف پول', 'withNavigation' => true, 'backUrl' => '/'])
 @section('content')
     <style>
         input::-webkit-outer-spin-button,
@@ -29,10 +29,8 @@
             outline:none !important;
         }
         .amount-item {
-            flex:1;
             border:1px solid gray;
             border-radius:5px;
-            margin:10px;
             padding:5px 10px;
             font-size:16px;
             cursor: pointer;
@@ -44,20 +42,20 @@
             color:white;
         }
     </style>
-<div style="margin:70px 0;color:#222;">
+<div style="margin:70px 10px;color:#222;">
     <div class="tab-container">
         <a href="{{route('customers.wallet')}}" id="products" class="tab-item selected">افزایش اعتبار</a>
         <a href="{{route('customers.transactions')}}" id="address" class="tab-item">تراکنش های من</a>
     </div>
 
-    <div style="margin:20px 10px;text-align:center;color:gray;border:1px solid lightgray;border-radius:5px;">
+    <div style="margin:20px 0;text-align:center;color:gray;border:1px solid lightgray;border-radius:5px;">
         <h2>موجودی کیف پول</h2>
         <h2>{{number_format($balance)}} تومان</h2>
     </div>
     <form method="post" action="{{route('customers.pay')}}" id="pay-form">
         @csrf
-        <div style="margin:20px 10px;background-color:#eee;border-radius:5px;display:flex;">
-            <div style="flex:1;text-align: center;">
+        <div style="margin:50px 0;background-color:#eee;border-radius:5px;display:flex;">
+            <div style="flex:1;text-align:center;color:#64498E">
                 <h4>مبلغ مورد نظر جهت</h4>
                 <h4>افزایش اعتبار</h4>
                 <div style="color:red;font-size:12px;">حداقل 5,000 تومان</div>
@@ -68,17 +66,17 @@
             </div>
         </div>
 
-        <div style="display:flex;text-align:center;margin:20px 0;">
+        <div style="display:flex;margin:20px 0;justify-content:space-between;align-items:center;">
             <div class="amount-item" data-val="50000">50,000 تومان</div>
             <div class="amount-item" data-val="20000">20,000 تومان</div>
             <div class="amount-item" data-val="10000">10,000 تومان</div>
         </div>
 
-        <div style="display:flex;text-align:center;">
+        <div style="display:flex;align-items:center;justify-content:space-around;">
             @foreach(config('enums.online_payment_methods') as $key=>$method)
                 @if($method['active'] == 1)
-                <div style="flex:1;border:1px solid lightgray;border-radius:5px;margin: 0 10px;padding:5px 10px;">
-                    <input type="radio" id="{{$key}}" name="method" value="{{$key}}">
+                <div style="border:1px solid lightgray;border-radius:5px;padding:5px 10px;margin:20px 0;">
+                    <input type="radio" id="{{$key}}" name="method" value="{{$key}}" autofocus />
                     <img src="{{$method['icon']}}" width="20" height="20">
                     <label for="{{$key}}">{{$method['name']}}</label>
                 </div>

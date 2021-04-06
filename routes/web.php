@@ -91,6 +91,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/customers', 'CustomerController@index')->name("customers.index");
         Route::get('/customers/{customer}/addresses', 'CustomerController@customerAddresses')->name("admin.customers.addresses");
+        Route::get('/customers/{customer}/transactions', 'CustomerController@customerTransactions')->name("admin.customers.transactions");
         Route::get('/neighbourhoods', 'AddressController@neighbourhoodsList')->name("neighbourhoods.index");
         Route::get('/toggleActivateNeighbourhood/{id}', 'AddressController@toggleActivateNeighbourhood')->name("neighbourhoods.toggleActivateNeighbourhood");
 
