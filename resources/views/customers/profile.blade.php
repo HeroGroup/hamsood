@@ -26,7 +26,7 @@
                 @foreach(config('enums.gender') as $key=>$gender)
                     <div style="flex:1;">
                         <input type="radio" id="{{$key}}" name="gender" value="{{$key}}" @if($customer->gender==$key) checked @endif>
-                        <label for="male">{{$gender}}</label>
+                        <label for="{{$key}}">{{$gender}}</label>
                     </div>
                 @endforeach
             </div>

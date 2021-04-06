@@ -51,6 +51,19 @@ return [
         2 => 'پرداخت اینترنتی'
     ],
 
+    'online_payment_methods' => [
+        '1' => [
+            'name' => 'درگاه pay.ir',
+            'icon' => '/images/pay_ir_icon.png',
+            'active' => 1
+        ],
+        '2' => [
+            'name' => 'درگاه زرین پال',
+            'icon' => '/images/zarinpal_icon.png',
+            'active' => 1
+        ]
+    ],
+
     'yes_no' => [
         0 => 'خیر',
         1 => 'بله'

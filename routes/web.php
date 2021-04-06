@@ -62,6 +62,7 @@ Route::middleware('customer.auth')->group(function () {
     Route::prefix('payment')->group(function () {
         Route::get('/wallet','PaymentController@wallet')->name('customers.wallet');
         Route::get('/transactions','PaymentController@transactions')->name('customers.transactions');
+        Route::post('/pay','PaymentController@pay')->name('customers.pay');
     });
 
     Route::get('/customer/profile', 'CustomerController@profile')->name('customers.profile');
