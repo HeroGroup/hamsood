@@ -54,11 +54,13 @@
     </div>
     <form method="post" action="{{route('customers.pay')}}" id="pay-form">
         @csrf
+        <input type="hidden" name="title" value="افزایش اعتبار" />
+        <input type="hidden" name="redirect" value="{{route('customers.wallet')}}" />
         <div style="margin:50px 0;background-color:#eee;border-radius:5px;display:flex;">
             <div style="flex:1;text-align:center;color:#64498E">
                 <h4>مبلغ مورد نظر جهت</h4>
                 <h4>افزایش اعتبار</h4>
-                <div style="color:red;font-size:12px;">حداقل 5,000 تومان</div>
+                <div style="color:red;font-size:12px;">حداقل 1,000 تومان</div>
             </div>
             <div style="flex:1;text-align: center;">
                 <input type="number" name="amount" id="amount" placeholder="مبلغ" />
@@ -76,7 +78,7 @@
             @foreach(config('enums.online_payment_methods') as $key=>$method)
                 @if($method['active'] == 1)
                 <div style="border:1px solid lightgray;border-radius:5px;padding:5px 10px;margin:20px 0;">
-                    <input type="radio" id="{{$key}}" name="method" value="{{$key}}" autofocus />
+                    <input type="radio" id="{{$key}}" name="online_payment_method" value="{{$key}}" autofocus />
                     <img src="{{$method['icon']}}" width="20" height="20">
                     <label for="{{$key}}">{{$method['name']}}</label>
                 </div>
@@ -94,7 +96,7 @@
 </div>
     <script>
         $(document).ready(function() {
-            if ($("input[name=amount]").val() >= 5000 && $("input[name=method]:checked").val() > 0)
+            if ($("input[name=amount]").val() >= 1000 && $("input[name=online_payment_method]:checked").val() > 0)
                 activateSubmitButton();
             else
                 deActivateSubmitButton();
@@ -102,21 +104,21 @@
 
         $(".amount-item").on("click", function () {
             $("#amount").val($(this).attr("data-val"));
-            if($("input[name=method]:checked").val() > 0)
+            if($("input[name=online_payment_method]:checked").val() > 0)
                 activateSubmitButton();
         });
 
         $("input[name=amount]").on("input", function() {
-            if ($(this).val() >= 5000 && $("input[name=method]:checked").val() > 0)
+            if ($(this).val() >= 1000 && $("input[name=online_payment_method]:checked").val() > 0)
                 activateSubmitButton();
             else
                 deActivateSubmitButton();
         });
 
-        $("input[name=method]").on("change", function() {
+        $("input[name=online_payment_method]").on("change", function() {
             $("input[type=radio]").parent().css({"border-color":"lightgray"});
             $(this).parent().css({"border-color":"#31AC6B"});
-            if($("input[name=amount]").val() >= 5000)
+            if($("input[name=amount]").val() >= 1000)
                 activateSubmitButton();
         });
 

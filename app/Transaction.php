@@ -11,6 +11,8 @@ class Transaction extends Model
         'transaction_type',
         'title',
         'amount',
+        'tr_status',
+        'token'
     ];
 
     public function customer()

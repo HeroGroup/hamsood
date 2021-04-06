@@ -17,6 +17,7 @@ Route::get('/landing/{reference?}', 'HomeController@landing')->name('landing');
 Route::get('/product/{product}', 'HomeController@productDetailPage')->name('productDetailPage');
 Route::get('/suggestion/{uid}', 'HomeController@suggest')->name('suggest');
 Route::get('/terms', function() { return view('terms'); });
+Route::get('/payment/payir/callback', 'PaymentController@verify');
 
 Route::middleware('customer.notLoggedIn')->group(function () {
     Route::get('/verifyMobile', 'HomeController@verifyMobile')->name('customers.verifyMobile');
