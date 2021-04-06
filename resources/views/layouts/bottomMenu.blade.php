@@ -1,5 +1,6 @@
 <style>
     .bottom-menu {
+        box-shadow: 0 0 5px #888888;
         overflow: hidden;
         background-color: white;
         position: fixed;

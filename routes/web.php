@@ -59,6 +59,11 @@ Route::middleware('customer.auth')->group(function () {
         Route::post('/finalizeOrder', 'CustomerController@finalizeOrder')->name('customers.finalizeOrder');
     });
 
+    Route::prefix('payment')->group(function () {
+        Route::get('/wallet','PaymentController@wallet')->name('customers.wallet');
+        Route::get('/transactions','PaymentController@transactions')->name('customers.transactions');
+    });
+
     Route::get('/customer/profile', 'CustomerController@profile')->name('customers.profile');
     Route::post('/customer/updateProfile', 'CustomerController@updateProfile')->name('customers.updateProfile');
     Route::get('/customer/logout', 'CustomerController@logout')->name('customers.logout');

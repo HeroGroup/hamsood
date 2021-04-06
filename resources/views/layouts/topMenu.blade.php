@@ -3,7 +3,7 @@
     @if(session('mobile'))
       <img src="@if(isset($gender) && $gender=='male') /images/avatars/male.png @elseif(isset($gender) && $gender=='female') /images/avatars/male.png @else /images/user_default_image.png @endif" width="100" height="100" style="border-radius:50%;" />
       <p style="color:#222;padding: 10px 0;">{{session('mobile')}}</p>
-      <div style="padding:0 20px; text-align:right; margin-bottom:100px;">
+      <div style="padding:0 20px; text-align:right; margin-bottom:30px;">
         <hr style="color:darkgray" />
         <a href="{{route('customers.orders.current')}}" style="padding:0 20px;text-decoration: none;">
           <img src="/images/orders.png" width="30" height="30" />
@@ -13,6 +13,11 @@
         <a href="{{route('customers.addresses')}}" style="padding:0 20px;text-decoration: none;">
           <img src="/images/addresses.png" width="30" height="30" />
           <span>آدرس ها</span>
+        </a>
+        <hr style="color:darkgray" />
+        <a href="{{route('customers.wallet')}}" style="padding:0 20px;text-decoration: none;">
+          <img src="/images/wallet_icon.png" width="30" height="30" />
+          <span>کیف پول</span>
         </a>
         <hr style="color:darkgray" />
       </div>

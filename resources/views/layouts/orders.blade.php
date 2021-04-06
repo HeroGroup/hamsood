@@ -1,5 +1,8 @@
 @extends('layouts.customer', ['pageTitle' => 'لیست سفارشات', 'withNavigation' => true, 'backUrl' => '/'])
 @section('content')
+
+@include('layouts.bottomMenu')
+
     <style>
         .badge-number {
             border-radius:50%;color:white;width:20px;text-align:center;position: absolute;left:0;

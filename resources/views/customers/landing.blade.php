@@ -39,7 +39,7 @@
 }
 </style>
 @include('layouts.bottomMenu')
-<div id="main-div" style="margin-top:70px;margin-bottom:70px;background-color:#eee;color:#222;">
+<div id="main-div" style="margin:70px 0;background-color:#eee;color:#222;">
     <div class="container">
         <div style="margin-bottom:10px;display:flex;justify-content:center;align-items:center;background-color:#FAC850;color:#444;border-radius:10px;box-shadow: 0 0 5px #888888;">
             <div class="clock-container">
