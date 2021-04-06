@@ -38,6 +38,7 @@ class PaymentController extends Controller
                 'transaction_type' => 1,
                 'title' => $request->title,
                 'amount' => $request->amount,
+                'online_payment_method' => $request->online_payment_method
             ]);
             $transaction->save();
 
@@ -90,7 +91,10 @@ class PaymentController extends Controller
             // $customer->update(['balance' => $currentBalance+$this->amount]);
 
             // $transaction = Transaction::find($this->transaction_id);
-            // $transaction->update(['token' => $request->token]);
+            // $transaction->update([
+            //     'token' => $request->token,
+            //     'tr_status' => ''
+            // ]);
 
             // return redirect($this->redirect);
         } catch (VerifyException $exception) {

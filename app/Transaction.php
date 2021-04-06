@@ -11,6 +11,7 @@ class Transaction extends Model
         'transaction_type',
         'title',
         'amount',
+        'online_payment_method',
         'tr_status',
         'token'
     ];
