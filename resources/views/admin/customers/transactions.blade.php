@@ -12,6 +12,7 @@
                         <th>بابت</th>
                         <th>مبلغ</th>
                         <th>تاریخ</th>
+                        <th>وضعیت</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -20,6 +21,15 @@
                             <td>{{$transaction->title}}</td>
                             <td class="@if($transaction->transaction_type==1) text-success @else text-danger @endif">{{number_format($transaction->amount) . ($transaction->transaction_type==1 ? '+' : '-')}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime($transaction->created_at))}}</td>
+                            <td>
+                                @if($transaction->tr_status == 0)
+                                    <div class="label label-info">منتظر پرداخت</div>
+                                @elseif($transaction->tr_status == 1)
+                                    <div class="label label-danger">انصراف از پرداخت</div>
+                                @elseif($transaction->tr_status == 2)
+                                    <div class="label label-success">پرداخت شده</div>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

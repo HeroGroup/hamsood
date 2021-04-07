@@ -11,11 +11,6 @@ use SaeedVaziry\Payir\PayirPG;
 
 class PaymentController extends Controller
 {
-    protected $amount;
-    protected $transaction_id;
-    protected $customerId;
-    protected $redirect;
-
     public function wallet()
     {
         $balance = \request()->customer->id ? Customer::find(\request()->customer->id)->balance : 0;
@@ -24,7 +19,7 @@ class PaymentController extends Controller
 
     public function transactions()
     {
-        $transactions = \request()->customer->id ? Transaction::where('customer_id', \request()->customer->id)->orderBy('id','desc')->get() : [];
+        $transactions = \request()->customer->id ? Transaction::where('customer_id', \request()->customer->id)->where('tr_status',2)->orderBy('id','desc')->get() : [];
         return view('customers.payment.transactions', compact('transactions'));
     }
 
@@ -42,14 +37,9 @@ class PaymentController extends Controller
             ]);
             $transaction->save();
 
-            $this->transaction_id = $transaction->id;
-            $this->amount = $transaction->amount;
-            $this->customerId = $transaction->customer_id;
-            $this->redirect = $request->redirect;
-
             switch ($request->online_payment_method) {
                 case 1: // pay.ir
-                    return $this->payir();
+                    return $this->payir($request->amount, $transaction->id, $request->redirect);
                     break;
                 case 2: // zarinpal
                     break;
@@ -59,12 +49,12 @@ class PaymentController extends Controller
         }
     }
 
-    public function payir()
+    public function payir($amount, $transactionId, $redirectUrl)
     {
         $payir = new PayirPG();
-        $payir->amount = $this->amount*10; // Required, Amount
-        // $payir->factorNumber = 'Factor-Number'; // Optional
-        // $payir->description = 'Some Description'; // Optional
+        $payir->amount = $amount*10;
+        $payir->factorNumber = $transactionId;
+        $payir->description = $redirectUrl;
         // $payir->mobile = '0912XXXXXXX'; // Optional, If you want to show user's saved card numbers in gateway
         // $payir->validCardNumber = '6219860000000000'; // Optional, If you want to limit the payable card
 
@@ -83,20 +73,31 @@ class PaymentController extends Controller
         $payir->token = $request->token; // Pay.ir returns this token to your redirect url
 
         try {
-            $verify = $payir->verify(); // returns verify result from pay.ir like (transId, cardNumber, ...)
+            if ($request->status == 1) {
+                $verify = $payir->verify(); // returns verify result from pay.ir like (transId, cardNumber, ...)
 
-            dd($verify);
-            // $customer = Customer::find($this->customerId);
-            // $currentBalance = $customer->balance;
-            // $customer->update(['balance' => $currentBalance+$this->amount]);
+                $transaction = Transaction::find($verify['factorNumber']);
+                $transaction->update([
+                    'token' => $request->token,
+                    'trans_id' => $verify['transId'],
+                    'tr_status' => 2 // پرداخت موفق
+                ]);
 
-            // $transaction = Transaction::find($this->transaction_id);
-            // $transaction->update([
-            //     'token' => $request->token,
-            //     'tr_status' => ''
-            // ]);
+                $customer = Customer::find($transaction->customer_id);
+                $currentBalance = $customer->balance;
+                $customer->update(['balance' => $currentBalance+($verify['amount']/10)]);
 
-            // return redirect($this->redirect);
+
+                return redirect($verify['description']);
+            } else {
+                // $transaction = Transaction::find($this->transaction_id);
+                // $transaction->update([
+                    // 'token' => $request->token,
+                    // 'tr_status' => 1 // انصراف از پرداخت
+                // ]);
+                return view('notPaid');
+            }
+
         } catch (VerifyException $exception) {
             throw $exception;
         }

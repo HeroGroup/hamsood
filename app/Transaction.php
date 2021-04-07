@@ -13,7 +13,8 @@ class Transaction extends Model
         'amount',
         'online_payment_method',
         'tr_status',
-        'token'
+        'token',
+        'trans_id'
     ];
 
     public function customer()

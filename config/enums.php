@@ -60,7 +60,7 @@ return [
         '2' => [
             'name' => 'درگاه زرین پال',
             'icon' => '/images/zarinpal_icon.png',
-            'active' => 1
+            'active' => 0
         ]
     ],
 

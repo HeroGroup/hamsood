@@ -74,7 +74,8 @@ class HomeController extends Controller
     public function landing($reference=null)
     {
         $gender = "none";
-        session(['mobile' => '09177048781']);
+        $profileCompleted = false;
+        // session(['mobile' => '09177048781']);
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
             $gender = $customer->gender;
@@ -119,7 +120,7 @@ class HomeController extends Controller
             return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted'));
 
         } else {
-            return view('customers.notActive');
+            return view('customers.notActive', compact('gender', 'profileCompleted'));
         }
     }
 
