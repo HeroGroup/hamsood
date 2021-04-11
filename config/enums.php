@@ -55,12 +55,14 @@ return [
         '1' => [
             'name' => 'درگاه pay.ir',
             'icon' => '/images/pay_ir_icon.png',
-            'active' => 1
+            'active' => 1,
+            'selected' => true
         ],
         '2' => [
             'name' => 'درگاه زرین پال',
             'icon' => '/images/zarinpal_icon.png',
-            'active' => 0
+            'active' => 0,
+            'selected' => false
         ]
     ],
 

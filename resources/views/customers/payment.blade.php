@@ -13,7 +13,7 @@
     .payment-method {
         border:1px solid lightgray;
         border-radius:5px;
-        margin: 0 20px 20px 20px;
+        margin: 20px 10px;
         padding: 10px 15px;
         cursor:pointer;
         background-color:white;
@@ -28,13 +28,16 @@
     .payment-inactive-description {
         color:gray;
         margin-right:20px;
+        margin-bottom: 20px;
     }
 </style>
+
 <div style="margin:80px 0;">
-    <div class="payment-method" style="border-color:#31AC6B;">پرداخت در محل</div>
-    <div class="payment-method payment-inactive">پرداخت اینترنتی</div>
-    <div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>
-    <div style="margin:20px 20px 0 20px;">
+    <form method="post" action="{{route('customers.finalizeOrder')}}" id="final-form">
+        @csrf
+        <input type="hidden" name="payment_method" value="2" />
+        <input type="hidden" name="amount" value="{{$prices['yourPayment']}}" />
+        <div style="margin:0 10px;">
         @component('components.orderBill', [
             'realPrice' => $prices['realPrice'],
             'yourPrice' => $prices['yourPrice'],
@@ -43,21 +46,25 @@
             'yourProfit' => $prices['yourProfit'],
             'yourPayment' => $prices['yourPayment']
         ])@endcomponent
-    </div>
+        </div>
+        <div class="payment-method payment-inactive">پرداخت در محل</div>
+        <div class="payment-inactive-description">در حال حاضر پرداخت در محل فعال نمی باشد.</div>
+        <div class="payment-method" style="border-color:#31AC6B;">پرداخت اینترنتی</div>
+        @component('components.onlinePaymentMethods')@endcomponent
+    </form>
 </div>
-    <div style="position:fixed;bottom:0;left:0;width:100%;">
-        <form method="post" action="{{route('customers.finalizeOrder')}}" id="final-form">
-            @csrf
-            <input type="hidden" name="payment_method" value="1" />
-            <button type="button" class="btn confirm-button" onclick="finalSubmit()" id="submit-button">
-                تايید نهایی
-            </button>
-        </form>
-    </div>
-    <script>
-     function finalSubmit() {
-         $("#submit-button").prop("disabled",true);
-         document.getElementById("final-form").submit();
-     }
-    </script>
+
+<div style="position:fixed;bottom:0;left:0;width:100%;background-color:white;">
+    <button type="button" class="btn confirm-button" onclick="finalSubmit()" id="submit-button">
+        تايید نهایی
+    </button>
+</div>
+
+<script>
+    function finalSubmit() {
+        $("#submit-button").prop("disabled",true);
+        document.getElementById("final-form").submit();
+    }
+</script>
+
 @endsection

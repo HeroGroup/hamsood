@@ -152,7 +152,9 @@ class CustomerController extends Controller
                 OrderItem::create([
                     'order_id' => $order->id,
                     'available_product_id' => $item->available_product_id,
-                    'weight' => $item->weight
+                    'weight' => $item->weight,
+                    'real_price' => $item->real_price,
+                    'discount' => $item->discount
                 ]);
             }
 
@@ -289,7 +291,16 @@ class CustomerController extends Controller
                 return redirect(route('landing'));
 
         $orderId = $this->submitOrder();
-        return $orderId > 0 ? redirect(route('customers.orders.products', $orderId)) : redirect(route('landing'));
+
+        if ($request->payment_method == 1) { // پرداخت در محل
+            return $orderId > 0 ? redirect(route('customers.orders.products', $orderId)) : redirect(route('landing'));
+        } else { // پرداخت اینترنتی
+            $title = "پرداخت سفارش شماره $orderId";
+            $amount = $request->amount;
+            $online_payment_method = $request->online_payment_method;
+            $redirect = route('customers.orders.products', $orderId);
+            return view("customers.payment.onlinePaymentParameters", compact('title','amount','online_payment_method','redirect'));
+        }
     }
 
     public function profile()

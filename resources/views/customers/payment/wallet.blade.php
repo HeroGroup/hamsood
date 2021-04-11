@@ -36,6 +36,8 @@
             cursor: pointer;
             background-color: white;
             color:#222;
+            margin:0 10px;
+            text-align: center;
         }
         .amount-item:hover {
             background-color: #64498E;
@@ -48,7 +50,7 @@
         <a href="{{route('customers.transactions')}}" id="address" class="tab-item">تراکنش های من</a>
     </div>
 
-    <div style="margin:20px 0;text-align:center;color:gray;border:1px solid lightgray;border-radius:5px;">
+    <div style="margin:20px 10px;text-align:center;color:gray;border:1px solid lightgray;border-radius:5px;">
         <h2>موجودی کیف پول</h2>
         <h2>{{number_format($balance)}} تومان</h2>
     </div>
@@ -56,7 +58,7 @@
         @csrf
         <input type="hidden" name="title" value="افزایش اعتبار" />
         <input type="hidden" name="redirect" value="{{route('customers.wallet')}}" />
-        <div style="margin:50px 0;background-color:#eee;border-radius:5px;display:flex;">
+        <div style="margin:50px 10px;background-color:#eee;border-radius:5px;display:flex;">
             <div style="flex:1;text-align:center;color:#64498E">
                 <h4>مبلغ مورد نظر جهت</h4>
                 <h4>افزایش اعتبار</h4>
@@ -74,20 +76,11 @@
             <div class="amount-item" data-val="10000">10,000 تومان</div>
         </div>
 
-        <div style="display:flex;align-items:center;justify-content:space-around;">
-            @foreach(config('enums.online_payment_methods') as $key=>$method)
-                @if($method['active'] == 1)
-                <div style="border:1px solid lightgray;border-radius:5px;padding:5px 10px;margin:20px 0;">
-                    <input type="radio" id="{{$key}}" name="online_payment_method" value="{{$key}}" autofocus />
-                    <img src="{{$method['icon']}}" width="20" height="20">
-                    <label for="{{$key}}">{{$method['name']}}</label>
-                </div>
-                @endif
-            @endforeach
-        </div>
+        @component('components.onlinePaymentMethods')@endcomponent
+
     </form>
 
-    <div style="position:fixed;bottom:0;left:0;width:100%;">
+    <div style="position:fixed;bottom:0;left:0;width:100%;z-index:4;background-color:white;">
         <button type="button" onclick="pay()" id="submit-button" class="btn confirm-button">
             پرداخت
         </button>
@@ -113,13 +106,6 @@
                 activateSubmitButton();
             else
                 deActivateSubmitButton();
-        });
-
-        $("input[name=online_payment_method]").on("change", function() {
-            $("input[type=radio]").parent().css({"border-color":"lightgray"});
-            $(this).parent().css({"border-color":"#31AC6B"});
-            if($("input[name=amount]").val() >= 1000)
-                activateSubmitButton();
         });
 
         function pay() {
