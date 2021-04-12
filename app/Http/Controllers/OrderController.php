@@ -18,6 +18,7 @@ class OrderController extends Controller
         $title = 'سفارشات ';
 
         $active = Order::where('status', 1)->orderBy('id', 'desc');
+        $paid = Order::where('status', 11)->orderBy('id', 'desc');
         $sent = Order::where('status', 2)->orderBy('id', 'desc');
         $failed = Order::where('status', 3)->orderBy('id', 'desc');
         $canceled = Order::where('status', 4)->orderBy('id', 'desc');
@@ -25,6 +26,7 @@ class OrderController extends Controller
         if($availableProduct > 0) {
             $items = OrderItem::where('available_product_id', $availableProduct)->select('order_id')->distinct()->get();
             $active = $active->whereIn('id', $items);
+            $paid = $paid->whereIn('id', $items);
             $sent = $sent->whereIn('id', $items);
             $failed = $failed->whereIn('id', $items);
             $canceled = $canceled->whereIn('id', $items);
@@ -34,6 +36,7 @@ class OrderController extends Controller
 
         if($customer > 0) {
             $active = $active->where('customer_id', $customer);
+            $paid = $paid->where('customer_id', $customer);
             $sent = $sent->where('customer_id', $customer);
             $failed = $failed->where('customer_id', $customer);
             $canceled = $canceled->where('customer_id', $customer);
@@ -43,11 +46,12 @@ class OrderController extends Controller
         }
 
         $active = $active->orderBy('id', 'desc')->get();
+        $paid = $paid->orderBy('id', 'desc')->get();
         $sent = $sent->orderBy('id', 'desc')->get();
         $failed = $failed->orderBy('id', 'desc')->get();
         $canceled = $canceled->orderBy('id', 'desc')->get();
 
-        return view('orders.index', compact('active', 'sent', 'canceled', 'failed', 'title'));
+        return view('orders.index', compact('active', 'paid', 'sent', 'canceled', 'failed', 'title'));
     }
 
     public function delivered($order)

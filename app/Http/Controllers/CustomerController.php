@@ -298,8 +298,9 @@ class CustomerController extends Controller
             $title = "پرداخت سفارش شماره $orderId";
             $amount = $request->amount;
             $online_payment_method = $request->online_payment_method;
-            $redirect = route('customers.orders.products', $orderId);
-            return view("customers.payment.onlinePaymentParameters", compact('title','amount','online_payment_method','redirect'));
+            $transaction_type = 2; // پرداخت سفارش
+            $redirect = route('customers.paid', $orderId);
+            return view("customers.payment.onlinePaymentParameters", compact('title','amount','online_payment_method','redirect','transaction_type'));
         }
     }
 

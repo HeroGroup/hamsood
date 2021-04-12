@@ -64,6 +64,8 @@ Route::middleware('customer.auth')->group(function () {
         Route::get('/wallet','PaymentController@wallet')->name('customers.wallet');
         Route::get('/transactions','PaymentController@transactions')->name('customers.transactions');
         Route::post('/pay','PaymentController@pay')->name('customers.pay');
+        Route::get('/paid/{orderId}','PaymentController@paid')->name('customers.paid');
+        Route::get('/notPaid/{back?}','PaymentController@notPaid')->name('customers.notPaid');
     });
 
     Route::get('/customer/profile', 'CustomerController@profile')->name('customers.profile');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Order;
 use App\Transaction;
 use Illuminate\Http\Request;
 use SaeedVaziry\Payir\Exceptions\SendException;
@@ -30,7 +31,8 @@ class PaymentController extends Controller
         if ($customer) {
             $transaction = new Transaction([
                 'customer_id' => $customerId,
-                'transaction_type' => 1,
+                'transaction_sign' => 1, // CRED
+                'transaction_type' => $request->transaction_type,
                 'title' => $request->title,
                 'amount' => $request->amount,
                 'online_payment_method' => $request->online_payment_method
@@ -87,7 +89,6 @@ class PaymentController extends Controller
                 $currentBalance = $customer->balance;
                 $customer->update(['balance' => $currentBalance+($verify['amount']/10)]);
 
-
                 return redirect($verify['description']);
             } else {
                 // $transaction = Transaction::find($this->transaction_id);
@@ -95,11 +96,31 @@ class PaymentController extends Controller
                     // 'token' => $request->token,
                     // 'tr_status' => 1 // انصراف از پرداخت
                 // ]);
-                return view('notPaid');
+                $back = $verify['description'];
+                return redirect(route('customers.notPaid', $back));
             }
 
         } catch (VerifyException $exception) {
             throw $exception;
+        }
+    }
+
+    public function notPaid($back="/")
+    {
+        return view('notPaid', compact('back'));
+    }
+
+    public function paid($orderId)
+    {
+        $order = Order::find($orderId);
+        $customer = Customer::find($order->customer_id);
+        $toPay = $order->total_price + $order->shippment_price;
+        $currentBalance = $customer->balance;
+        $customer->update(['balance' => $currentBalance - $toPay]);
+        if ($customer->balance >= 0)
+            return redirect(route('customers.orders.products', $orderId));
+        else {
+            return redirect(route('customers.notPaid', $back));
         }
     }
 }

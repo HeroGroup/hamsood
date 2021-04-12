@@ -13,8 +13,8 @@
                 <h4>{{$transaction->title}}</h4>
                 <p style="color:gray;">{{jdate('l، d F Y - H:i', strtotime($transaction->created_at))}}</p>
             </div>
-            <h3 style="flex:1;text-align:center; @if($transaction->transaction_type==1) color:green; @else color:red; @endif">
-                {{number_format($transaction->amount) . ($transaction->transaction_type == 1 ? '+' : '-')}}
+            <h3 style="flex:1;text-align:center; @if($transaction->transaction_sign==1) color:green; @else color:red; @endif">
+                {{number_format($transaction->amount) . ($transaction->transaction_sign == 1 ? '+' : '-')}}
                 تومان
             </h3>
         </div>
