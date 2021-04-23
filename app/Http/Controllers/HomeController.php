@@ -75,7 +75,7 @@ class HomeController extends Controller
     {
         $gender = "none";
         $profileCompleted = false;
-        session(['mobile' => '09177048781']);
+        // session(['mobile' => '09177048781']);
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
             $gender = $customer->gender;
