@@ -1,7 +1,7 @@
 <div id="myNav" class="overlay">
   <div class="overlay-content">
     @if(session('mobile'))
-      <img src="@if(isset($gender) && $gender=='male') /images/avatars/male.png @elseif(isset($gender) && $gender=='female') /images/avatars/male.png @else /images/user_default_image.png @endif" width="100" height="100" style="border-radius:50%;" />
+      <img src="@if(isset($gender) && $gender=='male') /images/avatars/male.png @elseif(isset($gender) && $gender=='female') /images/avatars/female.png @else /images/user_default_image.png @endif" width="100" height="100" style="border-radius:50%;" />
       <p style="color:#222;padding: 10px 0;">{{session('mobile')}}</p>
       @if(isset($profileCompleted) && !$profileCompleted)
       <a href="{{route('customers.profile')}}" class="btn btn-success">تکمیل مشخصات</a>

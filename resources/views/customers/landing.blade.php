@@ -141,11 +141,13 @@
             <div style="display: flex;padding:10px;justify-content: center;align-items: flex-end;">
                 <div style="flex:1;text-align: center;">
                     @if($item['userCartWeight'] > 0)
-                        <button class="add-subtract-button" onclick="addWeight('{{$item['availableProduct']->id}}', 4)">+</button>
-                        <span id="weight-{{$item['availableProduct']->id}}" style="margin:0 8px;font-size:16px;">{{$item['userCartWeight']}}</span>
-                        <button class="add-subtract-button" id="subtract-{{$item['availableProduct']->id}}" onclick="subtractWeight('{{$item['availableProduct']->id}}')">
+                    <div style="display:flex;">
+                        <button class="add-subtract-button" style="flex:1" onclick="addWeight('{{$item['availableProduct']->id}}', 4)">+</button>
+                        <span id="weight-{{$item['availableProduct']->id}}" style="flex:1;margin:0 8px;font-size:16px;">{{$item['userCartWeight']}}</span>
+                        <button class="add-subtract-button" id="subtract-{{$item['availableProduct']->id}}" style="flex:1" onclick="subtractWeight('{{$item['availableProduct']->id}}')">
                             @if($item['userCartWeight'] > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
                         </button>
+                    </div>
                     @elseif($item['userWeight'] > 0)
                         <a class="btn" href="{{route('customers.orders.products', $item['orderId'])}}" style="border-color:#64498E;color:#64498E;width:100%;">جزيیات سفارش</a>
                     @else

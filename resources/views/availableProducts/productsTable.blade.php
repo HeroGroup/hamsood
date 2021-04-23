@@ -9,7 +9,8 @@
             <th>تعداد</th>
             <th>حداکثر اعضا</th>
             <th>فعال تا</th>
-            <th>خریداری شده - ارسال شده</th>
+            <th>تعداد سفارش</th>
+            <th>مجموع وزن</th>
             <th>عملیات</th>
         </tr>
         </thead>
@@ -23,10 +24,9 @@
                 <td>{{$product->maximum_group_members}} نفر</td>
                 <td>{{config('enums.active_until.'.$product->available_until_datetime)}} {{$product->until_day}}</td>
                 <!--<td style="text-align: right;">{{$product->getDiscounts()}}</td>-->
-                <td style="text-align: center;font-size:18px;">
-                    <span style="color:lightgreen">{{$product->getOrdersCount()}}</span> -
-                    <span style="color:orange;">{{$product->getSentOrdersCount()}}</span>
-                </td>
+                <td style="text-align: center;font-size:18px;color:lightgreen;">{{$product->getOrdersCount()}}</td>
+                <td style="text-align: center;font-size:18px;color:orange;">{{$product->getOrdersWeight()}} کیلو</td>
+                <!--<span>{{$product->getSentOrdersCount()}}</span>-->
                 <td>
                     <a href="{{route('orders.index', $product->id)}}" class="btn btn-xs btn-info" data-toggle="tooltip" title="لیست سفارشات">لیست سفارشات</a>
                     <a href="#" onclick="showInModal('{{$product->getDiscounts()}}')" class="btn btn-xs btn-warning" data-toggle="tooltip" title="{{$product->getDiscounts()}}">ریز تخفیفات</a>

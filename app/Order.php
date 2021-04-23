@@ -19,6 +19,7 @@ class Order extends Model
         'neighbourhood_id',
         'address',
         'payment_method',
+        'payment_status',
         'status'
     ];
 

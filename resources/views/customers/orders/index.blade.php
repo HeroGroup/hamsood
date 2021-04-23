@@ -40,7 +40,7 @@
                             </button>
                         </div>
                         <div style="flex:1">
-                            <button class="btn" style="background-color:white;color:red;border-color:red;" onclick="cancelOrder('{{route('customers.orders.cancelOrder', $order->id)}}')">لغو سفارش</button>
+                            <button class="btn" id="cancel-order-button" style="background-color:white;color:red;border-color:red;" onclick="cancelOrder('{{route('customers.orders.cancelOrder', $order->id)}}')">لغو سفارش</button>
                         </div>
 
                     </div>

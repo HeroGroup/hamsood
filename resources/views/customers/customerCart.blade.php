@@ -35,12 +35,14 @@
             </div>
             <div style="display:flex;flex-direction:row;padding:10px;vertical-align:center;">
                 <div style="flex:2;text-align:center;">
-                    <button  class="add-subtract-button" onclick="addWeight('{{$cartItem->availableProduct->id}}', 4, true, '{{$cartItem->availableProduct->price}}', {{$cartItem->discount/$cartItem->real_price*100}})">+</button>
-                    <span id="weight-{{$cartItem->availableProduct->id}}" style="margin:0 5px;font-size:16px;">{{$cartItem->weight}}</span>
-                    <button id="subtract-{{$cartItem->availableProduct->id}}" class="add-subtract-button" onclick="subtractWeight('{{$cartItem->availableProduct->id}}', true, '{{$cartItem->availableProduct->price}}', '{{$cartItem->discount/$cartItem->real_price*100}}')">
-                        @if($cartItem->weight > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
-                    </button>
-                    <h6 style="color:red;padding:8px 0;">سفارش حداقل ۱ کیلو و حداکثر ۴ کیلو</h4>
+                    <div style="display:flex;">
+                        <button class="add-subtract-button" style="flex:1" onclick="addWeight('{{$cartItem->availableProduct->id}}', 4, true, '{{$cartItem->availableProduct->price}}', {{$cartItem->discount/$cartItem->real_price*100}})">+</button>
+                        <span id="weight-{{$cartItem->availableProduct->id}}" style="flex:1;margin:0 5px;font-size:16px;">{{$cartItem->weight}}</span>
+                        <button id="subtract-{{$cartItem->availableProduct->id}}" class="add-subtract-button" style="flex:1" onclick="subtractWeight('{{$cartItem->availableProduct->id}}', true, '{{$cartItem->availableProduct->price}}', '{{$cartItem->discount/$cartItem->real_price*100}}')">
+                            @if($cartItem->weight > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
+                        </button>
+                    </div>
+                    <h6 style="color:red;padding:8px 0;">سفارش حداقل ۱ کیلو و حداکثر ۴ کیلو</h6>
                 </div>
                 <div style="flex:3;">
                     @component('components.productPrice', ['availableProduct' => $cartItem->availableProduct, 'nextDiscount' => $cartItem->discount/$cartItem->real_price*100, 'weight' => $cartItem->weight])@endcomponent

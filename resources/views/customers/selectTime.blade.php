@@ -41,7 +41,7 @@
 
 <script>
 function submitTime() {
-    $("#submit-button").prop("disabled",true);
+    // $("#submit-button").prop("disabled",true);
     document.getElementById("select-time-form").submit();
 }
 </script>

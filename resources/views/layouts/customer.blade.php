@@ -18,14 +18,25 @@
             @include('layouts.topNavigation', ['pageTitle' => $pageTitle, 'backUrl' => isset($backUrl) ? $backUrl : null])
         @endif
 
-        @if(\Illuminate\Support\Facades\Session::has('message'))
+        {{--@if(\Illuminate\Support\Facades\Session::has('message'))
             @component('components.alert', [
                 'message' => \Illuminate\Support\Facades\Session::get('message'),
                 'type' => \Illuminate\Support\Facades\Session::get('type')])
             @endcomponent
-        @endif
+        @endif--}}
 
         @yield('content')
-
+        <script>
+            $(document).ready(function() {
+                if("{{\Illuminate\Support\Facades\Session::has('message')}}" ? true : false) {
+                    Swal.fire({
+                      icon: "{{\Illuminate\Support\Facades\Session::get('type')}}" === "danger" ? 'error' : 'success',
+                      text: "{{\Illuminate\Support\Facades\Session::get('message')}}",
+                      timerProgressBar: true,
+                      timer:5000
+                    });
+                }
+            });
+        </script>
     </body>
 </html>

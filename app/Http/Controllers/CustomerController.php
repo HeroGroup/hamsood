@@ -38,7 +38,7 @@ class CustomerController extends Controller
         return view('admin.customers.transactions', compact('transactions'));
     }
 
-    public static function checkLastLogin($lastLogin)
+    public function checkLastLogin($lastLogin)
     {
         $seconds = 120;
         $lastLoginAttempt = new \DateTime($lastLogin);
@@ -128,7 +128,7 @@ class CustomerController extends Controller
         return $rand;
     }
 
-    public function submitOrder()
+    public static function submitOrder()
     {
         try {
             $order = new Order([
@@ -160,14 +160,14 @@ class CustomerController extends Controller
 
             // delete cart
             $deletedRows = CustomerCartItem::where('customer_id', \request()->customer->id)->delete();
-/*
+
            $admins = User::where('send_sms',1)->get();
            foreach ($admins as $admin) {
-               $token = session('available_product_id');
+               $token = $order->id;
                $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
                $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
            }
-*/
+
             $this->clearSession();
 
             return $order->id;
@@ -290,17 +290,47 @@ class CustomerController extends Controller
             if ($this->checkIfUserBought($cartItem->available_product_id, \request()->customer->id) >= 4)
                 return redirect(route('landing'));
 
-        $orderId = $this->submitOrder();
 
         if ($request->payment_method == 1) { // پرداخت در محل
+            $orderId = $this->submitOrder();
             return $orderId > 0 ? redirect(route('customers.orders.products', $orderId)) : redirect(route('landing'));
         } else { // پرداخت اینترنتی
-            $title = "پرداخت سفارش شماره $orderId";
+            $title = "افزایش اعتبار";
             $amount = $request->amount;
             $online_payment_method = $request->online_payment_method;
             $transaction_type = 2; // پرداخت سفارش
-            $redirect = route('customers.paid', $orderId);
+            $redirect = route('customers.paid');
+            session(['notPaidRedirect' => '/']);
             return view("customers.payment.onlinePaymentParameters", compact('title','amount','online_payment_method','redirect','transaction_type'));
+        }
+    }
+
+    public function paid()
+    {
+        $customerId = \request()->customer->id;
+        $customer = Customer::find($customerId);
+
+
+        $orderId = $this->submitOrder();
+        $order = Order::find($orderId);
+
+        $toPay = $order->total_price + $order->shippment_price;
+
+        $transaction = new Transaction([
+            'customer_id' => $customerId,
+            'transaction_sign' => 2, // DEBT
+            'transaction_type' => 2, // پرداخت سفارش
+            'title' => "پرداخت سفارش $orderId",
+            'amount' => $toPay
+        ]);
+        $transaction->save();
+
+        $currentBalance = $customer->balance;
+        $customer->update(['balance' => $currentBalance - $toPay]);
+        if ($customer->balance >= 0)
+            return redirect(route('customers.orders.products', $orderId));
+        else {
+            return redirect("/payment/notPaid");
         }
     }
 

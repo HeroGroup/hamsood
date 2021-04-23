@@ -122,7 +122,7 @@ class CustomerCartController extends Controller
                     $cartItem = CustomerCartItem::where('available_product_id', $product)->where('customer_id', $customer)->first();
                     if ($cartItem) {
                         if ($cartItem->weight < 4) {
-                            $newWeight++;
+                            $newWeight+=.5;
                             $cartItem->update(['weight' => $newWeight]);
                         }
                     } else {
@@ -151,7 +151,7 @@ class CustomerCartController extends Controller
                 if ($newWeight > 0) {
                     $cartItem = CustomerCartItem::where('available_product_id', $product)->where('customer_id', $customer)->first();
                     if ($cartItem && $cartItem->weight > 1) {
-                        $newWeight--;
+                        $newWeight-=.5;
                         $cartItem->update(['weight' => $newWeight]);
                     } else {
                         return $this->success("cart removed successfully", $this->removeFromCart($availableProduct->product_id, $customer));

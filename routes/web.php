@@ -57,6 +57,7 @@ Route::middleware('customer.auth')->group(function () {
         Route::get('/selectAddress', 'AddressController@selectAddress')->name('customers.selectAddress');
         Route::get('/getTime/{customerName}','CustomerController@getTime')->name('customers.getTime');
         Route::post('/payment', 'CustomerController@selectTime')->name('customers.selectTime');
+        Route::get('/paid','CustomerController@paid')->name('customers.paid');
         Route::post('/finalizeOrder', 'CustomerController@finalizeOrder')->name('customers.finalizeOrder');
     });
 
@@ -64,7 +65,6 @@ Route::middleware('customer.auth')->group(function () {
         Route::get('/wallet','PaymentController@wallet')->name('customers.wallet');
         Route::get('/transactions','PaymentController@transactions')->name('customers.transactions');
         Route::post('/pay','PaymentController@pay')->name('customers.pay');
-        Route::get('/paid/{orderId}','PaymentController@paid')->name('customers.paid');
         Route::get('/notPaid/{back?}','PaymentController@notPaid')->name('customers.notPaid');
     });
 

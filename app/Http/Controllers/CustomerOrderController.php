@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\AvailableProduct;
 use App\Order;
+use App\OrderItem;
 
 class CustomerOrderController extends Controller
 {
@@ -19,7 +21,7 @@ class CustomerOrderController extends Controller
     public function currentOrders()
     {
         // status = 1
-        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 11)->orderBy('id','DESC')->get();
+        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 1)->orderBy('id','DESC')->get();
         $selected = "current";
         if ($orders->count() > 0) {
             $day = $orders->first()->items->first()->availableProduct->until_day;
@@ -50,8 +52,16 @@ class CustomerOrderController extends Controller
     public function cancelOrder($orderId)
     {
         $order = Order::find($orderId);
-        $order->update(['status' => 4]);
-        return redirect(route('customers.orders.failed'));
+        $orderItem = OrderItem::where('order_id',$orderId)->first();
+        $product = AvailableProduct::find($orderItem->available_product_id);
+        $remaining = HomeController::getRemainingTime($product->until_day, $product->available_until_datetime);
+
+        if($remaining > 0) {
+            $order->update(['status' => 4]);
+            return redirect(route('customers.orders.failed'));
+        } else {
+            return redirect()->back()->with("message","به دلیل پایان زمان سفارش گیری امکان لغو وجود ندارد.")->with("type","error");
+        }
     }
 
     public function orderProducts($orderId)

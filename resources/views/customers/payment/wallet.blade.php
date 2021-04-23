@@ -57,7 +57,8 @@
     <form method="post" action="{{route('customers.pay')}}" id="pay-form">
         @csrf
         <input type="hidden" name="title" value="افزایش اعتبار" />
-        <input type="hidden" name="redirect" value="{{route('customers.wallet')}}" />
+        <input type="hidden" name="transaction_type" value="1" />
+        <input type="hidden" name="redirect" value="/payment/wallet" />
         <div style="margin:50px 10px;background-color:#eee;border-radius:5px;display:flex;">
             <div style="flex:1;text-align:center;color:#64498E">
                 <h4>مبلغ مورد نظر جهت</h4>

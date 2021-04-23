@@ -6,7 +6,7 @@
         <h4 style="flex:1;text-align:left;">{{jdate('Y/m/j', strtotime($order->created_at))}}</h4>
     </div>
     <div>
-        <h5>آدرس تحویل: {{$order->address}}</h5>
+        <h5>آدرس تحویل: {{$order->neighbourhood->name}} - {{$order->address}}</h5>
     </div>
     <div>
         <h5>زمان تحویل: {{$order->delivery_date}} ساعت {{$order->delivery_time}}</h5>

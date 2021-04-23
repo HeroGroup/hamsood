@@ -19,6 +19,9 @@
         background-color:white;
         color:#222;
     }
+    .payment-active {
+        border-color:#31AC6B;
+    }
     .payment-inactive {
         border-color:lightgray;
         cursor:not-allowed;
@@ -49,7 +52,8 @@
         </div>
         <div class="payment-method payment-inactive">پرداخت در محل</div>
         <div class="payment-inactive-description">در حال حاضر پرداخت در محل فعال نمی باشد.</div>
-        <div class="payment-method" style="border-color:#31AC6B;">پرداخت اینترنتی</div>
+        <div class="payment-method payment-active">پرداخت اینترنتی</div>
+        <!--<div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>-->
         @component('components.onlinePaymentMethods')@endcomponent
     </form>
 </div>

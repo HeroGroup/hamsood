@@ -47,6 +47,15 @@ class AvailableProduct extends Model
             ->count();
     }
 
+    public function getOrdersWeight()
+    {
+        return DB::table('order_items')
+            ->join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->where('order_items.available_product_id', $this->id)
+            ->whereIn('orders.status',[1,2])
+            ->sum('weight');
+    }
+
     public function getSentOrdersCount()
     {
         $items = OrderItem::where('available_product_id', $this->id)->select('order_id')->distinct()->get();

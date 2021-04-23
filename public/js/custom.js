@@ -20,6 +20,14 @@ function disableButton() {
         cartControlButtons[j].style.backgroundColor = "lightgray";
         cartControlButtons[j].style.cursor = "not-allowed";
     }
+
+    var cancelButton = document.getElementById("cancel-order-button");
+    if(cancelButton) {
+        cancelButton.disabled = true;
+        cancelButton.style.color = "#222";
+        cancelButton.style.backgroundColor = "lightgray";
+        cancelButton.style.borderColor = "lightgray";
+    }
 }
 
 function countdown(distance) {
@@ -40,7 +48,7 @@ function countdown(distance) {
             document.getElementById("seconds").innerHTML = seconds.length > 1 ? seconds : "0" + seconds;
 
             // If the count down is finished, write some text
-            if (distance < 0) {
+            if (distance <= 0) {
                 clearInterval(x);
                 disableButton();
             }
@@ -55,13 +63,13 @@ function countdown(distance) {
 
 function addWeight(product, maximum, withUpdate=true, basePrice=0, discount=0) {
     var target = $(`#weight-${product}`);
-    var weight = parseInt(target.text());
+    var weight = parseFloat(target.text());
     if (weight === maximum) {
         // do nothing
     } else {
-        weight++;
+        weight+=.5;
         target.text(weight);
-        if (weight > 1) {
+        if (weight >= 1.5) {
             var targetButton = $(`#subtract-${product}`);
             targetButton.html("");
             targetButton.text('-');
@@ -88,14 +96,14 @@ function addWeight(product, maximum, withUpdate=true, basePrice=0, discount=0) {
 
 function subtractWeight(product, withUpdate=true, basePrice=0, discount=0) {
     var target = $(`#weight-${product}`);
-    var weight = parseInt(target.text());
+    var weight = parseFloat(target.text());
     if (weight == 0) {
         // do nothing
     } else {
-        weight--;
-        target.text(weight);
+        weight-=.5;
+        target.text(weight < 1 ? 0 : weight);
         var targetButton = $(`#subtract-${product}`);
-        if (weight > 1) {
+        if (weight >= 1.5) {
             // change text to -
             targetButton.html("");
             targetButton.text('-');
@@ -130,7 +138,7 @@ function subtractWeight(product, withUpdate=true, basePrice=0, discount=0) {
 
 const share = async (uid,pid=null) => {
     console.log(uid,pid);
-    const shareURL = uid.length > 0 ? 'https://hamsod.com/suggestion/'+uid : (pid.length > 0 ? 'https://hamsod.com/product/'+pid : 'https://hamsod.com');
+    const shareURL = uid.length > 0 ? 'https://hamsood.com/suggestion/'+uid : (pid.length > 0 ? 'https://hamsood.com/product/'+pid : 'https://hamsood.com');
     const shareData = {
         title: 'همسود',
         text: 'شما هم در این خرید همسود شوید',

@@ -2,7 +2,7 @@
 @section('tab-content')
 <div style="margin:10px;">
     @component('components.orderBill', [
-        'realPrice' => $order->items()->first()->weight * $order->items()->first()->availableProduct->price,
+        'realPrice' => $order->total_price+$order->discount,
         'yourPrice' => $order->total_price,
         'shippmentPrice' => $order->shippment_price,
         'yourProfit' => $order->discount,

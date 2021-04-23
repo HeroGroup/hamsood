@@ -15,6 +15,7 @@ class PaymentController extends Controller
     public function wallet()
     {
         $balance = \request()->customer->id ? Customer::find(\request()->customer->id)->balance : 0;
+        session(['notPaidRedirect' => "/wallet"]);
         return view('customers.payment.wallet', compact('balance'));
     }
 
@@ -62,10 +63,10 @@ class PaymentController extends Controller
 
         try {
             $payir->send();
-
+            
             return redirect($payir->paymentUrl);
         } catch (SendException $exception) {
-            throw $exception;
+            return redirect()->back()->with('message', $exception->getMessage())->with('type', 'danger');
         }
     }
 
@@ -73,7 +74,6 @@ class PaymentController extends Controller
     {
         $payir = new PayirPG();
         $payir->token = $request->token; // Pay.ir returns this token to your redirect url
-
         try {
             if ($request->status == 1) {
                 $verify = $payir->verify(); // returns verify result from pay.ir like (transId, cardNumber, ...)
@@ -89,38 +89,25 @@ class PaymentController extends Controller
                 $currentBalance = $customer->balance;
                 $customer->update(['balance' => $currentBalance+($verify['amount']/10)]);
 
-                return redirect($verify['description']);
+                return redirect(session('redirectUrl'));
             } else {
                 // $transaction = Transaction::find($this->transaction_id);
                 // $transaction->update([
                     // 'token' => $request->token,
                     // 'tr_status' => 1 // انصراف از پرداخت
                 // ]);
-                $back = $verify['description'];
-                return redirect(route('customers.notPaid', $back));
+                return redirect("/payment/notPaid");
             }
 
         } catch (VerifyException $exception) {
-            throw $exception;
+            return redirect()->back()->with('message', $exception->getMessage())->with('type', 'danger');
         }
     }
 
-    public function notPaid($back="/")
+    public function notPaid()
     {
+        $back = session('notPaidRedirect') ?? "";
+        session(['notPaidRedirect' => '']);
         return view('notPaid', compact('back'));
-    }
-
-    public function paid($orderId)
-    {
-        $order = Order::find($orderId);
-        $customer = Customer::find($order->customer_id);
-        $toPay = $order->total_price + $order->shippment_price;
-        $currentBalance = $customer->balance;
-        $customer->update(['balance' => $currentBalance - $toPay]);
-        if ($customer->balance >= 0)
-            return redirect(route('customers.orders.products', $orderId));
-        else {
-            return redirect(route('customers.notPaid', $back));
-        }
     }
 }
