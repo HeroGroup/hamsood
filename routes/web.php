@@ -20,6 +20,7 @@ Route::get('/terms', function() { return view('terms'); });
 Route::get('/payment/payir/callback', 'PaymentController@verify');
 
 Route::middleware('customer.notLoggedIn')->group(function () {
+    Route::get('/signup', 'HomeController@signup')->name('customers.signup');
     Route::get('/verifyMobile', 'HomeController@verifyMobile')->name('customers.verifyMobile');
     Route::get('/verifyToken/{mobile?}', 'HomeController@verifyToken')->name('customers.verifyToken');
     Route::post('/verifyMobile', 'CustomerController@verifyMobile')->name('verifyMobile');

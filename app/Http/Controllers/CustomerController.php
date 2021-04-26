@@ -63,27 +63,60 @@ class CustomerController extends Controller
     public function verifyMobile(Request $request)
     {
         if ($request->mobile && strlen($request->mobile) == 11) {
-            // check if customer exists
-            $customerExists = Customer::where('mobile', 'like', $request->mobile)->count();
-            if ($customerExists) {
-                $customer = Customer::where('mobile', 'like', $request->mobile)->first();
-                $check = self::checkLastLogin($customer->updated_at);
-                if ($check['status'] < 0) {
-                    return redirect(route('customers.verifyMobile'))->with('error', $check['message']);
+            if($request->form_type == "signup") {
+                if($request->share_code && strlen($request->share_code) == 5) {
+                    $invitor = Customer::where('share_code','like',$request->share_code)->where('mobile','not like',$request->mobile)->get();
+                    if ($invitor->count() == 1) {
+                        // check if customer exists
+                        $customerExists = Customer::where('mobile', 'like', $request->mobile)->count();
+                        if ($customerExists) {
+                            $customer = Customer::where('mobile', 'like', $request->mobile)->first();
+                            $check = self::checkLastLogin($customer->updated_at);
+                            if ($check['status'] < 0) {
+                                return redirect(route('customers.verifyMobile'))->with('error', $check['message']);
+                            } else {
+                                $token = Hash::make(self::sendTokenSms($request->mobile));
+                                $customer->update(['token' => $token]);
+                            }
+                        } else {
+                            $token = Hash::make(self::sendTokenSms($request->mobile));
+                            $customer = new Customer([
+                                'mobile' => $request->mobile,
+                                'token' => $token,
+                                'invitor' => $request->share_code
+                            ]);
+                            $customer->save();
+
+                            $base = 23486;
+                            $customer->update(['share_code' => $base + ($customer->id*3)]);
+                        }
+
+                        return $request->has('ajax') ? $this->success('request sent') : redirect(route('customers.verifyToken', $request->mobile));
+                    } else {
+                        return $request->has('ajax') ? $this->fail('invalid mobile') : back()->withInput()->with('message', 'کد معرف نامعتبر')->with('type','danger');
+                    }
                 } else {
-                    $token = Hash::make(self::sendTokenSms($request->mobile));
-                    $customer->update(['token' => $token]);
+                    return $request->has('ajax') ? $this->fail('invalid mobile') : back()->withInput()->with('message', 'کد معرف نامعتبر')->with('type','danger');
+                }
+            } else if($request->form_type == "login") {
+                $customerExists = Customer::where('mobile', 'like', $request->mobile)->count();
+                if ($customerExists) {
+                    $customer = Customer::where('mobile', 'like', $request->mobile)->first();
+                    $check = self::checkLastLogin($customer->updated_at);
+                    if ($check['status'] < 0) {
+                        return redirect(route('customers.verifyMobile'))->with('error', $check['message']);
+                    } else {
+                        $token = Hash::make(self::sendTokenSms($request->mobile));
+                        $customer->update(['token' => $token]);
+
+                        return $request->has('ajax') ? $this->success('request sent') : redirect(route('customers.verifyToken', $request->mobile));
+                    }
+                } else {
+                    return redirect(route('customers.signup'));
                 }
             } else {
-                $token = Hash::make(self::sendTokenSms($request->mobile));
-                $customer = new Customer([
-                    'mobile' => $request->mobile,
-                    'token' => $token
-                ]);
-                $customer->save();
+                return redirect(route('customers.signup'));
             }
-
-            return $request->has('ajax') ? $this->success('request sent') : redirect(route('customers.verifyToken', $request->mobile));
         } else {
             return $request->has('ajax') ? $this->fail('invalid mobile') : redirect(route('customers.verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
         }

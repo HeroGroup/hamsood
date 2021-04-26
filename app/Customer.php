@@ -12,7 +12,9 @@ class Customer extends Model
         'token',
         'gender',
         'profile_image_url',
-        'balance'
+        'balance',
+        'invitor',
+        'share_code'
     ];
 
     public function addresses()

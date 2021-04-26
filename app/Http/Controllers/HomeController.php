@@ -202,6 +202,12 @@ class HomeController extends Controller
         return view('customers.verifyMobile');
     }
 
+    public function signup()
+    {
+        $signup = true;
+        return view('customers.verifyMobile',compact('signup'));
+    }
+
     public function verifyToken($mobile=null)
     {
         if ($mobile && strlen($mobile) == 11) {

@@ -137,7 +137,7 @@ function subtractWeight(product, withUpdate=true, basePrice=0, discount=0) {
 }
 
 const share = async (uid,pid=null) => {
-    console.log(uid,pid);
+    // console.log(uid,pid);
     const shareURL = uid.length > 0 ? 'https://hamsood.com/suggestion/'+uid : (pid.length > 0 ? 'https://hamsood.com/product/'+pid : 'https://hamsood.com');
     const shareData = {
         title: 'همسود',

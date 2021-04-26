@@ -31,6 +31,19 @@
                 @endforeach
             </div>
         </div>
+        <div style="text-align:center;color:#222;margin:20px 30px;">
+            <span>جهت دعوت و ثبت نام دوستان خود </span><br>
+            <span>و مشارکت آن ها در خرید گروهی، </span><br>
+            <span>کد زیر را برای آن ها ارسال نمایید.</span><br>
+            <div style="border:1px dashed gray;border-radius:5px;display:flex;justify-content:space-around;padding:5px 10px;margin:15px 0;">
+                <span style="font-size:18px;color:gray;">
+                    {{$customer->share_code}}
+                </span>
+                <a style="text-decoration:none;" href="#" onclick="shareCode()">
+                    <img src="/images/share_code_icon.png" width="18" height="20" />
+                </a>
+            </div>
+        </div>
     </div>
     <div style="position:fixed;bottom:0;left:0;width:100%;">
         <button type="button" onclick="submitForm()" id="submit-button" class="btn confirm-button" disabled style="color:gray;background-color:#eee;">
@@ -80,5 +93,17 @@
         target.prop("disabled",true);
         document.getElementById("profile-form").submit();
     }
+
+    const shareCode = async () => {
+        const shareData = {
+            title: 'ثبت نام در همسود',
+            text: 'با استفاده از کد زیر در همسود ثبت نام کنید و در استفاده از تخفیف گروهی سهیم شوید.'+'\n'+"{{$customer->share_code}}"+'\n'+"www.hamsood.com",
+        };
+        try {
+            await navigator.share(shareData)
+        } catch(err) {
+            // resultPara.textContent = 'Error: ' + err
+        }
+    };
 </script>
 @endsection

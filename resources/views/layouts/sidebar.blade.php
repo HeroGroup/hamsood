@@ -14,7 +14,7 @@
                 <a href="{{route('customers.index')}}"><i class="fa fa-fw fa-users"></i> مشتری ها</a>
             </li>
             <li>
-                <a href="{{route('carts.index')}}"><i class="fa fa-fw fa-shopping-cart"></i> سبد خرید های فعال</a>
+                <a href="{{route('carts.index')}}"><i class="fa fa-fw fa-shopping-cart"></i> سبد خریدهای ناتمام</a>
             </li>
             <li>
                 <a href="{{route('neighbourhoods.index')}}"><i class="fa fa-fw fa-list"></i> مناطق</a>
