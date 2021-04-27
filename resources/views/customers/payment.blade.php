@@ -53,7 +53,7 @@
         <div class="payment-method payment-inactive" data-val="1">پرداخت در محل</div>
         <!--<div class="payment-inactive-description">در حال حاضر پرداخت در محل فعال نمی باشد.</div>-->
         <div class="payment-method payment-active" data-val="2">پرداخت اینترنتی</div>
-    <!--<div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>-->
+        <!--<div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>-->
         <div class="online-payment-methods">
             @component('components.onlinePaymentMethods')@endcomponent
         </div>
