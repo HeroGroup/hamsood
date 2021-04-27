@@ -76,6 +76,7 @@
                         <th>نام</th>
                         <th>شماره موبایل</th>
                         <th>جنسیت</th>
+                        <th>معرف</th>
                         <th>موجودی کیف پول</th>
                         <th>تاریخ عضویت</th>
                         <th>عملیات</th>
@@ -87,6 +88,8 @@
                             <td>{{$customer->name}}</td>
                             <td>{{$customer->mobile}}</td>
                             <td>{{$customer->gender ? config("enums.gender.$customer->gender") : ""}}</td>
+                            <?php $invitor = \App\Customer::where('share_code','like',$customer->invitor)->first(); ?>
+                            <td>{{$invitor ? $invitor->name : '-'}}</td>
                             <td>{{number_format($customer->balance) . ' تومان'}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime($customer->created_at))}}</td>
                             <td>
