@@ -24,9 +24,9 @@
     }
     .payment-inactive {
         border-color:lightgray;
-        cursor:not-allowed;
-        color:lightgray;
-        margin-bottom:5px;
+        /*cursor:not-allowed;*/
+        /*color:lightgray;*/
+        /*margin-bottom:5px;*/
     }
     .payment-inactive-description {
         color:gray;
@@ -38,7 +38,7 @@
 <div style="margin:80px 0;">
     <form method="post" action="{{route('customers.finalizeOrder')}}" id="final-form">
         @csrf
-        <input type="hidden" name="payment_method" value="1" />
+        <input type="hidden" name="payment_method" value="2" />
         <input type="hidden" name="amount" value="{{$prices['yourPayment']}}" />
         <div style="margin:0 10px;">
         @component('components.orderBill', [
@@ -50,11 +50,13 @@
             'yourPayment' => $prices['yourPayment']
         ])@endcomponent
         </div>
-        <div class="payment-method payment-active">پرداخت در محل</div>
+        <div class="payment-method payment-inactive" data-val="1">پرداخت در محل</div>
         <!--<div class="payment-inactive-description">در حال حاضر پرداخت در محل فعال نمی باشد.</div>-->
-        <div class="payment-method payment-inactive">پرداخت اینترنتی</div>
-        <div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>
-        <!--@component('components.onlinePaymentMethods')@endcomponent-->
+        <div class="payment-method payment-active" data-val="2">پرداخت اینترنتی</div>
+    <!--<div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>-->
+        <div class="online-payment-methods">
+            @component('components.onlinePaymentMethods')@endcomponent
+        </div>
     </form>
 </div>
 
@@ -65,6 +67,23 @@
 </div>
 
 <script>
+    $(".payment-method").on("click", function() {
+        $(".payment-method").removeClass("payment-active");
+        $(".payment-method").addClass("payment-inactive");
+        $(this).removeClass("payment-inactive");
+        $(this).addClass("payment-active");
+
+        var paymentMethod = $(this).attr("data-val");
+        $("input[name=payment_method]").val(paymentMethod);
+        console.log($("input[name=payment_method]").val());
+        var onlinePaymentMethods = $(".online-payment-methods");
+        if (paymentMethod === "2") {
+            onlinePaymentMethods.css({"display":"bock"});
+        } else {
+            onlinePaymentMethods.css({"display":"none"});
+        }
+    });
+
     function finalSubmit() {
         $("#submit-button").prop("disabled",true);
         document.getElementById("final-form").submit();
