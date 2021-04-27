@@ -88,8 +88,7 @@
                             <td>{{$customer->name}}</td>
                             <td>{{$customer->mobile}}</td>
                             <td>{{$customer->gender ? config("enums.gender.$customer->gender") : ""}}</td>
-                            <?php $invitor = \App\Customer::where('share_code','like',$customer->invitor)->first(); ?>
-                            <td>{{$invitor ? $invitor->name : '-'}}</td>
+                            <td>{{$customer->invitor ? \App\Customer::where('share_code','like',$customer->invitor)->first()->name : '-'}}</td>
                             <td>{{number_format($customer->balance) . ' تومان'}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime($customer->created_at))}}</td>
                             <td>
