@@ -97,7 +97,8 @@
     const shareCode = async () => {
         const shareData = {
             title: 'ثبت نام در همسود',
-            text: 'با استفاده از کد زیر در همسود ثبت نام کنید و در استفاده از تخفیف گروهی سهیم شوید.'+'\n'+"{{$customer->share_code}}"+'\n'+"www.hamsood.com",
+            text: 'با استفاده از کد زیر در همسود ثبت نام کنید و در استفاده از تخفیف گروهی سهیم شوید.'+'\n'+"{{$customer->share_code}}",
+            url:  'https://hamsood.com/signup'
         };
         try {
             await navigator.share(shareData)
