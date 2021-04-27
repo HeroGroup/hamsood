@@ -21,7 +21,7 @@ class PaymentController extends Controller
 
     public function transactions()
     {
-        $transactions = \request()->customer->id ? Transaction::where('customer_id', \request()->customer->id)->where('tr_status',2)->orderBy('id','desc')->get() : [];
+        $transactions = \request()->customer->id ? Transaction::where('customer_id', \request()->customer->id)->where('tr_status',1)->orderBy('id','desc')->get() : [];
         return view('customers.payment.transactions', compact('transactions'));
     }
 
@@ -63,7 +63,7 @@ class PaymentController extends Controller
 
         try {
             $payir->send();
-            
+
             return redirect($payir->paymentUrl);
         } catch (SendException $exception) {
             return redirect()->back()->with('message', $exception->getMessage())->with('type', 'danger');
@@ -82,7 +82,7 @@ class PaymentController extends Controller
                 $transaction->update([
                     'token' => $request->token,
                     'trans_id' => $verify['transId'],
-                    'tr_status' => 2 // پرداخت موفق
+                    'tr_status' => 1 // پرداخت موفق
                 ]);
 
                 $customer = Customer::find($transaction->customer_id);

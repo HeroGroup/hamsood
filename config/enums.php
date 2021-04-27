@@ -69,6 +69,7 @@ return [
 
     'transaction_status' => [
         0 => 'منتظر پرداخت',
+        1 => 'پرداخت موفق'
     ],
 
     'transaction_sign' => [
