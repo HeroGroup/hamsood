@@ -38,7 +38,7 @@
 <div style="margin:80px 0;">
     <form method="post" action="{{route('customers.finalizeOrder')}}" id="final-form">
         @csrf
-        <input type="hidden" name="payment_method" value="2" />
+        <input type="hidden" name="payment_method" value="1" />
         <input type="hidden" name="amount" value="{{$prices['yourPayment']}}" />
         <div style="margin:0 10px;">
         @component('components.orderBill', [
@@ -50,11 +50,11 @@
             'yourPayment' => $prices['yourPayment']
         ])@endcomponent
         </div>
-        <div class="payment-method payment-inactive">پرداخت در محل</div>
-        <div class="payment-inactive-description">در حال حاضر پرداخت در محل فعال نمی باشد.</div>
-        <div class="payment-method payment-active">پرداخت اینترنتی</div>
-        <!--<div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>-->
-        @component('components.onlinePaymentMethods')@endcomponent
+        <div class="payment-method payment-active">پرداخت در محل</div>
+        <!--<div class="payment-inactive-description">در حال حاضر پرداخت در محل فعال نمی باشد.</div>-->
+        <div class="payment-method payment-inactive">پرداخت اینترنتی</div>
+        <div class="payment-inactive-description">در حال حاضر پرداخت اینترنتی فعال نمی باشد.</div>
+        <!--@component('components.onlinePaymentMethods')@endcomponent-->
     </form>
 </div>
 

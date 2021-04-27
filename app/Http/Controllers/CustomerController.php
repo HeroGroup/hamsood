@@ -161,7 +161,7 @@ class CustomerController extends Controller
         return $rand;
     }
 
-    public static function submitOrder()
+    public function submitOrder()
     {
         try {
             $order = new Order([

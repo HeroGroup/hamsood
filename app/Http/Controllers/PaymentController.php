@@ -89,13 +89,8 @@ class PaymentController extends Controller
                 $currentBalance = $customer->balance;
                 $customer->update(['balance' => $currentBalance+($verify['amount']/10)]);
 
-                return redirect(session('redirectUrl'));
+                return redirect($verify['description']);
             } else {
-                // $transaction = Transaction::find($this->transaction_id);
-                // $transaction->update([
-                    // 'token' => $request->token,
-                    // 'tr_status' => 1 // انصراف از پرداخت
-                // ]);
                 return redirect("/payment/notPaid");
             }
 
