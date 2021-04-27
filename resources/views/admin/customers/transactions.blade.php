@@ -25,8 +25,6 @@
                                 @if($transaction->tr_status == 0)
                                     <div class="label label-info">منتظر پرداخت</div>
                                 @elseif($transaction->tr_status == 1)
-                                    <div class="label label-danger">انصراف از پرداخت</div>
-                                @elseif($transaction->tr_status == 2)
                                     <div class="label label-success">پرداخت شده</div>
                                 @endif
                             </td>
