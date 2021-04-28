@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'شماره موبایل'])
+@extends('layouts.customer', ['pageTitle' => 'ورود/ثبت نام'])
 @section('content')
 
 <div class="container" style="text-align:center;margin-bottom:100px;">

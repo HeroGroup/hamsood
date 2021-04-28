@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' =>'کد تایید'])
+@extends('layouts.customer', ['pageTitle' => 'ورود/ثبت نام'])
 @section('content')
 <style>
 .custom-btn {

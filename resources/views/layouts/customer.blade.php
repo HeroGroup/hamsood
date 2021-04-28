@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="فروشگاه اینترنی خرید گروهی میوه و صیفی جات همسود"/>
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="نوید هرو">
         <title>همسود | {{$pageTitle}}</title>
         <link href="/css/rtl/bootstrap.min.css" rel="stylesheet">
         <link href="/css/rtl/bootstrap.rtl.css" rel="stylesheet">
