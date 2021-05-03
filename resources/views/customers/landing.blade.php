@@ -80,7 +80,10 @@
                     <div style="flex:1;text-align:center;padding:5px;">
                         <h4>پرداختی شما</h4>
                         <h4>تا این لحظه</h4>
-                        <h4 style="background-color: #2680EB;color:white;border-radius:5px;margin:0 5px;padding:5px;">{{number_format((100-$item['lastDiscount'])*$item['availableProduct']->price*$item['userWeight']/100)}} تومان</h4>
+                        <h4 style="background-color: #2680EB;color:white;border-radius:5px;margin:0 5px;padding:5px;">
+                            <?php $discount = $item['myGroupIsComplete'] ? $item['details']->max('discount') : $item['lastDiscount']; ?>
+                            {{number_format((100-$discount)*$item['availableProduct']->price*$item['userWeight']/100)}} تومان
+                        </h4>
                     </div>
                 </div>
                 @else

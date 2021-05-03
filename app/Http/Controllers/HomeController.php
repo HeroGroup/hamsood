@@ -25,16 +25,22 @@ class HomeController extends Controller
     {
         $userBought = 0;
         $orderId = 0;
+        $myGroupIsComplete = false;
         $mobile = session('mobile');
         if ($mobile && strlen($mobile) == 11) {
             $customer = Customer::where('mobile', 'like', $mobile)->first();
             if ($customer) {
-
                 $orderIds = OrderItem::where('available_product_id', $availableProductId)->get(['order_id']);
                 $customerProductOrders = Order::where('customer_id', $customer->id)->whereIn('status', [1,2])->whereIn('id', $orderIds)->get();
                 if($customerProductOrders->count() > 0) {
                     $orderId = $customerProductOrders->max('id');
-                    $userBought = OrderItem::where('available_product_id', $availableProductId)->where('order_id',$orderId)->sum('weight');
+                    $orderItem = OrderItem::where('available_product_id', $availableProductId)->where('order_id',$orderId)->get();
+                    $userBought = $orderItem->sum('weight');
+                    $totalBuyers = Order::whereIn('status', [1,2])->whereIn('id', $orderIds)->count();
+                    $maximumMembers = AvailableProduct::find($availableProductId)->maximum_group_members;
+                    $numberOfCompletedGroups = intdiv($totalBuyers,$maximumMembers);
+                    $nth_buyer = $orderItem->max('nth_buyer');
+                    $myGroupIsComplete = $nth_buyer < $numberOfCompletedGroups*$maximumMembers ? true : false;
                 }
 
                 /*
@@ -53,7 +59,7 @@ class HomeController extends Controller
             }
         }
 
-        return [$userBought,$orderId];
+        return [$userBought,$orderId,$myGroupIsComplete];
     }
 
     public function checkIfExistsInCart($availableProductId) // in new edition, check if exists in cart
@@ -110,6 +116,7 @@ class HomeController extends Controller
                     $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
                     $userWeight = $userBoughtResult[0];
                     $orderId = $userBoughtResult[1];
+                    $myGroupIsComplete = $userBoughtResult[2];
                     $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
 
                     $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
@@ -125,7 +132,8 @@ class HomeController extends Controller
                         'orderId' => $orderId,
                         'userCartWeight' => $userCartWeight,
                         'nextDiscount' => $nextDiscount,
-                        'lastDiscount' => $lastDiscount
+                        'lastDiscount' => $lastDiscount,
+                        'myGroupIsComplete' => $myGroupIsComplete
                     ];
 
                     array_push($result, $item);
