@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 // use App\CustomerCartItem;
+use App\Notification;
 use App\Transaction;
 use Illuminate\Http\Request;
 use App\AvailableProduct;
@@ -76,22 +77,35 @@ class CustomerOrderController extends Controller
         $remaining = HomeController::getRemainingTime($product->until_day, $product->available_until_datetime);
 
         if($remaining > 0) {
+            $notificationText = "سفارش شماره $orderId به درخواست شما لغو شد.";
             if($order->payment_method == 2) { // پرداخت اینترنتی
                 $amount = $order->total_price+$order->shippment_price;
                 Transaction::create([
                     'customer_id' => $order->customer_id,
                     'transaction_sign' => 1,
                     'transaction_type' => 3,
-                    'title' => "برگشت به کیف پول بابت لغو سغارش شماره $order->id",
+                    'title' => "برگشت به کیف پول بابت لغو سغارش شماره $orderId",
                     'amount' => $amount,
                     'tr_status' => 1,
                 ]);
 
                 // update customers balance
                 $customer = Customer::find($order->customer_id);
-                $curretBalance = $customer->balance;
-                $customer->update(['balance' => $curretBalance+$amount]);
+                $currentBalance = $customer->balance;
+                $customer->update(['balance' => $currentBalance+$amount]);
+
+
+                $notificationText = "سفارش شماره $orderId به درخواست شما لغو شد و مبلغ $amount به کیف پول شما برگشت داده شد.";
+
             }
+
+            // save and send notification
+            Notification::create([
+                'customer_id' => $order->customer_id,
+                'notification_title' => 'لغو سفارش',
+                'notification_text' => $notificationText,
+                'save_inbox' => 1,
+            ]);
 
             // loop on order items
             $items = $order->items();

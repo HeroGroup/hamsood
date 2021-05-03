@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\AvailableProduct;
 use App\Customer;
+use App\Notification;
 use App\Order;
 use App\OrderItem;
 use Illuminate\Http\Request;
@@ -70,6 +71,15 @@ class OrderController extends Controller
         $order = Order::find($order);
         if ($order) {
             $order->update(['status' => 3]);
+
+            // save and send notification
+            Notification::create([
+                'customer_id' => $order->customer_id,
+                'notification_title' => 'لغو سفارش',
+                'notification_text' => "سفارش شماره $order->id به دلیل نرسیدن به حد نصاب لغو شد.",
+                'save_inbox' => 1,
+            ]);
+
             return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
         } else {
             return redirect(route('orders.index'))->with('message', 'سفارش نامعتبر')->with('type', 'danger');
