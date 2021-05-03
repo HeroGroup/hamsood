@@ -182,12 +182,16 @@ class CustomerController extends Controller
 
             $cart = CustomerCartItem::where('customer_id', \request()->customer->id)->get();
             foreach ($cart as $item) {
+                $allOrders = OrderItem::where('available_product_id', $item->available_product_id)->get(['order_id']); // all orders of this available product
+                $submittedOrders = Order::whereIn('id',$allOrders)->where('status',1)->get(['id']); // submitted orders of this available product
+                $buyers = OrderItem::where('available_product_id', $item->available_product_id)->whereIn('order_id',$submittedOrders)->get();
                 OrderItem::create([
                     'order_id' => $order->id,
                     'available_product_id' => $item->available_product_id,
                     'weight' => $item->weight,
                     'real_price' => $item->real_price,
-                    'discount' => $item->discount
+                    'discount' => $item->discount,
+                    'nth_buyer' => ($buyers->count() > 0 && $buyers->max('nth_buyer')) ? $buyers->max('nth_buyer')+1 : 1
                 ]);
             }
 

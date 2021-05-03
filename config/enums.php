@@ -49,7 +49,8 @@ return [
 
     'payment_method' => [
         1 => 'پرداخت در محل',
-        2 => 'پرداخت اینترنتی'
+        2 => 'پرداخت اینترنتی',
+        3 => 'پرداخت اینترنتی و بخشی از کیف پول',
     ],
 
     'online_payment_methods' => [
@@ -73,8 +74,8 @@ return [
     ],
 
     'transaction_sign' => [
-        1 => 'CRED',
-        2 => 'DEBT',
+        1 => 'CRED', // +
+        2 => 'DEBT', // -
     ],
 
     'transaction_type' => [

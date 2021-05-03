@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
+// use App\CustomerCartItem;
+use App\Transaction;
 use Illuminate\Http\Request;
 use App\AvailableProduct;
 use App\Order;
@@ -9,6 +12,19 @@ use App\OrderItem;
 
 class CustomerOrderController extends Controller
 {
+    /*
+    public function userCartItemsCount($ajax=false)
+    {
+        if(session('mobile')) {
+            $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
+            $count = $customer ? CustomerCartItem::where('customer_id', $customer->id)->count() : 0;
+            return $ajax ? $this->success("cart items count", $count) : $count;
+        } else {
+            return $ajax ? $this->fail("invali customer") : 0;
+        }
+    }
+    */
+
     public function index()
     {
         $newest = Order::where('customer_id', \request()->customer->id)->max('id');
@@ -30,7 +46,8 @@ class CustomerOrderController extends Controller
         } else {
             $remaining = 0;
         }
-        return view('customers.orders.index', compact('orders', 'selected', 'remaining'));
+        $cartItemsCount = HomeController::userCartItemsCount(); // $this->userCartItemsCount();
+        return view('customers.orders.index', compact('orders', 'selected', 'remaining','cartItemsCount'));
     }
 
     public function successOrders()
@@ -38,7 +55,8 @@ class CustomerOrderController extends Controller
         // status = 2
         $orders = Order::where('customer_id', \request()->customer->id)->where('status', 2)->orderBy('id','DESC')->get();
         $selected = "success";
-        return view('customers.orders.index', compact('orders', 'selected'));
+        $cartItemsCount = HomeController::userCartItemsCount(); // $this->userCartItemsCount();
+        return view('customers.orders.index', compact('orders', 'selected','cartItemsCount'));
     }
 
     public function failedOrders()
@@ -46,7 +64,8 @@ class CustomerOrderController extends Controller
         // status = 3 and 4
         $orders = Order::where('customer_id', \request()->customer->id)->whereIn('status', [3,4])->orderBy('id','DESC')->get();
         $selected = "failed";
-        return view('customers.orders.index', compact('orders', 'selected'));
+        $cartItemsCount = HomeController::userCartItemsCount(); // $this->userCartItemsCount();
+        return view('customers.orders.index', compact('orders', 'selected','cartItemsCount'));
     }
 
     public function cancelOrder($orderId)
@@ -57,6 +76,36 @@ class CustomerOrderController extends Controller
         $remaining = HomeController::getRemainingTime($product->until_day, $product->available_until_datetime);
 
         if($remaining > 0) {
+            if($order->payment_method == 2) { // پرداخت اینترنتی
+                $amount = $order->total_price+$order->shippment_price;
+                Transaction::create([
+                    'customer_id' => $order->customer_id,
+                    'transaction_sign' => 1,
+                    'transaction_type' => 3,
+                    'title' => "برگشت به کیف پول بابت لغو سغارش شماره $order->id",
+                    'amount' => $amount,
+                    'tr_status' => 1,
+                ]);
+
+                // update customers balance
+                $customer = Customer::find($order->customer_id);
+                $curretBalance = $customer->balance;
+                $customer->update(['balance' => $curretBalance+$amount]);
+            }
+
+            // loop on order items
+            $items = $order->items();
+            foreach ($items as $item) {
+                $nth_buyer = $item->nth_buyer;
+                if($nth_buyer>0) {
+                    $nextItems = OrderItem::where('available_product_id', $item->available_product_id)->where('nth_buyer', '>', $nth_buyer)->get();
+                    foreach ($nextItems as $nextItem) {
+                        $nb = $nextItem->nth_buyer;
+                        $nextItem->update(['nth_buyer' => $nb-1]);
+                    }
+                }
+            }
+
             $order->update(['status' => 4]);
             return redirect(route('customers.orders.failed'));
         } else {

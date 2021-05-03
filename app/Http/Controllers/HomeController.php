@@ -29,6 +29,15 @@ class HomeController extends Controller
         if ($mobile && strlen($mobile) == 11) {
             $customer = Customer::where('mobile', 'like', $mobile)->first();
             if ($customer) {
+
+                $orderIds = OrderItem::where('available_product_id', $availableProductId)->get(['order_id']);
+                $customerProductOrders = Order::where('customer_id', $customer->id)->whereIn('status', [1,2])->whereIn('id', $orderIds)->get();
+                if($customerProductOrders->count() > 0) {
+                    $orderId = $customerProductOrders->max('id');
+                    $userBought = OrderItem::where('available_product_id', $availableProductId)->where('order_id',$orderId)->sum('weight');
+                }
+
+                /*
                 $orderMaxId = Order::where('customer_id', $customer->id)->whereIn('status', [1,2])->max('id');
                 if($orderMaxId) {
                   $order = Order::find($orderMaxId);
@@ -40,6 +49,7 @@ class HomeController extends Controller
                       }
                   }
                 }
+                */
             }
         }
 
@@ -61,14 +71,14 @@ class HomeController extends Controller
         return $userWeight;
     }
 
-    public function userCartItemsCount($ajax=false)
+    public static function userCartItemsCount()
     {
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
             $count = $customer ? CustomerCartItem::where('customer_id', $customer->id)->count() : 0;
-            return $ajax ? $this->success("cart items count", $count) : $count;
+            return $count;
         } else {
-            return $ajax ? $this->fail("invali customer") : 0;
+            return 0;
         }
     }
 

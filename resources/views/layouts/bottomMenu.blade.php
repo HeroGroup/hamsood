@@ -40,10 +40,10 @@
     </a>
     <a href="{{route('customers.customerCart')}}">
         <div style="text-align:center;position:relative;">
-            {{--@if(isset($cartItemsCount) && $cartItemsCount>0)
-                <label id="cart-items-count" style="background-color:#31AC6B;border-radius:50%;color:white;width:22px;font-size:16px;position:absolute;top:0;margin-right:-15px;">{{$cartItemsCount}}</label>
-            @endif--}}
-            <label id="cart-items-count" style="background-color:#31AC6B;border-radius:50%;color:white;width:22px;font-size:16px;position:absolute;top:0;margin-right:-15px;"></label>
+            @if(isset($cartItemsCount) && $cartItemsCount>0)
+                <label style="background-color:#31AC6B;border-radius:50%;color:white;width:22px;font-size:16px;position:absolute;top:0;margin-right:-15px;">{{$cartItemsCount}}</label>
+            @endif
+            {{--<label id="cart-items-count" style="background-color:#31AC6B;border-radius:50%;color:white;width:22px;font-size:16px;position:absolute;top:0;margin-right:-15px;"></label>--}}
             <img src="/images/basket_icon.png" width="35" height="35" />
         </div>
         <span>سبد خرید</span>
@@ -56,12 +56,14 @@
     </a>
 </div>
 <script>
-    $.ajax("{{route('customers.userCartItemsCount', 1)}}", {
-        type: 'get',
-        success: function(response) {
-            if (response.status && response.data > 0) {
-                $("#cart-items-count").text(response.data);
-            }
-        }
-    });
+    {{--document.addEventListener('DOMContentLoaded', (event) => {--}}
+        {{--$.ajax("{{route('customers.userCartItemsCount', 1)}}", {--}}
+            {{--type: 'get',--}}
+            {{--success: function(response) {--}}
+                {{--if (response.status && response.data > 0) {--}}
+                    {{--$("#cart-items-count").text(response.data);--}}
+                {{--}--}}
+            {{--}--}}
+        {{--});--}}
+    {{--});--}}
 </script>

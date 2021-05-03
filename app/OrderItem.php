@@ -10,9 +10,11 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'available_product_id',
+        'weight',
         'real_price',
         'discount',
-        'weight'
+        'nth_buyer',
+        'extra_discount'
     ];
 
     public function availableProduct()
