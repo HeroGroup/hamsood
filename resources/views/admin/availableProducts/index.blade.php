@@ -16,10 +16,10 @@
             <hr style="border-color:#666;" />
 
             <div id="active-pills" class="tabcontent" style="display: block;">
-                @component('availableProducts.productsTable', ['products' => $active])@endcomponent
+                @component('admin.availableProducts.productsTable', ['products' => $active])@endcomponent
             </div>
             <div id="inactive-pills" class="tabcontent">
-                @component('availableProducts.productsTable', ['products' => $inactive])@endcomponent
+                @component('admin.availableProducts.productsTable', ['products' => $inactive])@endcomponent
             </div>
 
         </div>

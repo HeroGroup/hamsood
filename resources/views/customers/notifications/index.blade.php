@@ -5,6 +5,7 @@
 
 <div style="margin:70px 0;color:#222;">
     <div style="margin:10px;">
+    @if($notifications->count() > 0)
     @foreach($notifications as $notification)
         <div style="border:1px solid gray;border-radius:5px;padding:10px 30px;">
             <h3>{{$notification->notification_title}}</h3>
@@ -13,6 +14,9 @@
             <h6 style="color:gray;">{{jdate('l، d F Y ساعت H:i', strtotime($notification->created_at))}}</h6>
         </div>
     @endforeach
+    @else
+    <h4 style="color:gray;text-align: center;padding-top:30px;">هنوز پیامی ندارید.</h4>
+    @endif
     </div>
 </div>
 @endsection

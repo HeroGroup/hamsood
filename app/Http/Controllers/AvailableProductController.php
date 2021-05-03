@@ -13,13 +13,13 @@ class AvailableProductController extends Controller
     {
         $active = AvailableProduct::where('is_active',1)->get();
         $inactive = AvailableProduct::where('is_active',0)->get();
-        return view('availableProducts.index', compact('active','inactive'));
+        return view('admin.availableProducts.index', compact('active','inactive'));
     }
 
     public function create()
     {
         $products = Product::pluck('name', 'id')->toArray();
-        return view('availableProducts.create', compact('products'));
+        return view('admin.availableProducts.create', compact('products'));
     }
 
     public function store(Request $request)
@@ -27,7 +27,7 @@ class AvailableProductController extends Controller
         $newProduct = new AvailableProduct($request->all());
         $newProduct->save();
         $defaultDiscounts = [1 => 9, 2 => 12, 3 => 17, 4 => 23, 5 => 26, 6 => 31, 7 => 36, 8 => 38, 9 => 42, 10 => 51];
-        return view('availableProducts.details', compact('newProduct', 'defaultDiscounts'));
+        return view('admin.availableProducts.details', compact('newProduct', 'defaultDiscounts'));
     }
 
     public function storeDetails(Request $request)
@@ -55,7 +55,7 @@ class AvailableProductController extends Controller
     public function edit(AvailableProduct $availableProduct)
     {
         $products = Product::pluck('name', 'id')->toArray();
-        return view('availableProducts.edit', compact('availableProduct', 'products'));
+        return view('admin.availableProducts.edit', compact('availableProduct', 'products'));
     }
 
     public function update(Request $request, AvailableProduct $availableProduct)

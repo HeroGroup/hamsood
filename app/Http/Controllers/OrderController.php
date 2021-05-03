@@ -51,7 +51,7 @@ class OrderController extends Controller
         $failed = $failed->orderBy('id', 'desc')->get();
         $canceled = $canceled->orderBy('id', 'desc')->get();
 
-        return view('orders.index', compact('active', 'paid', 'sent', 'canceled', 'failed', 'title'));
+        return view('admin.orders.index', compact('active', 'paid', 'sent', 'canceled', 'failed', 'title'));
     }
 
     public function delivered($order)
@@ -79,6 +79,6 @@ class OrderController extends Controller
     public function bill($order)
     {
         $order = Order::find($order);
-        return view('orders.bill', compact('order'));
+        return view('admin.orders.bill', compact('order'));
     }
 }

@@ -34,17 +34,17 @@
                     <input class="input-field" type="text" name="share_code" value="{{old('share_code')}}" placeholder="کد معرف" maxlength="5" inputmode="numeric" required />
                 </div>
             </div>
-            <div style="text-align:center;color:#222;margin-top:20px;">
+            <div style="text-align:center;color:#222;margin-top:30px;">
                 <span>حساب کاربری دارم</span>
                 &nbsp;
-                <a class="btn btn-success" href="{{route('customers.verifyMobile')}}">ورود</a>
+                <a href="{{route('customers.verifyMobile')}}">ورود</a>
             </div>
             @else
             <input type="hidden" name="form_type" value="login" />
-            <div style="text-align:center;color:#222;margin-top:20px;">
+            <div style="text-align:center;color:#222;margin-top:30px;">
                 <span>حساب کاربری ندارم</span>
                 &nbsp;
-                <a class="btn btn-success" href="{{route('customers.signup')}}">ثبت نام</a>
+                <a href="{{route('customers.signup')}}">ثبت نام</a>
             </div>
             @endif
             <div style="position:fixed;bottom:0;left:0;width:100%;">

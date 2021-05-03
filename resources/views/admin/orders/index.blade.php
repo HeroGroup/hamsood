@@ -17,19 +17,19 @@
             <hr style="border-color:#666;" />
 
             <div id="active-pills" class="tabcontent" style="display: block;">
-                @component('orders.ordersTable', ['orders' => $active])@endcomponent
+                @component('admin.orders.ordersTable', ['orders' => $active])@endcomponent
             </div>
             <div id="paid-pills" class="tabcontent" style="display: block;">
-                @component('orders.ordersTable', ['orders' => $paid])@endcomponent
+                @component('admin.orders.ordersTable', ['orders' => $paid])@endcomponent
             </div>
             <div id="sent-pills" class="tabcontent">
-                @component('orders.ordersTable', ['orders' => $sent])@endcomponent
+                @component('admin.orders.ordersTable', ['orders' => $sent])@endcomponent
             </div>
             <div id="canceled-pills" class="tabcontent">
-                @component('orders.ordersTable', ['orders' => $canceled])@endcomponent
+                @component('admin.orders.ordersTable', ['orders' => $canceled])@endcomponent
             </div>
             <div id="failed-pills" class="tabcontent">
-                @component('orders.ordersTable', ['orders' => $failed])@endcomponent
+                @component('admin.orders.ordersTable', ['orders' => $failed])@endcomponent
             </div>
         </div>
     </div>
