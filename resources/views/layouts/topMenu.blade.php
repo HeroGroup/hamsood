@@ -27,13 +27,14 @@ hr {
         </a>
         <hr />
         <a href="{{route('customers.notifications')}}" style="padding:0 20px;text-decoration: none;">
-          <img src="/images/notifications_icon.png" width="25" height="25" />
+          <img src="/images/bell_icon.png" width="25" height="25" />
           <span>پیام ها</span>
         </a>
         <hr />
         <a href="{{route('customers.wallet')}}" style="padding:0 20px;text-decoration: none;">
           <img src="/images/wallet_icon.png" width="25" height="25" />
           <span>کیف پول</span>
+          <span style="color:#222;font-size:10px;padding:3px 6px;border:1px solid lightgray;border-radius:5px;float:left;">موجودی {{number_format($balance)}} تومان</span>
         </a>
         <hr style="color:darkgray" />
       </div>

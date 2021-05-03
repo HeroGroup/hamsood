@@ -61,13 +61,14 @@ class HomeController extends Controller
         return $userWeight;
     }
 
-    public function userCartItemsCount($customer=null)
+    public function userCartItemsCount($ajax=false)
     {
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
-            return $customer ? CustomerCartItem::where('customer_id', $customer->id)->count() : 0;
+            $count = $customer ? CustomerCartItem::where('customer_id', $customer->id)->count() : 0;
+            return $ajax ? $this->success("cart items count", $count) : $count;
         } else {
-            return 0;
+            return $ajax ? $this->fail("invali customer") : 0;
         }
     }
 
@@ -76,12 +77,14 @@ class HomeController extends Controller
         $gender = "none";
         $name = "";
         $profileCompleted = false;
+        $balance=0;
         session(['mobile' => '09177048781']);
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
             $gender = $customer->gender;
             $profileCompleted = ($customer->gender && $customer->name) ? true : false;
             $name = $customer->name;
+            $balance = $customer->balance;
         }
         $products = Product::where('is_active',1)->get();
         $result = [];
@@ -119,10 +122,10 @@ class HomeController extends Controller
                 }
             }
             // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-            return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted', 'name'));
+            return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance'));
 
         } else {
-            return view('customers.notActive', compact('gender', 'profileCompleted', 'name'));
+            return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance'));
         }
     }
 

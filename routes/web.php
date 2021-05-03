@@ -73,6 +73,7 @@ Route::middleware('customer.auth')->group(function () {
         Route::get('/','NotificationController@index')->name('customers.notifications');
     });
 
+    Route::get('/userCartItemsCount/{ajax?}', 'HomeController@userCartItemsCount')->name('customers.userCartItemsCount');
     Route::get('/customer/profile', 'CustomerController@profile')->name('customers.profile');
     Route::post('/customer/updateProfile', 'CustomerController@updateProfile')->name('customers.updateProfile');
     Route::get('/customer/logout', 'CustomerController@logout')->name('customers.logout');

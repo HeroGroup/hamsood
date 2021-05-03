@@ -1,5 +1,8 @@
 @extends('layouts.customer', ['pageTitle' => 'پیام ها', 'withNavigation' => true, 'backUrl' => '/' ])
 @section('content')
+
+@include('layouts.bottomMenu')
+
 <div style="margin:70px 0;color:#222;">
     <div style="margin:10px;">
     @foreach($notifications as $notification)
