@@ -38,7 +38,7 @@ class CustomerOrderController extends Controller
     public function currentOrders()
     {
         // status = 1
-        $orders = Order::where('customer_id', \request()->customer->id)->where('status', 1)->orderBy('id','DESC')->get();
+        $orders = Order::where('customer_id', \request()->customer->id)->whereIn('status', [1,11])->orderBy('id','DESC')->get();
         $selected = "current";
         if ($orders->count() > 0) {
             $day = $orders->first()->items->first()->availableProduct->until_day;
@@ -94,7 +94,6 @@ class CustomerOrderController extends Controller
                 $currentBalance = $customer->balance;
                 $customer->update(['balance' => $currentBalance+$amount]);
 
-
                 $notificationText = "سفارش شماره $orderId به درخواست شما لغو شد و مبلغ $amount به کیف پول شما برگشت داده شد.";
 
             }
@@ -107,7 +106,7 @@ class CustomerOrderController extends Controller
                 'save_inbox' => 1,
             ]);
 
-            // loop on order items
+            // loop on order items and shift buyers back once
             $items = $order->items();
             foreach ($items as $item) {
                 $nth_buyer = $item->nth_buyer;

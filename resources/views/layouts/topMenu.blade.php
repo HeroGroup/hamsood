@@ -3,11 +3,16 @@ hr {
     color:darkgray;
     margin:10px 0;
 }
+side-menu-item {
+    padding:0 20px;
+    text-decoration: none;
+    color: #222;
+}
 </style>
 <div id="myNav" class="overlay">
-  <div class="overlay-content">
+  <div class="overlay-content" style="margin-bottom:100px;">
     @if(session('mobile'))
-      <img src="@if(isset($gender) && $gender=='male') /images/avatars/male.png @elseif(isset($gender) && $gender=='female') /images/avatars/female.png @else /images/user_default_image.png @endif" width="100" height="100" style="border-radius:50%;" />
+      <img src="@if(isset($gender) && $gender=='male') /images/avatars/male.png @elseif(isset($gender) && $gender=='female') /images/avatars/female.png @else /images/user_default_image.png @endif" width="70" height="70" style="border-radius:50%;" />
       <p style="color:#222;padding:0; padding-top:10px;margin-bottom:0;">{{session('mobile')}}</p>
       @if(isset($profileCompleted) && !$profileCompleted)
       <a href="{{route('customers.profile')}}" class="btn btn-success" style="margin-top:10px;">تکمیل مشخصات</a>
@@ -16,32 +21,43 @@ hr {
       @endif
       <div style="padding:0 20px; text-align:right; margin-bottom:30px;">
         <hr />
-        <a href="{{route('customers.orders.current')}}" style="padding:0 20px;text-decoration: none;">
-          <img src="/images/orders.png" width="25" height="25" />
+        <a href="{{route('customers.wallet')}}" class="side-menu-item">
+          <img src="/images/wallet_icon.png" width="20" height="20" />
+          <span>کیف پول</span>
+          <span style="color:#222;font-size:12px;padding:3px 6px;border:1px solid lightgray;border-radius:5px;float:left;">موجودی {{number_format($balance)}} تومان</span>
+        </a>
+        <hr />
+        <a href="{{route('customers.orders.current')}}" class="side-menu-item">
+          <img src="/images/orders.png" width="20" height="20" />
           <span>سفارشات</span>
         </a>
         <hr />
-        <a href="{{route('customers.addresses')}}" style="padding:0 20px;text-decoration: none;">
-          <img src="/images/addresses.png" width="25" height="25" />
+        <a href="{{route('customers.addresses')}}" class="side-menu-item">
+          <img src="/images/addresses.png" width="20" height="20" />
           <span>آدرس ها</span>
         </a>
         <hr />
-        <a href="{{route('customers.notifications')}}" style="padding:0 20px;text-decoration: none;">
-          <img src="/images/bell_icon.png" width="25" height="25" />
+        <a href="{{route('customers.notifications')}}" class="side-menu-item">
+          <img src="/images/notifications_icon.png" width="15" height="15" />
           <span>پیام ها</span>
         </a>
         <hr />
-        <a href="{{route('customers.wallet')}}" style="padding:0 20px;text-decoration: none;">
-          <img src="/images/wallet_icon.png" width="25" height="25" />
-          <span>کیف پول</span>
-          <span style="color:#222;font-size:10px;padding:3px 6px;border:1px solid lightgray;border-radius:5px;float:left;">موجودی {{number_format($balance)}} تومان</span>
+        <a href="#" class="side-menu-item">
+          <img src="/images/support_icon.png" width="20" height="20" />
+          <span>پشتیبانی (به زودی)</span>
         </a>
-        <hr style="color:darkgray" />
+        <hr />
+        <a href="#" class="side-menu-item">
+          <img src="/images/about_icon.png" width="20" height="20" />
+          <span>درباره همسود (به زودی)</span>
+        </a>
+        <hr />
+        <a href="{{route('customers.logout')}}" class="side-menu-item">
+          <img src="/images/exit_icon.png" width="20" height="20" />
+          <span>خروج</span>
+        </a>
+        <hr />
       </div>
-      <a href="{{route('customers.logout')}}" style="padding:10px;border:1px solid red;border-radius:5px;text-decoration: none;">
-        <img src="/images/exit_icon.png" width="20" height="25" />
-        <span style="color:red;">خروج</span>
-      </a>
     @else
     <img src="/images/not_entered.png" width="150" height="150" />
     <p style="color:#222;margin-top:80px;">شما هنوز وارد نشده اید</p>
@@ -49,6 +65,11 @@ hr {
       <a class="btn btn-success" href="/verifyMobile" style="/*background-color:#008B44;*/width:150px;">ورود</a>
     </div>
     @endif
+    <div style="text-align:center;margin-top:20px;">
+        <a href="#">
+            <img src="/images/enamad_image.png" width="60" height="65" />
+        </a>
+    </div>
   </div>
 </div>
 

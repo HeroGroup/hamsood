@@ -31,12 +31,12 @@ class HomeController extends Controller
             $customer = Customer::where('mobile', 'like', $mobile)->first();
             if ($customer) {
                 $orderIds = OrderItem::where('available_product_id', $availableProductId)->get(['order_id']);
-                $customerProductOrders = Order::where('customer_id', $customer->id)->whereIn('status', [1,2])->whereIn('id', $orderIds)->get();
+                $customerProductOrders = Order::where('customer_id', $customer->id)->whereIn('status', [1,2,11])->whereIn('id', $orderIds)->get();
                 if($customerProductOrders->count() > 0) {
                     $orderId = $customerProductOrders->max('id');
                     $orderItem = OrderItem::where('available_product_id', $availableProductId)->where('order_id',$orderId)->get();
                     $userBought = $orderItem->sum('weight');
-                    $totalBuyers = Order::whereIn('status', [1,2])->whereIn('id', $orderIds)->count();
+                    $totalBuyers = Order::whereIn('status', [1,2,11])->whereIn('id', $orderIds)->count();
                     $maximumMembers = AvailableProduct::find($availableProductId)->maximum_group_members;
                     $numberOfCompletedGroups = intdiv($totalBuyers,$maximumMembers);
                     $nth_buyer = $orderItem->max('nth_buyer');

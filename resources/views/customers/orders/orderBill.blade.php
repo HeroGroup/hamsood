@@ -1,7 +1,20 @@
 @extends('layouts.orderItem', ['order' => $order, 'selected' => 'bill'])
 @section('tab-content')
 <div style="margin:5px 10px;">
-    <div id="payback-status" style="background-color:orange;border-radius:10px;color:white;text-align:center;margin:10px 0;padding:10px;">منتظر تسویه نهایی</div>
+
+    @if($order->status == 1)
+    <div class="payback" style="background-color:orange;">
+        منتظر تسویه نهایی
+    </div>
+    @elseif($order->status == 11)
+    <div class="payback" style="background-color:#008B44;">
+        @if($order->items()->sum('extra_discount') > 0)
+            تسویه حساب نهایی انجام شد و مبلغ {{$order->items()->sum('extra_discount')}} به کیف پول شما برگشت داده شد
+        @else
+            تسویه حساب نهایی انجام شد
+        @endif
+    </div>
+    @endif
 
     @component('components.orderBill', [
         'realPrice' => $order->total_price+$order->discount,

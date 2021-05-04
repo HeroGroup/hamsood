@@ -45,6 +45,10 @@
                                 <li style="padding:5px 10px;">
                                     <a href="{{ route('orders.failed', $order->id) }}" class="btn btn-xs btn-danger">لغو سفارش</a>
                                 </li>
+                            @elseif($order->status == 11)
+                                <li style="padding:5px 10px;">
+                                    <a href="{{ route('orders.delivered', $order->id) }}" class="btn btn-xs btn-success">تغییر وضعیت به ارسال شده</a>
+                                </li>
                             @endif
                                 <li style="padding:5px 10px;">
                                     <a href="{{route('orders.bill', $order->id)}}" class="btn btn-xs btn-info">مشاهده فاکتور</a>

@@ -8,6 +8,7 @@ use App\Customer;
 use App\Notification;
 use App\Order;
 use App\OrderItem;
+use App\Transaction;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -79,6 +80,18 @@ class OrderController extends Controller
                 'notification_text' => "سفارش شماره $order->id به دلیل نرسیدن به حد نصاب لغو شد.",
                 'save_inbox' => 1,
             ]);
+
+            if($order->payment_method == 2) { // pardakht interneti
+                $amount = $order->total_price+$order->shippment_price;
+                Transaction::create([
+                    'customer_id' => $order->customer_id,
+                    'transaction_sign' => 1,
+                    'transaction_type' => 3,
+                    'title' => "برگشت به کیف پول بابت لغو سغارش شماره $order->id",
+                    'amount' => $amount,
+                    'tr_status' => 1,
+                ]);
+            }
 
             return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
         } else {
