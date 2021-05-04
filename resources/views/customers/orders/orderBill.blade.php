@@ -6,10 +6,10 @@
     <div class="payback" style="background-color:orange;">
         منتظر تسویه نهایی
     </div>
-    @elseif($order->status == 11)
+    @elseif($order->status == 2 || $order->status == 11)
     <div class="payback" style="background-color:#008B44;">
         @if($order->items()->sum('extra_discount') > 0)
-            تسویه حساب نهایی انجام شد و مبلغ {{$order->items()->sum('extra_discount')}} به کیف پول شما برگشت داده شد
+            تسویه حساب نهایی انجام شد و مبلغ {{number_format($order->items()->sum('extra_discount'))}} تومان به کیف پول شما برگشت داده شد
         @else
             تسویه حساب نهایی انجام شد
         @endif

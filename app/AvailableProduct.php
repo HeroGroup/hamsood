@@ -43,7 +43,7 @@ class AvailableProduct extends Model
         return DB::table('order_items')
             ->join('orders', 'orders.id', '=', 'order_items.order_id')
             ->where('order_items.available_product_id', $this->id)
-            ->whereIn('orders.status',[1,2])
+            ->whereIn('orders.status',[1,2,11])
             ->count();
     }
 
@@ -52,7 +52,7 @@ class AvailableProduct extends Model
         return DB::table('order_items')
             ->join('orders', 'orders.id', '=', 'order_items.order_id')
             ->where('order_items.available_product_id', $this->id)
-            ->whereIn('orders.status',[1,2])
+            ->whereIn('orders.status',[1,2,11])
             ->sum('weight');
     }
 
