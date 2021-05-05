@@ -18,10 +18,10 @@
 
     @component('components.orderBill', [
         'realPrice' => $order->total_price+$order->discount,
-        'yourPrice' => $order->total_price,
+        'yourPrice' => $order->total_price-$order->items()->sum('extra_discount'),
         'shippmentPrice' => $order->shippment_price,
-        'yourProfit' => $order->discount,
-        'yourPayment' => $order->total_price+$order->shippment_price
+        'yourProfit' => $order->discount+$order->items()->sum('extra_discount'),
+        'yourPayment' => $order->total_price+$order->shippment_price-$order->items()->sum('extra_discount')
     ])@endcomponent
 
     <hr />

@@ -16,8 +16,8 @@ class OrderController extends Controller
     {
         try {
             require_once app_path('/Helpers/payback.php');
-            finalPayback();
-            return $this->success("payback successful");
+            $result = finalPayback();
+            return $this->success($result);
         } catch (\Exception $exception) {
             return $this->fail($exception->getMessage());
         }

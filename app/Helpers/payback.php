@@ -3,7 +3,8 @@
 function finalPayback()
 {
     try {
-        $conn = new mysqli("127.0.0.1", "root", "", "hamsod");
+        $result = "";
+        $conn = new mysqli("127.0.0.1", "hamsodco_root", "12Root34", "hamsodco_hamdsod", 3306);
 
         // Check connection
         if ($conn->connect_error)
@@ -11,7 +12,8 @@ function finalPayback()
 
         if ($conn) {
             $orders = "";
-            $products = $conn->query("SELECT * FROM available_products WHERE is_active=1;");
+            $notToUpdate = "";
+            $products = $conn->query("SELECT * FROM available_products WHERE is_active=1;") or die($conn->error);
             while ($product = $products->fetch_assoc()) {
                 $productId = $product["id"];
                 $realPrice = $product["price"];
@@ -33,7 +35,7 @@ function finalPayback()
                             $maxDiscount = $row['max_discount'];
                         }
 
-                        $level = $totalBuyers - ($numberOfCompletedGroups * $maximumMembers);
+                        $level = $totalBuyers - ($numberOfCompletedGroups * $maximumMembers) - 1;
                         $discounts = $conn->query("SELECT CONVERT(discount,DECIMAL) AS discount FROM available_product_details WHERE available_product_id=$productId AND level=$level") or die($conn->error);
                         while ($row = $discounts->fetch_assoc()) {
                             $lastDiscount = $row['discount'];
@@ -42,26 +44,38 @@ function finalPayback()
                         $x = $numberOfCompletedGroups * $maximumMembers;
 
                         $max_discount_amount = ($maxDiscount * $realPrice) / 100;
-                        $sql = "UPDATE order_items SET extra_discount=$max_discount_amount-discount WHERE available_product_id=$productId AND nth_buyer <= $x";
+                        $sql = "UPDATE order_items SET extra_discount=($max_discount_amount-discount)*weight WHERE available_product_id=$productId AND nth_buyer <= $x";
                         $update = $conn->query($sql) or die($conn->error);
 
                         $last_discount_amount = ($lastDiscount * $realPrice) / 100;
-                        $sql = "UPDATE order_items SET extra_discount=$last_discount_amount-discount WHERE available_product_id=$productId AND nth_buyer > $x";
+                        $sql = "UPDATE order_items SET extra_discount=($last_discount_amount-discount)*weight WHERE available_product_id=$productId AND nth_buyer > $x";
                         $update = $conn->query($sql) or die($conn->error);
 
                         // select order ids of this product
-                        $orderIds = $conn->query("SELECT orders.id FROM orders,order_items WHERE orders.id=order_items.order_id AND order_items.available_product_id=$productId") or die($conn->error);
+                        $orderIds = $conn->query("SELECT DISTINCT orders.id FROM orders,order_items WHERE orders.id=order_items.order_id AND orders.status=1 AND order_items.available_product_id=$productId") or die($conn->error);
                         while ($row = $orderIds->fetch_assoc()) {
                             $orders .= ($row['id'] . ',');
+                        }
+
+                        $sql = $conn->query("SELECT DISTINCT orders.id FROM orders,order_items WHERE orders.id=order_items.order_id AND orders.status<>1 AND order_items.available_product_id=$productId") or die($conn->error);
+                        while ($row = $sql->fetch_assoc()) {
+                            $notToUpdate .= ($row['id'] . ',');
                         }
                     }
                 }
             }
             $orders = substr($orders, 0, strlen($orders) - 1);
-            if (strlen($orders) > 0)
-                $conn->query("UPDATE orders SET status=2 WHERE id IN ($orders)") or die($conn->error);
+            $notToUpdate = substr($notToUpdate, 0, strlen($notToUpdate) - 1);
+            // $result .= ($orders . "   " . $notToUpdate . "   ");
+            if (strlen($orders) > 0) {
+                $conn->query("UPDATE orders SET status=11 WHERE id IN($orders)") or die($conn->error);
+            }
+            if (strlen($notToUpdate) > 0) {
+                $conn->query("UPDATE order_items SET extra_discount=NULL,nth_buyer=NULL WHERE order_id IN($notToUpdate)");
+            }
         }
-    } catch (Exception $exception) { // log exception
-        echo $exception->getMessage() . PHP_EOL;
+        return "$result payback successful";
+    } catch (Exception $exception) {
+        return $exception->getLine() . ": " . $exception->getMessage();
     }
 }
