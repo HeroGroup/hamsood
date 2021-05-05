@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\AvailableProduct;
 use App\Customer;
 use App\Notification;
@@ -13,6 +12,17 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function payback()
+    {
+        try {
+            require_once app_path('/Helpers/payback.php');
+            finalPayback();
+            return $this->success("payback successful");
+        } catch (\Exception $exception) {
+            return $this->fail($exception->getMessage());
+        }
+    }
+
     public function index($availableProduct=null,$customer=null)
     {
         $av = AvailableProduct::find($availableProduct);

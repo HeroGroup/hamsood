@@ -97,6 +97,7 @@ Route::prefix('admin')->group(function () {
         Route::get('orders/delivered/{order}', 'OrderController@delivered')->name('orders.delivered');
         Route::get('orders/failed/{order}', 'OrderController@failed')->name('orders.failed');
         Route::get('orders/bill/{order}', 'OrderController@bill')->name('orders.bill');
+        Route::get('orders/payback', 'OrderController@payback');
 
         Route::get('/customers', 'CustomerController@index')->name("customers.index");
         Route::get('/customers/{customer}/addresses', 'CustomerController@customerAddresses')->name("admin.customers.addresses");
