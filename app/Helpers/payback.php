@@ -69,6 +69,31 @@ function finalPayback()
             // $result .= ($orders . "   " . $notToUpdate . "   ");
             if (strlen($orders) > 0) {
                 $conn->query("UPDATE orders SET status=11 WHERE id IN($orders)") or die($conn->error);
+
+                // INSERT INTO NOTIFICATIONS AND TRANSACTIONS
+                $customersOrderArray = [];
+                $sql = $conn->query("SELECT CONCAT(id,"-",customer_id) AS customer_order FROM orders WHERE id IN($orders)") or die($conn->error);
+                while ($row = $sql->fetch_assoc()) {
+                    $customerOrderId = $row['customer_order'];
+                    if(!in_array($customerOrderId,$customersOrderArray,true))
+                        array_push($customersOrderArray,$customerOrderId);
+                }
+
+                $sumExtraDiscount = 0;
+                for($i=0;$i<count($customersOrderArray);$i++) {
+                    $item = explode($customersOrderArray[$i],'-');
+                    $orderId = $item[0];
+                    $customerId = $item[1];
+                    $sql = $conn->query("SELECT SUM(extra_discount) as sum_extra_discount FROM order_items WHERE order_id=$orderId") or die($conn->error);
+                    while ($row = $sql->fetch_assoc()) {
+                        $sumExtraDiscount = $row['sum_extra_discount'];
+                    }
+
+                    // INSERT INTO TRANSACTIONS
+                    $conn->query("INSERT INTO transactions(customer_id,transaction_sign,transaction_type,title,amount,tr_status) VALUES($customerId,1,4,'برگشت به کیف پول بابت تسویه حساب سفارش '.$orderId,$sumExtraDiscount,1)") or die($conn->error);
+                    // INSERT INTO NOTIFICATIONS
+                    $conn->query("INSERT INTO notifications(customer_id,notification_title,notification_text,save_inbox) VALUES($customerId,'تسویه حساب','تسویه حساب نهایی انجام شد و مبلغ $sumExtraDiscount به کیف پول شما برگشت داده شد.',1") or die($conn->error);
+                }
             }
             if (strlen($notToUpdate) > 0) {
                 $conn->query("UPDATE order_items SET extra_discount=NULL,nth_buyer=NULL WHERE order_id IN($notToUpdate)");
