@@ -58,8 +58,9 @@ Route::middleware('customer.auth')->group(function () {
         Route::get('/selectAddress', 'AddressController@selectAddress')->name('customers.selectAddress');
         Route::get('/getTime/{customerName}','CustomerController@getTime')->name('customers.getTime');
         Route::post('/payment', 'CustomerController@selectTime')->name('customers.selectTime');
-        Route::get('/paid','CustomerController@paid')->name('customers.paid');
+        Route::post('/confirmBill', 'CustomerController@confirmBill')->name('customers.confirmBill');
         Route::post('/finalizeOrder', 'CustomerController@finalizeOrder')->name('customers.finalizeOrder');
+        Route::get('/paid','CustomerController@paid')->name('customers.paid');
     });
 
     Route::prefix('payment')->group(function () {
