@@ -334,10 +334,14 @@ class CustomerController extends Controller
         $customer->update(['name' => session('customer_name')]);
 
         $customerCart = CustomerCartItem::where('customer_id',$customerId)->get();
-        foreach ($customerCart as $cartItem)
+        foreach ($customerCart as $cartItem) {
             if ($this->checkIfUserBought($cartItem->available_product_id, $customerId) >= 4)
                 return redirect(route('landing'));
 
+            $remaining = HomeController::getRemainingTime($cartItem->availableProduct->until_day, $cartItem->availableProduct->available_until_datetime);
+            if($remaining <= 0) {
+                return redirect(route('landing'))->with('message','زمان سفارش گیری به اتمام رسید')->with('type', 'danger');
+        }
 
         if ($paymentMethod == 1) { // پرداخت در محل
             $orderId = $this->submitOrder();

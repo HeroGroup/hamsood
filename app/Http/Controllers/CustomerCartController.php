@@ -9,19 +9,11 @@ use App\AvailableProductDetail;
 
 class CustomerCartController extends Controller
 {
-    public function getRemainingTime($day,$end)
-    {
-        $hour = $end - 1;
-        $jalali = explode('/', $day);
-        $date = strtotime(jalali_to_gregorian($jalali[0], $jalali[1], $jalali[2], '/') . " $hour:59:59");
-        return $date - time();
-    }
-
     public function getCustomerCart()
     {
         $cartItems = CustomerCartItem::where('customer_id', \request()->customer->id)->get();
         foreach ($cartItems as $cartItem) {
-            $remaining = $this->getRemainingTime($cartItem->availableProduct->until_day, $cartItem->availableProduct->available_until_datetime);
+            $remaining = HomeController::getRemainingTime($cartItem->availableProduct->until_day, $cartItem->availableProduct->available_until_datetime);
             if($remaining <= 0)
                 $cartItem->delete();
         }
@@ -86,7 +78,7 @@ class CustomerCartController extends Controller
 
                 return $return ? back() : redirect(route('customers.customerCart'));
             } else {
-                return redirect(route('landing'));
+                return redirect(route('landing'))->with('message','زمان سفارش گیری به اتمام رسید')->with('type', 'danger');
             }
         } else {
             return redirect(route('customers.customerCart'));
@@ -111,27 +103,34 @@ class CustomerCartController extends Controller
     {
         try {
             $availableProduct = AvailableProduct::find($product);
+            $customer = \request()->customer->id;
             if ($availableProduct) {
-                $customer = \request()->customer->id;
-                $newWeight = $this->itemExistInCart($availableProduct->product_id, $customer);
+                $remaining = HomeController::getRemainingTime($availableProduct->until_day,$availableProduct->available_until_datetime);
+                if($remaining > 0) {
+                    $newWeight = $this->itemExistInCart($availableProduct->product_id, $customer);
 
-                if ($newWeight == 0) {
-                    $this->addToCart($product);
-                    $newWeight++;
-                } else {
-                    $cartItem = CustomerCartItem::where('available_product_id', $product)->where('customer_id', $customer)->first();
-                    if ($cartItem) {
-                        if ($cartItem->weight < 4) {
-                            $newWeight+=.5;
-                            $cartItem->update(['weight' => $newWeight]);
-                        }
-                    } else {
+                    if ($newWeight == 0) {
                         $this->addToCart($product);
                         $newWeight++;
+                    } else {
+                        $cartItem = CustomerCartItem::where('available_product_id', $product)->where('customer_id', $customer)->first();
+                        if ($cartItem) {
+                            if ($cartItem->weight < 4) {
+                                $newWeight+=.5;
+                                $cartItem->update(['weight' => $newWeight]);
+                            }
+                        } else {
+                            $this->addToCart($product);
+                            $newWeight++;
+                        }
                     }
+
+                    return $this->success("increased cart item successfully", $this->getCartTotals($customer));
+                } else {
+                    if($this->removeFromCart($product,$customer)==0)
+                        return redirect(route('landing'))->with('message','زمان سفارش گیری به اتمام رسید')->with('type', 'danger');
                 }
 
-                return $this->success("increased cart item successfully", $this->getCartTotals($customer));
             } else {
                 return $this->fail("invalid product");
             }
