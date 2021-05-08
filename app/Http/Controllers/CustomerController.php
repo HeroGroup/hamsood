@@ -342,7 +342,7 @@ class CustomerController extends Controller
         if ($paymentMethod == 1) { // پرداخت در محل
             $orderId = $this->submitOrder();
             return $orderId > 0 ? redirect(route('customers.orders.products', $orderId)) : redirect(route('landing'));
-        } else if()else { // پرداخت اینترنتی
+        } else { // پرداخت اینترنتی
             if($request->amount > 0) {
                 $title = "افزایش اعتبار";
                 $amount = $request->amount;
