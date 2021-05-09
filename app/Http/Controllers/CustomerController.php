@@ -339,7 +339,7 @@ class CustomerController extends Controller
                 return redirect(route('landing'));
 
             $remaining = HomeController::getRemainingTime($cartItem->availableProduct->until_day, $cartItem->availableProduct->available_until_datetime);
-            if($remaining <= 0) {
+            if($remaining <= 0)
                 return redirect(route('landing'))->with('message','زمان سفارش گیری به اتمام رسید')->with('type', 'danger');
         }
 
