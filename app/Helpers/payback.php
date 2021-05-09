@@ -79,8 +79,8 @@ function finalPayback()
                         array_push($customersOrderArray,$customerOrderId);
                 }
 
-                $sumExtraDiscount = 0;
                 for($i=0;$i<count($customersOrderArray);$i++) {
+                    $sumExtraDiscount = 0;
                     $item = explode('-', $customersOrderArray[$i]);
                     $orderId = $item[0];
                     $customerId = $item[1];
