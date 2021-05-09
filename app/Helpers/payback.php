@@ -72,7 +72,7 @@ function finalPayback()
 
                 // INSERT INTO NOTIFICATIONS AND TRANSACTIONS
                 $customersOrderArray = [];
-                $sql = $conn->query("SELECT CONCAT(id,"-",customer_id) AS customer_order FROM orders WHERE id IN($orders)") or die($conn->error);
+                $sql = $conn->query("SELECT CONCAT(id,'-',customer_id) AS customer_order FROM orders WHERE id IN($orders)") or die($conn->error);
                 while ($row = $sql->fetch_assoc()) {
                     $customerOrderId = $row['customer_order'];
                     if(!in_array($customerOrderId,$customersOrderArray,true))
@@ -81,7 +81,7 @@ function finalPayback()
 
                 $sumExtraDiscount = 0;
                 for($i=0;$i<count($customersOrderArray);$i++) {
-                    $item = explode($customersOrderArray[$i],'-');
+                    $item = explode('-', $customersOrderArray[$i]);
                     $orderId = $item[0];
                     $customerId = $item[1];
                     $sql = $conn->query("SELECT SUM(extra_discount) as sum_extra_discount FROM order_items WHERE order_id=$orderId") or die($conn->error);
@@ -89,10 +89,16 @@ function finalPayback()
                         $sumExtraDiscount = $row['sum_extra_discount'];
                     }
 
-                    // INSERT INTO TRANSACTIONS
-                    $conn->query("INSERT INTO transactions(customer_id,transaction_sign,transaction_type,title,amount,tr_status) VALUES($customerId,1,4,'برگشت به کیف پول بابت تسویه حساب سفارش '.$orderId,$sumExtraDiscount,1)") or die($conn->error);
-                    // INSERT INTO NOTIFICATIONS
-                    $conn->query("INSERT INTO notifications(customer_id,notification_title,notification_text,save_inbox) VALUES($customerId,'تسویه حساب','تسویه حساب نهایی انجام شد و مبلغ $sumExtraDiscount به کیف پول شما برگشت داده شد.',1") or die($conn->error);
+                    if($sumExtraDiscount > 0) {
+                        // INSERT INTO TRANSACTIONS
+                        // $trTitle = "برگشت به کیف پول بابت تسویه حساب سفارش شماره $orderId";
+                        $insert = $conn->query("INSERT INTO transactions(customer_id,transaction_sign,transaction_type,title,amount,tr_status) VALUES($customerId,1,4,$orderId,$sumExtraDiscount,1);") or die($conn->error);
+
+                        // INSERT INTO NOTIFICATIONS
+                        // $notifTitle = "تسویه حساب";
+                        // $notifText = "تسویه حساب نهایی انجام شد و مبلغ $sumExtraDiscount به کیف پول شما برگشت داده شد.";
+                        $insert = $conn->query("INSERT INTO notifications(customer_id,notification_text,notification_type,save_inbox) VALUES($customerId,$sumExtraDiscount,1,1);") or die($conn->error);
+                    }
                 }
             }
             if (strlen($notToUpdate) > 0) {

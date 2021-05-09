@@ -10,7 +10,7 @@
     @foreach($transactions as $transaction)
         <div style="display:flex;align-items:center;">
             <div style="flex:1;">
-                <h4>{{$transaction->title}}</h4>
+                <h4>{{$transaction->transaction_type == 4 ? "برگشت به کیف پول بابت تسویه حساب سفارش شماره $transaction->title" : $transaction->title}}</h4>
                 <p style="color:gray;">{{jdate('l، d F Y - H:i', strtotime($transaction->created_at))}}</p>
             </div>
             <h3 style="flex:1;text-align:center; @if($transaction->transaction_sign==1) color:green; @else color:red; @endif">

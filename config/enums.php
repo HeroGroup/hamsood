@@ -112,6 +112,9 @@ return [
     'gender' => [
         'male' => 'آقا',
         'female' => 'خانم'
-    ]
+    ],
 
+    'notification_type' => [
+        1 => 'تسویه حساب',
+    ],
 ];
