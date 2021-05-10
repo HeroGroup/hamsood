@@ -89,7 +89,13 @@ function finalPayback()
                         $sumExtraDiscount = $row['sum_extra_discount'];
                     }
 
-                    if($sumExtraDiscount > 0) {
+                    $paymentMethod = 0;
+                    $sql = $conn->query("SELECT payment_method FROM orders WHERE id=$orderId") or die($conn->error);
+                    while ($row = $sql->fetch_assoc()) {
+                        $paymentMethod = $row['payment_method'];
+                    }
+
+                    if($sumExtraDiscount > 0 && $payment_method!=1) {
                         // INSERT INTO TRANSACTIONS
                         // $trTitle = "برگشت به کیف پول بابت تسویه حساب سفارش شماره $orderId";
                         $insert = $conn->query("INSERT INTO transactions(customer_id,transaction_sign,transaction_type,title,amount,tr_status) VALUES($customerId,1,4,$orderId,$sumExtraDiscount,1);") or die($conn->error);
