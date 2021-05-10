@@ -19,7 +19,7 @@
             <div id="active-pills" class="tabcontent" style="display: block;">
                 @component('admin.orders.ordersTable', ['orders' => $active])@endcomponent
             </div>
-            <div id="paid-pills" class="tabcontent" style="display: block;">
+            <div id="paid-pills" class="tabcontent">
                 @component('admin.orders.ordersTable', ['orders' => $paid])@endcomponent
             </div>
             <div id="sent-pills" class="tabcontent">
