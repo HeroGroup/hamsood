@@ -35,11 +35,12 @@
             <span>جهت دعوت و ثبت نام دوستان خود </span><br>
             <span>و مشارکت آن ها در خرید گروهی، </span><br>
             <span>کد زیر را برای آن ها ارسال نمایید.</span><br>
-            <div style="border:1px dashed gray;border-radius:5px;display:flex;justify-content:space-around;padding:5px 10px;margin:15px 0;">
+            <div style="border:1px dashed gray;border-radius:5px;display:inline-flex;justify-content:space-around;padding:5px 10px;margin:15px 0;width:200px;"
+                 onclick="shareCode()">
                 <span style="font-size:18px;color:gray;">
                     {{$customer->share_code}}
                 </span>
-                <a style="text-decoration:none;" href="#" onclick="shareCode()">
+                <a style="text-decoration:none;" href="#">
                     <img src="/images/share_code_icon.png" width="18" height="20" />
                 </a>
             </div>
