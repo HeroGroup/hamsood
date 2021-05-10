@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\AvailableProduct;
+use App\AvailableProductDetail;
 use App\Customer;
 use App\CustomerAddress;
 use App\CustomerCartItem;
@@ -20,6 +22,12 @@ use Kavenegar\KavenegarApi;
 
 class CustomerController extends Controller
 {
+    public function loginWithCustomer($mobile)
+    {
+        session(['mobile' => $mobile]);
+        return redirect('/');
+    }
+
     public function index()
     {
         $customers = Customer::orderBy('id', 'desc')->get();
@@ -182,28 +190,36 @@ class CustomerController extends Controller
 
             $cart = CustomerCartItem::where('customer_id', \request()->customer->id)->get();
             foreach ($cart as $item) {
-                $allOrders = OrderItem::where('available_product_id', $item->available_product_id)->get(['order_id']); // all orders of this available product
-                $submittedOrders = Order::whereIn('id',$allOrders)->where('status',1)->get(['id']); // submitted orders of this available product
-                $buyers = OrderItem::where('available_product_id', $item->available_product_id)->whereIn('order_id',$submittedOrders)->get();
+                // $allOrders = OrderItem::where('available_product_id', $item->available_product_id)->get(['order_id']); // all orders of this available product
+                // $submittedOrders = Order::whereIn('id',$allOrders)->where('status',1)->get(['id']); // submitted orders of this available product
+                // $buyers = OrderItem::where('available_product_id', $item->available_product_id)->whereIn('order_id',$submittedOrders)->get();
+
+                $availableProduct = $item->availableProduct(); // AvailableProduct::find($item->available_product_id);
+                $buyers = $availableProduct->getOrdersCount();
+                $price = $availableProduct->price;
+                $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+                $level = $buyers%$availableProduct->maximum_group_members;
+                $discountPercent = $level > 1 ? $details[$level-1]->discount : $details->min('discount');
+                $discount = $price * $discountPercent / 100;
                 OrderItem::create([
                     'order_id' => $order->id,
                     'available_product_id' => $item->available_product_id,
                     'weight' => $item->weight,
                     'real_price' => $item->real_price,
-                    'discount' => $item->discount,
-                    'nth_buyer' => ($buyers->count() > 0 && $buyers->max('nth_buyer')) ? $buyers->max('nth_buyer')+1 : 1
+                    'discount' => $discount,
+                    'nth_buyer' => $buyers+1
                 ]);
             }
 
             // delete cart
             $deletedRows = CustomerCartItem::where('customer_id', \request()->customer->id)->delete();
 
-           // $admins = User::where('send_sms',1)->get();
-           // foreach ($admins as $admin) {
-               // $token = $order->id;
-               // $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
-               // $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
-           // }
+           $admins = User::where('send_sms',1)->get();
+           foreach ($admins as $admin) {
+               $token = $order->id;
+               $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
+               $result = $api->VerifyLookup($admin->mobile, $token, '', '', 'HamsodOrder');
+           }
 
             $this->clearSession();
 

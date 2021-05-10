@@ -26,40 +26,33 @@ class HomeController extends Controller
         $userBought = 0;
         $orderId = 0;
         $myGroupIsComplete = false;
+
+        $availableProduct = AvailableProduct::find($availableProductId);
+        $maximumMembers = $availableProduct->maximum_group_members;
+        $numberOfCompletedGroups = intdiv($availableProduct->getOrdersCount(),$maximumMembers);
+
         $mobile = session('mobile');
         if ($mobile && strlen($mobile) == 11) {
             $customer = Customer::where('mobile', 'like', $mobile)->first();
             if ($customer) {
-                $orderIds = OrderItem::where('available_product_id', $availableProductId)->get(['order_id']);
-                $customerProductOrders = Order::where('customer_id', $customer->id)->whereIn('status', [1,2,11])->whereIn('id', $orderIds)->get();
-                if($customerProductOrders->count() > 0) {
-                    $orderId = $customerProductOrders->max('id');
-                    $orderItem = OrderItem::where('available_product_id', $availableProductId)->where('order_id',$orderId)->get();
-                    $userBought = $orderItem->sum('weight');
-                    $totalBuyers = Order::whereIn('status', [1,2,11])->whereIn('id', $orderIds)->count();
-                    $maximumMembers = AvailableProduct::find($availableProductId)->maximum_group_members;
-                    $numberOfCompletedGroups = intdiv($totalBuyers,$maximumMembers);
-                    $nth_buyer = $orderItem->max('nth_buyer');
-                    $myGroupIsComplete = $nth_buyer < $numberOfCompletedGroups*$maximumMembers ? true : false;
-                }
+                $orderItems = DB::table('orders')
+                    ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+                    ->select('orders.id', 'order_items.weight', 'order_items.nth_buyer', 'order_items.available_product_id')
+                    ->where('orders.customer_id',$customer->id)
+                    ->whereIn('orders.status',[1,2,11])
+                    ->where('order_items.available_product_id',$availableProductId)
+                    ->get();
 
-                /*
-                $orderMaxId = Order::where('customer_id', $customer->id)->whereIn('status', [1,2])->max('id');
-                if($orderMaxId) {
-                  $order = Order::find($orderMaxId);
-                  if ($order) {
-                      $items = OrderItem::where('order_id', $order->id)->where('available_product_id', $availableProductId)->get();
-                      if ($items->count() > 0) {
-                          $userBought = $items->sum('weight');
-                          $orderId = $items->first()->order_id;
-                      }
-                  }
+                if($orderItems->count() > 0) {
+                    $orderItem = $orderItems->first();
+                    $userBought = $orderItem->weight;
+                    $orderId = $orderItem->id;
+                    $myGroupIsComplete = $orderItem->nth_buyer <= $numberOfCompletedGroups*$maximumMembers ? true : false;
                 }
-                */
             }
         }
 
-        return [$userBought,$orderId,$myGroupIsComplete];
+        return [$userBought,$orderId,$myGroupIsComplete,$numberOfCompletedGroups];
     }
 
     public function checkIfExistsInCart($availableProductId) // in new edition, check if exists in cart
@@ -117,6 +110,7 @@ class HomeController extends Controller
                     $userWeight = $userBoughtResult[0];
                     $orderId = $userBoughtResult[1];
                     $myGroupIsComplete = $userBoughtResult[2];
+                    $numberOfCompletedGroups = $userBoughtResult[3];
                     $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
 
                     $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
@@ -133,7 +127,8 @@ class HomeController extends Controller
                         'userCartWeight' => $userCartWeight,
                         'nextDiscount' => $nextDiscount,
                         'lastDiscount' => $lastDiscount,
-                        'myGroupIsComplete' => $myGroupIsComplete
+                        'myGroupIsComplete' => $myGroupIsComplete,
+                        'numberOfCompletedGroups' => $numberOfCompletedGroups,
                     ];
 
                     array_push($result, $item);

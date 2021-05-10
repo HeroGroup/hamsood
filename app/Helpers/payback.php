@@ -93,6 +93,7 @@ function finalPayback()
                         // INSERT INTO TRANSACTIONS
                         // $trTitle = "برگشت به کیف پول بابت تسویه حساب سفارش شماره $orderId";
                         $insert = $conn->query("INSERT INTO transactions(customer_id,transaction_sign,transaction_type,title,amount,tr_status) VALUES($customerId,1,4,$orderId,$sumExtraDiscount,1);") or die($conn->error);
+                        $update = $conn->query("UPDATE customers SET balance=balance+$sumExtraDiscount WHERE id=$customerId;") or die($conn->error);
 
                         // INSERT INTO NOTIFICATIONS
                         // $notifTitle = "تسویه حساب";

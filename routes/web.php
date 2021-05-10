@@ -105,6 +105,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/customers/{customer}/transactions', 'CustomerController@customerTransactions')->name("admin.customers.transactions");
         Route::get('/neighbourhoods', 'AddressController@neighbourhoodsList')->name("neighbourhoods.index");
         Route::get('/toggleActivateNeighbourhood/{id}', 'AddressController@toggleActivateNeighbourhood')->name("neighbourhoods.toggleActivateNeighbourhood");
+        Route::get('/customer/login/{mobile}','CustomerController@loginWithCustomer')->name('admin.customers.login');
 
         Route::get('/carts', 'CartController@index')->name('carts.index');
 

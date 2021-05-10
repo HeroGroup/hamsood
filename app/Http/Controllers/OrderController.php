@@ -99,7 +99,7 @@ class OrderController extends Controller
                 $currentBalance = $customer->balance;
                 $customer->update(['balance' => $currentBalance+$amount]);
 
-                $notificationText = "سفارش شماره $order->id به به دلیل نرسیدن به حد نصاب لغو شد و مبلغ $amount به کیف پول شما برگشت داده شد.";
+                $notificationText = "سفارش شماره $order->id به دلیل نرسیدن به حد نصاب لغو شد و مبلغ $amount تومان به کیف پول شما برگشت داده شد.";
             } // end if $order->payment_method != 1
 
             // save and send notification

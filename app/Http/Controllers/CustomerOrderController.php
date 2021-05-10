@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\AvailableProduct;
 use App\Order;
 use App\OrderItem;
+use Illuminate\Support\Facades\DB;
 
 class CustomerOrderController extends Controller
 {
@@ -84,7 +85,7 @@ class CustomerOrderController extends Controller
                     'customer_id' => $order->customer_id,
                     'transaction_sign' => 1, // +
                     'transaction_type' => 3, // برگشت به کیف پول بابت لغو سغارش
-                    'title' => "برگشت به کیف پول بابت لغو سغارش شماره $orderId",
+                    'title' => "برگشت به کیف پول بابت لغو سفارش شماره $orderId",
                     'amount' => $amount,
                     'tr_status' => 1,
                 ]);
@@ -94,7 +95,7 @@ class CustomerOrderController extends Controller
                 $currentBalance = $customer->balance;
                 $customer->update(['balance' => $currentBalance+$amount]);
 
-                $notificationText = "سفارش شماره $orderId به درخواست شما لغو شد و مبلغ $amount به کیف پول شما برگشت داده شد.";
+                $notificationText = "سفارش شماره $orderId به درخواست شما لغو شد و مبلغ $amount تومان به کیف پول شما برگشت داده شد.";
 
             } // end if $order->payment_method != 1
 
@@ -111,11 +112,12 @@ class CustomerOrderController extends Controller
             foreach ($items as $item) {
                 $nth_buyer = $item->nth_buyer;
                 if($nth_buyer>0) {
-                    $nextItems = OrderItem::where('available_product_id', $item->available_product_id)->where('nth_buyer', '>', $nth_buyer)->get();
-                    foreach ($nextItems as $nextItem) {
-                        $nb = $nextItem->nth_buyer;
-                        $nextItem->update(['nth_buyer' => $nb-1]);
-                    }
+                    DB::statement("UPDATE order_items SET nth_buyer=nth_buyer-1 WHERE available_product_id=$item->available_product_id AND nth_buyer>$nth_buyer;");
+                    // $nextItems = OrderItem::where('available_product_id', $item->available_product_id)->where('nth_buyer', '>', $nth_buyer)->get();
+                    // foreach ($nextItems as $nextItem) {
+                        // $nb = $nextItem->nth_buyer;
+                        // $nextItem->update(['nth_buyer' => $nb-1]);
+                    // }
                 }
             }
 

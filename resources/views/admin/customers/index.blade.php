@@ -95,6 +95,7 @@
                                 <a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a>
                                 <a href="{{route('admin.customers.transactions', $customer->id)}}" class="btn btn-xs btn-success">لیست تراکنش ها</a>
                                 <a href="{{route('orders.index', ['availableProduct' => 0, 'customer' => $customer->id])}}" class="btn btn-xs btn-warning">لیست سفارش ها</a>
+                                <a href="{{route('admin.customers.login', $customer->mobile)}}" class="btn btn-xs btn-primary">ورود به پنل کاربر</a>
                             </td>
                         </tr>
                     @endforeach

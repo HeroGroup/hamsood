@@ -22,8 +22,8 @@
                 <tr>
                     <td>{{$order->id}}</td>
                     <td>{{$order->customer_name}} {{$order->customer->mobile}}</td>
-                    <td>{{number_format($order->total_price)}} تومان</td>
-                    <td>{{number_format($order->discount)}} تومان</td>
+                    <td>{{number_format($order->total_price-$order->items->sum('extra_discount'))}} تومان</td>
+                    <td>{{number_format($order->discount+$order->items->sum('extra_discount'))}} تومان</td>
                     <td>{{$order->shippment_price}}</td>
                     <td>{{config('enums.payment_method.'.$order->payment_method)}}</td>
                     <td>{{$order->getDetails()}}</td>
