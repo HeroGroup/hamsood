@@ -118,7 +118,7 @@ class CustomerController extends Controller
                 return redirect(route('customers.signup'));
             }
         } else {
-            return $request->has('ajax') ? $this->fail('invalid mobile') : redirect(route('customers.verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
+            return $request->has('ajax') ? $this->fail('invalid mobile') : back()->with('error', 'شماره موبایل نامعتبر');
         }
     }
 

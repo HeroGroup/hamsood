@@ -38,32 +38,41 @@
                 {{\Illuminate\Support\Facades\Session::get('error')}}
             </p>
         @endif
-        <div style="width:100%;margin-top:20px;">
-            <div style="margin-top:10px;color:#9b59b6;display:flex;">
-                <div style="flex:2;text-align:right;">
-                    <a href="#" class="custom-btn" id="resend" style="font-size:12px;color:gray;cursor:not-allowed;display:inline-block;" onclick="resend('{{$mobile}}')">ارسال مجدد</a>
-                    &nbsp;
-                    <div id="resend-text" style="display:inline-block;">
-                      <span> بعد از </span>
-                      <span id="remaining-time"></span>
-                      <span> ثانیه</span>
-                    </div>
-                </div>
-                <div style="flex:1;text-align:right;">
-                    <a class="custom-btn" style="font-size:12px;" href="{{route('customers.verifyMobile')}}">تغییر شماره</a>
+        <div style="margin:20px 0;">
+            <button id="submit-button"
+                    class="btn btn-success"
+                    style="width:270px;padding:10px 0;border-radius:10px;font-size:20px;"
+                    type="button"
+                    onclick="submitForm()" >
+                ورود و پذیرش قوانین و مقررات
+            </button>
+        </div>
+
+        <div style="margin-top:20px;text-align: center;">
+            <a href="/terms" target="_blank">مشاهده قوانین و مقررات</a>
+        </div>
+
+        <div style="margin:30px 0;display: flex;">
+            <div style="flex:1">
+                <a href="#" class="custom-btn" id="resend" style="font-size:12px;color:gray;cursor:not-allowed;display:inline-block;" onclick="resend('{{$mobile}}')">ارسال مجدد کد</a>
+                <br>
+                <div id="resend-text" style="color:#222;font-size:12px;">
+                    (<span> بعد از </span>
+                    <span id="remaining-time"></span>
+                    <span> ثانیه</span>)
                 </div>
             </div>
-
-              <div style="margin-top:20px;text-align: center;">
-                  <a href="/terms" target="_blank">قوانین و مقررات</a>
-              </div>
-
-              <div style="position:fixed;bottom:0;left:0;width:100%;">
-                <button class="btn btn-success" style="width:100%;padding: 15px 0;border-radius:0;font-size:20px;" type="button" onclick="submitForm()" id="submit-button">
-                  ورود و پذیرش قوانین و مقررات
-                </button>
-              </div>
+            <div style="flex:1">
+                <a class="custom-btn" style="font-size:12px;" href="{{route('customers.verifyMobile')}}">تغییر شماره</a>
+            </div>
         </div>
+
+        {{--<div style="position:fixed;bottom:0;left:0;width:100%;">--}}
+          {{--<button class="btn btn-success" style="width:100%;padding: 15px 0;border-radius:0;font-size:20px;" type="button" onclick="submitForm()" id="submit-button">--}}
+            {{--ورود و پذیرش قوانین و مقررات--}}
+          {{--</button>--}}
+        {{--</div>--}}
+
     </form>
 </div>
 <script>
@@ -107,7 +116,12 @@
   }
 
   function submitForm() {
-      $("#submit-button").prop("disabled",true);
-      document.getElementById("submit-code-form").submit();
+      var token = $("input[name=token]");
+      if(token.val().length === 4) {
+          $("#submit-button").prop("disabled", true);
+          document.getElementById("submit-code-form").submit();
+      } else {
+          token.parent().css({"border":"1px solid red"});
+      }
   }
 </script>

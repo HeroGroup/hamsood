@@ -53,6 +53,7 @@
             <div style="flex:1;text-align:left;">{{$paymentAmount > $balance ? number_format($paymentAmount-$balance) : 0}} تومان</div>
         </div>
     </div>
+    <p style="color:red;visibility:visible;margin:0 10px;" id="use-wallet-warning">موجودی کیف پول فقط در <b>پرداخت اینترنتی</b> قابل استفاده است.</p>
     @endif
 
     <form method="post" action="{{route('customers.finalizeOrder')}}" id="final-form">
@@ -91,11 +92,14 @@
         var paymentMethod = $(this).attr("data-val");
         $("input[name=payment_method]").val(paymentMethod);
         console.log($("input[name=payment_method]").val());
-        var onlinePaymentMethods = $(".online-payment-methods");
+        var onlinePaymentMethods = $(".online-payment-methods"),
+            walletWarning = $("#use-wallet-warning");
         if (paymentMethod === "2") {
             onlinePaymentMethods.css({"display":"bock"});
+            // walletWarning.css({"visibility":"visible"});
         } else {
             onlinePaymentMethods.css({"display":"none"});
+            // walletWarning.css({"visibility":"hidden"});
         }
     });
 
