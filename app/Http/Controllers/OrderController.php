@@ -81,27 +81,36 @@ class OrderController extends Controller
     {
         $order = Order::find($order);
         if ($order) {
-            $order->update(['status' => 3]);
+            $notificationText = "سفارش شماره $order->id به دلیل نرسیدن به حد نصاب لغو شد.";
+
+            if($order->payment_method != 1) { // پرداخت در محل نباشد
+                $amount = $order->total_price+$order->shippment_price;
+                Transaction::create([
+                    'customer_id' => $order->customer_id,
+                    'transaction_sign' => 1, // +
+                    'transaction_type' => 3, // برگشت به کیف پول بابت لغو سغارش
+                    'title' => "برگشت به کیف پول بابت لغو سغارش شماره $order->id",
+                    'amount' => $amount,
+                    'tr_status' => 1,
+                ]);
+
+                // update customers balance
+                $customer = Customer::find($order->customer_id);
+                $currentBalance = $customer->balance;
+                $customer->update(['balance' => $currentBalance+$amount]);
+
+                $notificationText = "سفارش شماره $order->id به به دلیل نرسیدن به حد نصاب لغو شد و مبلغ $amount به کیف پول شما برگشت داده شد.";
+            } // end if $order->payment_method != 1
 
             // save and send notification
             Notification::create([
                 'customer_id' => $order->customer_id,
                 'notification_title' => 'لغو سفارش',
-                'notification_text' => "سفارش شماره $order->id به دلیل نرسیدن به حد نصاب لغو شد.",
+                'notification_text' => $notificationText,
                 'save_inbox' => 1,
             ]);
 
-            if($order->payment_method == 2) { // pardakht interneti
-                $amount = $order->total_price+$order->shippment_price;
-                Transaction::create([
-                    'customer_id' => $order->customer_id,
-                    'transaction_sign' => 1,
-                    'transaction_type' => 3,
-                    'title' => "برگشت به کیف پول بابت لغو سغارش شماره $order->id",
-                    'amount' => $amount,
-                    'tr_status' => 1,
-                ]);
-            }
+            $order->update(['status' => 3]);
 
             return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
         } else {

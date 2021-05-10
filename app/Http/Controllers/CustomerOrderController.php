@@ -78,12 +78,12 @@ class CustomerOrderController extends Controller
 
         if($remaining > 0) {
             $notificationText = "سفارش شماره $orderId به درخواست شما لغو شد.";
-            if($order->payment_method == 2) { // پرداخت اینترنتی
+            if($order->payment_method != 1) { // پرداخت در محل نباشد
                 $amount = $order->total_price+$order->shippment_price;
                 Transaction::create([
                     'customer_id' => $order->customer_id,
-                    'transaction_sign' => 1,
-                    'transaction_type' => 3,
+                    'transaction_sign' => 1, // +
+                    'transaction_type' => 3, // برگشت به کیف پول بابت لغو سغارش
                     'title' => "برگشت به کیف پول بابت لغو سغارش شماره $orderId",
                     'amount' => $amount,
                     'tr_status' => 1,
@@ -96,7 +96,7 @@ class CustomerOrderController extends Controller
 
                 $notificationText = "سفارش شماره $orderId به درخواست شما لغو شد و مبلغ $amount به کیف پول شما برگشت داده شد.";
 
-            }
+            } // end if $order->payment_method != 1
 
             // save and send notification
             Notification::create([
