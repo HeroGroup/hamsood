@@ -62,11 +62,11 @@
             <div style="display: flex;justify-content: center;align-items: center;">
                 <div style="flex:1">
                     <h4 style="color:gray;">مبلغ سفارش</h4>
-                    <h3 style="color:#222">{{number_format($order->total_price+$order->shippment_price)}} تومان</h3>
+                    <h3 style="color:#222">{{number_format($order->total_price+$order->shippment_price-$order->items->sum('extra_discount'))}} تومان</h3>
                 </div>
                 <div style="flex:1">
                     <h4 style="color:gray;">سود شما</h4>
-                    <h3 style="color:#3ca8ff">{{number_format($order->discount)}} تومان</h3>
+                    <h3 style="color:#3ca8ff">{{number_format($order->discount+$order->items->sum('extra_discount'))}} تومان</h3>
                 </div>
             </div>
             <hr />

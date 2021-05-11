@@ -7,7 +7,7 @@
         <h4>{{$item->availableProduct->product->name}}</h4>
         <p style="padding:0 25px;">توضیحات: <?php echo $item->availableProduct->product->description; ?></p>
         <label style="padding: 5px 10px;background-color:#eee;border-radius:5px;">{{$item->weight}} کیلو</label>
-        @component('components.productPrice', ['availableProduct' => $item->availableProduct, 'nextDiscount' => ($order->discount / ($order->discount+$order->total_price))*100, 'weight' => $item->weight])@endcomponent
+        @component('components.productPrice', ['availableProduct' => $item->availableProduct, 'nextDiscount' => (($item->discount+$item->extra_discount) / $item->availableProduct->price)*100, 'weight' => $item->weight])@endcomponent
     </div>
     @endforeach
 
