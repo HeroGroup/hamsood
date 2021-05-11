@@ -65,6 +65,10 @@
 
 .custom-modal-body {padding: 2px 16px;}
 
+    ul > li {
+        padding:5px 10px;
+    }
+
 </style>
     <div class="panel panel-default">
         <div class="panel-heading">لیست مشتری ها</div>
@@ -92,10 +96,26 @@
                             <td>{{number_format($customer->balance) . ' تومان'}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime($customer->created_at))}}</td>
                             <td>
-                                <a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a>
-                                <a href="{{route('admin.customers.transactions', $customer->id)}}" class="btn btn-xs btn-success">لیست تراکنش ها</a>
-                                <a href="{{route('orders.index', ['availableProduct' => 0, 'customer' => $customer->id])}}" class="btn btn-xs btn-warning">لیست سفارش ها</a>
-                                <a href="{{route('admin.customers.login', $customer->mobile)}}" class="btn btn-xs btn-primary">ورود به پنل کاربر</a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                        عملیات
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-left" role="menu">
+                                        <li>
+                                            <a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('admin.customers.transactions', $customer->id)}}" class="btn btn-xs btn-success">لیست تراکنش ها</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('orders.index', ['availableProduct' => 0, 'customer' => $customer->id])}}" class="btn btn-xs btn-warning">لیست سفارش ها</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('admin.customers.login', $customer->mobile)}}" class="btn btn-xs btn-primary">ورود به پنل کاربر</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

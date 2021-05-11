@@ -8,6 +8,7 @@ use App\City;
 use App\Customer;
 use App\CustomerCartItem;
 use App\Neighbourhood;
+use App\Notification;
 use App\Order;
 use App\OrderItem;
 use App\Product;
@@ -87,6 +88,7 @@ class HomeController extends Controller
         $name = "";
         $profileCompleted = false;
         $balance=0;
+        $newMessage = 0;
         // session(['mobile' => '09177048781']);
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
@@ -94,6 +96,7 @@ class HomeController extends Controller
             $profileCompleted = ($customer->gender && $customer->name) ? true : false;
             $name = $customer->name;
             $balance = $customer->balance;
+            $newMessage = Notification::where('customer_id',$customer->id)->count();
         }
         $products = Product::where('is_active',1)->get();
         $result = [];
@@ -135,10 +138,10 @@ class HomeController extends Controller
                 }
             }
             // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-            return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance'));
+            return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
 
         } else {
-            return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance'));
+            return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
         }
     }
 

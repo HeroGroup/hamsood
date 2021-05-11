@@ -10,6 +10,7 @@
                         <th>مشتری</th>
                         <th>لیست خرید</th>
                         <th>تاریخ ثبت</th>
+                        <th>عملیت</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -18,6 +19,9 @@
                             <td>{{$cart->customer->name. ' - '.$cart->customer->mobile}}</td>
                             <td>{{$cart->customer->getCartList()}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime(\App\CustomerCartItem::where('customer_id', $cart->customer_id)->first()->created_at))}}</td>
+                            <td>
+                                <a class="btn btn-xs btn-danger" href="{{route('carts.destroy',$cart->customer_id)}}">حذف</a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

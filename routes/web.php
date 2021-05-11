@@ -108,6 +108,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/customer/login/{mobile}','CustomerController@loginWithCustomer')->name('admin.customers.login');
 
         Route::get('/carts', 'CartController@index')->name('carts.index');
+        Route::get('/carts/destroy/{customerId}', 'CartController@destroy')->name('carts.destroy');
 
         Route::resource('/deliveries', 'DeliveryController')->except(['show', 'edit']);
 

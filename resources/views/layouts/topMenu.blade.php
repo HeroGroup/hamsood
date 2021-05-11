@@ -8,6 +8,19 @@ side-menu-item {
     text-decoration: none;
     color: #222;
 }
+    .new-message {
+        border:1px solid #31AC6B;
+        border-radius:5px;
+        color:#31AC6B;
+        padding:3px 6px;
+        top:0;
+        font-size:12px;
+        float: left;
+    }
+.new-message:hover {
+    background-color:#31AC6B;
+    color:white;
+}
 </style>
 <div id="myNav" class="overlay">
   <div class="overlay-content" style="margin-bottom:100px;">
@@ -40,6 +53,9 @@ side-menu-item {
         <a href="{{route('customers.notifications')}}" class="side-menu-item">
           <img src="/images/notifications_icon.png" width="15" height="15" />
           <span>پیام ها</span>
+            @if(isset($newMessage) && $newMessage > 0)
+                <span class="new-message">{{$newMessage}} پیام جدید</span>
+            @endif
         </a>
         <hr />
         <a href="#" class="side-menu-item">
