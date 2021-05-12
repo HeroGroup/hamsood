@@ -6,11 +6,12 @@
             <div style="border:1px solid #31AC6B;border-radius:5px;display: flex;justify-content: center;align-items: center;background-color:#eee;margin-bottom:15px;text-align:center;">
                 <div style="flex:1">
                     <h4 style="color:gray;">مبلغ کل سفارشات</h4>
-                    <h3 style="color:#222">{{number_format($orders->sum('total_price')+$orders->sum('shippment_price'))}} تومان</h3>
+                    <?php $extraDiscount = 0; for($i=0;$i<$orders->count();$i++) $extraDiscount += $orders[$i]->items->sum('extra_discount'); ?>
+                    <h3 style="color:#222">{{number_format($orders->sum('total_price')+$orders->sum('shippment_price')-$extraDiscount)}} تومان</h3>
                 </div>
                 <div style="flex:1">
                     <h4 style="color:gray;">سود کل شما</h4>
-                    <h3 style="color:#3ca8ff">{{number_format($orders->sum('discount'))}} تومان</h3>
+                    <h3 style="color:#3ca8ff">{{number_format($orders->sum('discount')+$extraDiscount)}} تومان</h3>
                 </div>
             </div>
         @endif
