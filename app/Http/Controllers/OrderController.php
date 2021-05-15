@@ -9,6 +9,7 @@ use App\Order;
 use App\OrderItem;
 use App\Transaction;
 use Illuminate\Http\Request;
+use Kavenegar\KavenegarApi;
 
 class OrderController extends Controller
 {
@@ -68,12 +69,23 @@ class OrderController extends Controller
 
     public function delivered($order)
     {
-        $order = Order::find($order);
-        if ($order) {
-            $order->update(['status' => 2]);
-            return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
-        } else {
-            return redirect(route('orders.index'))->with('message', 'سفارش نامعتبر')->with('type', 'danger');
+        try {
+            $order = Order::find($order);
+            if ($order) {
+                $order->update(['status' => 2]);
+
+                // SEND SMS TO CUSTOMER
+                $mobile = $order->customer->mobile;
+                $token = $order->id;
+                $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
+                $result = $api->VerifyLookup($mobile, $token, '', '', 'HamsodDelivered');
+
+                return redirect(route('orders.index'))->with('message', 'وضعیت سفارش با موفقیت تغییر یافت')->with('type', 'success');
+            } else {
+                return redirect(route('orders.index'))->with('message', 'سفارش نامعتبر')->with('type', 'danger');
+            }
+        } catch(Exception $exception) {
+            return redirect(route('orders.index'))->with('message', $exception->getMessage())->with('type', 'danger');
         }
     }
 
