@@ -112,7 +112,7 @@
                                             <a href="{{route('orders.index', ['availableProduct' => 0, 'customer' => $customer->id])}}" class="btn btn-xs btn-warning">لیست سفارش ها</a>
                                         </li>
                                         <li>
-                                            <a href="{{route('admin.customers.login', $customer->mobile)}}" class="btn btn-xs btn-primary">ورود به پنل کاربر</a>
+                                            <a href="{{route('admin.customers.login', $customer->mobile)}}" class="btn btn-xs btn-danger">ورود به پنل مشتری</a>
                                         </li>
                                     </ul>
                                 </div>
