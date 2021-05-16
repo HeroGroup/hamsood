@@ -12,6 +12,7 @@ class Notification extends Model
         'notification_text',
         'save_inbox',
         'notification_type',
+        'viewed_at'
     ];
 
     public function customer()

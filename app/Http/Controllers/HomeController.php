@@ -12,6 +12,7 @@ use App\Notification;
 use App\Order;
 use App\OrderItem;
 use App\Product;
+use App\SupportingArea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -216,6 +217,12 @@ class HomeController extends Controller
         } else {
             return redirect(route('landing'));
         }
+    }
+
+    public function supportingAreas()
+    {
+        $areas = SupportingArea::get(['supporting_area']);
+        return view('supportingAreas', compact('areas'));
     }
 
     public function verifyMobile()

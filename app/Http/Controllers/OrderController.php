@@ -84,7 +84,7 @@ class OrderController extends Controller
             } else {
                 return redirect(route('orders.index'))->with('message', 'سفارش نامعتبر')->with('type', 'danger');
             }
-        } catch(Exception $exception) {
+        } catch(\Exception $exception) {
             return redirect(route('orders.index'))->with('message', $exception->getMessage())->with('type', 'danger');
         }
     }

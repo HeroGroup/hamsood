@@ -148,6 +148,14 @@
 
             win.print();    // PRINT THE CONTENTS.
         }
+
+        function openModal(id) {
+            $(`#custom-modal-${id}`).css({"display": "block"});
+        }
+
+        $(".custom-close").on("click", function() {
+            $(".custom-modal").css({"display": "none"});
+        });
     </script>
 </body>
 </html>

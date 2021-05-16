@@ -37,9 +37,34 @@
     background-color:#FB5152;
     color:white;
 }
+#supporting-areas-message {
+    height:50px;
+    padding:20px 10px;
+    background-color:rgba(0,0,0,0.6);
+    z-index:11;
+    position:fixed;
+    top:60px;
+    left:15px;
+    right:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:10px;
+}
+    #supporting-areas-message > a {
+        color:white;
+        text-decoration: none;
+    }
+
 </style>
 @include('layouts.bottomMenu')
-<div id="main-div" style="margin:70px 0;background-color:#eee;color:#222;">
+
+<div id="supporting-areas-message">
+    <a href="{{route('supportingAreas')}}">مشاهده مناطق تحت پوشش</a>
+    <a href="#" onclick="hideSupportingAreaMessage()" style="font-size:30px;">&times;</a>
+</div>
+
+<div id="main-div" style="margin:120px 0 70px 0;background-color:#eee;color:#222;">
     <div class="container">
         <div style="margin-bottom:10px;display:flex;justify-content:center;align-items:center;background-color:#FAC850;color:#444;border-radius:10px;box-shadow: 0 0 5px #888888;">
             <div class="clock-container">
@@ -193,6 +218,11 @@
 
     function goToDetailPage(product) {
         window.location.href = `/product/${product}`;
+    }
+
+    function hideSupportingAreaMessage() {
+        $('#supporting-areas-message').css({'display':'none'});
+        $('#main-div').css({'margin-top':'70px'});
     }
 </script>
 @endsection

@@ -17,6 +17,7 @@ Route::get('/landing/{reference?}', 'HomeController@landing')->name('landing');
 Route::get('/product/{product}', 'HomeController@productDetailPage')->name('productDetailPage');
 Route::get('/suggestion/{uid}', 'HomeController@suggest')->name('suggest');
 Route::get('/terms', function() { return view('terms'); });
+Route::get('/supportingAreas', 'HomeController@supportingAreas')->name('supportingAreas');
 Route::get('/payment/payir/callback', 'PaymentController@verify');
 
 Route::middleware('customer.notLoggedIn')->group(function () {
@@ -88,6 +89,11 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/settings', 'SettingController@getSettings')->name('settings');
         Route::post('/settings', 'SettingController@postSettings')->name('settings.post');
+
+        Route::get('/supportingAreas', 'SettingController@supportingAreas')->name('settings.supportingAreas');
+        Route::post('/supportingAreas', 'SettingController@storeSupportingArea')->name('settings.supportingAreas.store');
+        Route::put('/supportingAreas/{area}', 'SettingController@updateSupportingArea')->name('settings.supportingAreas.update');
+        Route::delete('/supportingAreas/{area}', 'SettingController@removeSupportingArea')->name('settings.supportingAreas.remove');
 
         Route::resource('products', 'ProductController');
         Route::resource('availableProducts', 'AvailableProductController');

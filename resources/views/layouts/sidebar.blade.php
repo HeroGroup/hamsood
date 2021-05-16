@@ -23,6 +23,9 @@
                 <a href="{{route('deliveries.index')}}"><i class="fa fa-fw fa-list"></i> هزینه و زمان ارسال</a>
             </li>
             <li>
+                <a href="{{route('settings.supportingAreas')}}"><i class="fa fa-fw fa-list"></i> مناطق تحت پوشش</a>
+            </li>
+            <li>
                 <a href="{{route('users.index')}}"><i class="fa fa-fw fa-users"></i> مدیران</a>
             </li>
         </ul>
