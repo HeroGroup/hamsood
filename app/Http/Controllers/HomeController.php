@@ -97,7 +97,7 @@ class HomeController extends Controller
             $profileCompleted = ($customer->gender && $customer->name) ? true : false;
             $name = $customer->name;
             $balance = $customer->balance;
-            $newMessage = Notification::where('customer_id',$customer->id)->count();
+            $newMessage = Notification::where('customer_id',$customer->id)->whereNull('viewed_at')->count();
         }
         $products = Product::where('is_active',1)->get();
         $result = [];

@@ -14,7 +14,9 @@ class NotificationController extends Controller
         $notifications = Notification::where('customer_id',$customerId)->get();
 
         $current_date_time = Carbon::now()->toDateTimeString();
-        $notifications->update(['viewed_at' => $current_date_time]);
+        Notification::where('customer_id',$customerId)
+            ->whereNull('viewed_at')
+            ->update(['viewed_at' => $current_date_time]);
 
         $cartItemsCount = HomeController::userCartItemsCount();
 
