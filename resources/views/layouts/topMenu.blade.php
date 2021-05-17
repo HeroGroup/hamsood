@@ -85,9 +85,6 @@ side-menu-item {
         <a referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=211131&amp;Code=YKTlffSZfoa1xF2qvJQV">
             <img referrerpolicy="origin" id="YKTlffSZfoa1xF2qvJQV" src="https://Trustseal.eNamad.ir/logo.aspx?id=211131&amp;Code=YKTlffSZfoa1xF2qvJQV" alt="enamad" style="cursor:pointer">
         </a>
-        {{--<a href="#">--}}
-            {{--<img src="/images/enamad_image.png" width="60" height="65" />--}}
-        {{--</a>--}}
     </div>
   </div>
 </div>

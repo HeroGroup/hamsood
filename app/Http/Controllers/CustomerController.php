@@ -194,7 +194,7 @@ class CustomerController extends Controller
                 // $submittedOrders = Order::whereIn('id',$allOrders)->where('status',1)->get(['id']); // submitted orders of this available product
                 // $buyers = OrderItem::where('available_product_id', $item->available_product_id)->whereIn('order_id',$submittedOrders)->get();
 
-                $availableProduct = $item->availableProduct(); // AvailableProduct::find($item->available_product_id);
+                $availableProduct = AvailableProduct::find($item->available_product_id); // $item->availableProduct();
                 $buyers = $availableProduct->getOrdersCount();
                 $price = $availableProduct->price;
                 $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();

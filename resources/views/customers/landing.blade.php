@@ -41,7 +41,7 @@
     height:50px;
     padding:20px 10px;
     background-color:rgba(0,0,0,0.6);
-    z-index:11;
+    z-index:2;
     position:fixed;
     top:60px;
     left:15px;
