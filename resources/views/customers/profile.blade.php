@@ -96,9 +96,10 @@
     }
 
     const shareCode = async () => {
+        const shareCode = "{{$customer->share_code}}";
         const shareData = {
             title: 'ثبت نام در همسود',
-            text: 'با استفاده از کد زیر در همسود ثبت نام کنید و در استفاده از تخفیف گروهی سهیم شوید.'+'\n'+"{{$customer->share_code}}",
+            text: `با استفاده از کد ${shareCode} در همسود ثبت نام کنید و در استفاده از تخفیف گروهی سهیم شوید.`+`\n`,
             url:  'https://hamsood.com/signup'
         };
         try {

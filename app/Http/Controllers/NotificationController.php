@@ -11,7 +11,7 @@ class NotificationController extends Controller
     public function index()
     {
         $customerId = \request()->customer->id;
-        $notifications = Notification::where('customer_id',$customerId)->get();
+        $notifications = Notification::where('customer_id',$customerId)->orderBy('id','DESC')->get();
 
         $current_date_time = Carbon::now()->toDateTimeString();
         Notification::where('customer_id',$customerId)

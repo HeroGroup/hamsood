@@ -7,7 +7,7 @@
     <div style="margin:10px;">
     @if($notifications->count() > 0)
     @foreach($notifications as $notification)
-        <div style="border:1px solid gray;border-radius:5px;padding:10px 30px;">
+        <div style="border:1px solid gray;border-radius:5px;padding:10px 30px;margin-bottom:10px;">
             <h3>{{$notification->notification_type === 1 || $notification->notification_type === 2 ? "تسویه حساب" : $notification->notification_title}}</h3>
             <hr>
             <h4>{{$notification->notification_type === 1 ? "تسویه حساب نهایی انجام شد و مبلغ $notification->notification_text تومان به کیف پول شما برگشت داده شد." : ($notification->notification_type === 2 ? "تسویه حساب نهایی انجام شد و مبلغ $notification->notification_text از صورتحساب شما کسر شد. " : $notification->notification_text)}}</h4>
