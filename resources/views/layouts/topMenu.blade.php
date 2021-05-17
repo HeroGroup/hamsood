@@ -81,10 +81,13 @@ side-menu-item {
       <a class="btn btn-success" href="/verifyMobile" style="/*background-color:#008B44;*/width:150px;">ورود</a>
     </div>
     @endif
-    <div style="text-align:center;margin-top:20px;">
-        <a href="#">
-            <img src="/images/enamad_image.png" width="60" height="65" />
+    <div style="margin-top:20px;">
+        <a referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=211131&amp;Code=YKTlffSZfoa1xF2qvJQV">
+            <img referrerpolicy="origin" id="YKTlffSZfoa1xF2qvJQV" src="https://Trustseal.eNamad.ir/logo.aspx?id=211131&amp;Code=YKTlffSZfoa1xF2qvJQV" alt="enamad" style="cursor:pointer">
         </a>
+        {{--<a href="#">--}}
+            {{--<img src="/images/enamad_image.png" width="60" height="65" />--}}
+        {{--</a>--}}
     </div>
   </div>
 </div>

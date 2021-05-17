@@ -11,7 +11,7 @@
     </ul>
 
     <a href="/images/supporting_areas.png" target="_blank">
-        <img src="/images/supporting_areas.png" height="400" style="width:100%;max-width:400px;" />
+        <img src="/images/supporting_areas.png" style="width:100%;" />
     </a>
 </div>
 
