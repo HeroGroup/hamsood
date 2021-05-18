@@ -8,8 +8,12 @@
     </div>
     @elseif($order->status == 2 || $order->status == 11)
     <div class="payback" style="background-color:#008B44;">
-        @if($order->payment_method!=1 && $order->items()->sum('extra_discount') > 0)
-            تسویه حساب نهایی انجام شد و مبلغ {{number_format($order->items()->sum('extra_discount'))}} تومان به کیف پول شما برگشت داده شد
+        @if($order->items()->sum('extra_discount') > 0)
+            @if($order->payment_method!=1)
+                تسویه حساب نهایی انجام شد و مبلغ {{number_format($order->items()->sum('extra_discount'))}} تومان به کیف پول شما برگشت داده شد
+            @else
+                تسویه حساب نهایی انجام شد و مبلغ {{number_format($order->items()->sum('extra_discount'))}} تومان از صورتحساب شما کسر شد.
+            @endif
         @else
             تسویه حساب نهایی انجام شد
         @endif

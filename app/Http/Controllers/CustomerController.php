@@ -172,13 +172,15 @@ class CustomerController extends Controller
     public function submitOrder()
     {
         try {
+            $totalPrice = 0;
+            $totalDiscount = 0;
             $order = new Order([
                 'uid' => $this->generateUID(),
                 'customer_id' => \request()->customer->id,
                 'customer_name' => session('customer_name'),
-                'discount' => session('discount'),
+                'discount' => $totalDiscount, // session('discount'),
                 'shippment_price' => session('shippment_price'),
-                'total_price' => session('total_price'),
+                'total_price' => $totalPrice, // session('total_price'),
                 'payment_method' => session('payment_method'),
                 'neighbourhood_id' => session('neighbourhood_id'),
                 'address' => session('address'),
@@ -195,12 +197,13 @@ class CustomerController extends Controller
                 // $buyers = OrderItem::where('available_product_id', $item->available_product_id)->whereIn('order_id',$submittedOrders)->get();
 
                 $availableProduct = AvailableProduct::find($item->available_product_id); // $item->availableProduct();
-                $buyers = $availableProduct->getOrdersCount();
+                $buyers = $availableProduct->getOrdersCount(); // submitted orders only not canceled orders
                 $price = $availableProduct->price;
                 $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
                 $level = $buyers%$availableProduct->maximum_group_members;
                 $discountPercent = $level > 1 ? $details[$level-1]->discount : $details->min('discount');
                 $discount = $price * $discountPercent / 100;
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'available_product_id' => $item->available_product_id,
@@ -209,7 +212,15 @@ class CustomerController extends Controller
                     'discount' => $discount,
                     'nth_buyer' => $buyers+1
                 ]);
+
+                $totalDiscount = $item->weight*$discount;
+                $totalPrice += (($item->real_price - $discount) * $item->weight);
             }
+
+            $order->update([
+                'discount' => $totalDiscount,
+                'total_price' => $totalPrice
+            ]);
 
             // delete cart
             $deletedRows = CustomerCartItem::where('customer_id', \request()->customer->id)->delete();
@@ -308,8 +319,8 @@ class CustomerController extends Controller
         $realPrice = 0;
         $discount = 0;
         foreach ($cartItems as $cartItem) {
-            $realPrice += $cartItem->weight*$cartItem->real_price;
-            $discount += $cartItem->weight*$cartItem->discount;
+            $realPrice += ( $cartItem->weight * $cartItem->real_price );
+            $discount += ( $cartItem->weight * $cartItem->discount );
         }
 
         $prices = [

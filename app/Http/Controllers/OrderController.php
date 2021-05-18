@@ -10,6 +10,8 @@ use App\OrderItem;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Kavenegar\KavenegarApi;
+use Kavenegar\Exceptions\ApiException;
+use Kavenegar\Exceptions\HttpException;
 
 class OrderController extends Controller
 {
@@ -21,6 +23,27 @@ class OrderController extends Controller
             return $this->success($result);
         } catch (\Exception $exception) {
             return $this->fail($exception->getMessage());
+        }
+    }
+
+    public function paybackSMS()
+    {
+        $orders = Order::where('status',11)->get();
+        foreach($orders as $order) {
+            $discount = $order->items->sum('extra_discount');
+            if($discount > 0) {
+                try {
+                    $mobile = $order->customer->mobile;
+                    $token = $order->id;
+                    $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
+                    $result = $api->VerifyLookup($mobile, $token, '', '', 'HamsodPayback');
+                } catch(ApiException $e) {
+                    die($e->errorMessage());
+                }
+                catch(HttpException $e) {
+                    die($e->errorMessage());
+                }
+            }
         }
     }
 

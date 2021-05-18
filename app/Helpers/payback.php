@@ -1,13 +1,16 @@
 <?php
 
+use Kavenegar\KavenegarApi;
+use Kavenegar\Exceptions\ApiException;
+use Kavenegar\Exceptions\HttpException;
+
 function finalPayback()
 {
     try {
         $result = "";
         $conn = new mysqli("127.0.0.1", "hamsodco_root", "12Root34", "hamsodco_hamdsod", 3306);
 
-        require '/vendor/autoload.php';
-        $api = new \Kavenegar\KavenegarApi("ِ706D534E3771695A3161545A6141765A3367436D53673D3D");
+        $api = new KavenegarApi("ِ706D534E3771695A3161545A6141765A3367436D53673D3D");
 
         // Check connection
         if ($conn->connect_error)
@@ -116,18 +119,18 @@ function finalPayback()
                         // SEND SMS TO CUSTOMER
                         try {
                             $mobile = "";
-                            $sql = $conn->query("SELECT mobile FROM customer WHERE id=$customerId") or die($conn->error);
+                            $sql = $conn->query("SELECT mobile FROM customers WHERE id=$customerId") or die($conn->error);
                             while ($row = $sql->fetch_assoc()) {
                                 $mobile = $row['mobile'];
                             }
                             $token = $orderId;
                             $api->VerifyLookup($mobile, $token, '', '', 'HamsodPayback');
 
-                        } catch(\Kavenegar\Exceptions\ApiException $e) {
-                            die($e->errorMessage());
+                        } catch(ApiException $e) {
+                            // die($e->errorMessage());
                         }
-                        catch(\Kavenegar\Exceptions\HttpException $e) {
-                            die($e->errorMessage());
+                        catch(HttpException $e) {
+                            // die($e->errorMessage());
                         }
                     }
                 }
