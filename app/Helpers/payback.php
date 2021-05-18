@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Kavenegar\KavenegarApi;
 use Kavenegar\Exceptions\ApiException;
 use Kavenegar\Exceptions\HttpException;
@@ -8,6 +9,7 @@ function finalPayback()
 {
     try {
         $result = "";
+        $current_date_time = Carbon::now()->toDateTimeString();
         $conn = new mysqli("127.0.0.1", "hamsodco_root", "12Root34", "hamsodco_hamdsod", 3306);
 
         $api = new KavenegarApi("ِ706D534E3771695A3161545A6141765A3367436D53673D3D");
@@ -105,7 +107,7 @@ function finalPayback()
                         if($paymentMethod!=1) {
                             // INSERT INTO TRANSACTIONS
                             // $trTitle = "برگشت به کیف پول بابت تسویه حساب سفارش شماره $orderId";
-                            $insert = $conn->query("INSERT INTO transactions(customer_id,transaction_sign,transaction_type,title,amount,tr_status) VALUES($customerId,1,4,$orderId,$sumExtraDiscount,1);") or die($conn->error);
+                            $insert = $conn->query("INSERT INTO transactions(customer_id,transaction_sign,transaction_type,title,amount,tr_status,created_at) VALUES($customerId,1,4,$orderId,$sumExtraDiscount,1,$current_date_time);") or die($conn->error);
                             $update = $conn->query("UPDATE customers SET balance=balance+$sumExtraDiscount WHERE id=$customerId;") or die($conn->error);
                         }
 
@@ -114,7 +116,7 @@ function finalPayback()
                         // INSERT INTO NOTIFICATIONS
                         // $notifTitle = "تسویه حساب";
                         // $notifText = "تسویه حساب نهایی انجام شد و مبلغ $sumExtraDiscount به کیف پول شما برگشت داده شد.";
-                        $insert = $conn->query("INSERT INTO notifications(customer_id,notification_text,notification_type,save_inbox) VALUES($customerId,$sumExtraDiscount,$notificationType,1);") or die($conn->error);
+                        $insert = $conn->query("INSERT INTO notifications(customer_id,notification_text,notification_type,save_inbox,created_at) VALUES($customerId,$sumExtraDiscount,$notificationType,1,$current_date_time);") or die($conn->error);
 
                         // SEND SMS TO CUSTOMER
                         try {
