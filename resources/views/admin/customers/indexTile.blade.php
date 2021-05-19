@@ -65,7 +65,7 @@
 
 .custom-modal-body {padding: 2px 16px;}
 
-    ul > li {
+.btn-group > ul > li {
         padding:5px 10px;
     }
 
@@ -112,7 +112,7 @@
                 </div>
 
                 @foreach($customers as $customer)
-                <div class="col-md-3 custom-card" style="padding:10px;color:#222;border:1px solid #222;">
+                <div class="col-md-3 custom-card" style="padding:10px;color:#222;border:5px solid #222;">
                     <div class="row">
                         <div class="btn-group" style="margin-left:15px;float:left;">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="padding:0;width:25px;border-radius:50%;text-align:center;">

@@ -2,7 +2,7 @@
 @section('content')
     <style>
         .description {
-            color:white;
+            color:gray;
             margin-top:5px;
             overflow:hidden;
             text-overflow:ellipsis;
@@ -15,7 +15,7 @@
         <div class="panel-heading">لیست محصولات</div>
         <div class="panel-body">
             @foreach($products as $product)
-                <a class="col-sm-4" style="cursor: pointer;" href="{{route('products.edit', $product->id)}}">
+                <a class="col-sm-3" style="text-decoration:none;cursor: pointer;margin-bottom:20px;" href="{{route('products.edit', $product->id)}}">
                     <img src="{{$product->image_url}}" height="200" width="200" alt="{{$product->name}}">
                     <div style="color:white;margin-top:5px;">
                         {{$product->name}}
@@ -25,8 +25,9 @@
                             <span class="label label-default">{{config('enums.active.'.$product->is_active)}}</span>
                         @endif
                     </div>
-                    <div class="description">{{$product->description}}</div>
+                    <div class="description">{{$product->description ?? 'فاقد توضیحات'}}</div>
                 </a>
+
             @endforeach
         </div>
     </div>

@@ -65,7 +65,7 @@
 
 .custom-modal-body {padding: 2px 16px;}
 
-    ul > li {
+    .btn-group > ul > li {
         padding:5px 10px;
     }
 
