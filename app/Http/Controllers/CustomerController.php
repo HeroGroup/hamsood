@@ -31,7 +31,10 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::orderBy('id', 'desc')->get();
-        return view('admin.customers.index', compact('customers'));
+        if(\request()->view == "tile")
+            return view('admin.customers.indexTile', compact('customers'));
+        else
+            return view('admin.customers.index', compact('customers'));
     }
 
     public function customerAddresses($customerId)
