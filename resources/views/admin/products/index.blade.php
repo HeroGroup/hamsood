@@ -1,5 +1,16 @@
 @extends('layouts.admin', ['pageTitle' => 'محصولات', 'newButton' => true, 'newButtonUrl' => 'products/create', 'newButtonText' => 'ایجاد محصول'])
 @section('content')
+    <style>
+        .description {
+            color:white;
+            margin-top:5px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-line-clamp:1;
+            -webkit-box-orient:vertical;
+        }
+    </style>
     <div class="panel panel-default">
         <div class="panel-heading">لیست محصولات</div>
         <div class="panel-body">
@@ -14,7 +25,7 @@
                             <span class="label label-default">{{config('enums.active.'.$product->is_active)}}</span>
                         @endif
                     </div>
-                    <div style="color:white;margin-top:5px;">{{$product->description}}</div>
+                    <div class="description">{{$product->description}}</div>
                 </a>
             @endforeach
         </div>
