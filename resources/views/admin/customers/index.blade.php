@@ -72,6 +72,15 @@
 </style>
     <div class="panel panel-default">
         <div class="panel-heading">لیست مشتری ها</div>
+        <div class="tab">
+            <label style="padding-right:40px;">نمایش: </label>
+            <button class="tablinks active" onclick="window.location = '/admin/customers';">
+                <i class="fa fa-list"></i>
+            </button>
+            <button class="tablinks" onclick="window.location = '/admin/customers?view=tile';">
+                <i class="fa fa-th-large"></i>
+            </button>
+        </div>
         <div class="panel-body">
             <div class="container-fluid table-responsive">
                 <table class="table table-bordered data-table">

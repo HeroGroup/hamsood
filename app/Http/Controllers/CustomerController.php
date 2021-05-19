@@ -30,7 +30,15 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = Customer::orderBy('id', 'desc')->get();
+        $customers = Customer::orderBy('id', 'desc');
+
+        if(\request()->has('search') && strlen(\request()->search) > 0) {
+            $customers = $customers->where('mobile','like','%'.\request()->search.'%')
+                ->orWhere('name','like','%'.\request()->search.'%');
+        }
+
+        $customers = $customers->get();
+
         if(\request()->view == "tile")
             return view('admin.customers.indexTile', compact('customers'));
         else

@@ -80,11 +80,60 @@
 </style>
     <div class="panel panel-default">
         <div class="panel-heading">لیست مشتری ها</div>
+        <div class="tab">
+            <label style="padding-right:40px;">نمایش: </label>
+            <button class="tablinks" onclick="window.location = '/admin/customers';">
+                <i class="fa fa-list"></i>
+            </button>
+            <button class="tablinks active" onclick="window.location = '/admin/customers?view=tile';">
+                <i class="fa fa-th-large"></i>
+            </button>
+        </div>
+
         <div class="panel-body">
             <div class="container-fluid">
-                <div class="row">
+                <div class="form-horizontal">
+                    <form method="get" action="/admin/customers">
+                        <input type="hidden" name="view" value="tile" />
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="search" class="col-md-4 control-label">جستجو:</label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="search" class="form-control" style="background-color: #222;color:white;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-info">جستجو</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                 @foreach($customers as $customer)
-                <div class="custom-card col-md-3" style="padding:10px;color:#222;border:1px solid #222;">
+                <div class="col-md-3 custom-card" style="padding:10px;color:#222;border:1px solid #222;">
+                    <div class="row">
+                        <div class="btn-group" style="margin-left:15px;float:left;">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="padding:0;width:25px;border-radius:50%;text-align:center;">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-left" role="menu">
+                                <li>
+                                    <a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('admin.customers.transactions', $customer->id)}}" class="btn btn-xs btn-success">لیست تراکنش ها</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('orders.index', ['availableProduct' => 0, 'customer' => $customer->id])}}" class="btn btn-xs btn-warning">لیست سفارش ها</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('admin.customers.login', $customer->mobile)}}" class="btn btn-xs btn-danger">ورود به پنل مشتری</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-xs-5 control-label">نام:</div>
                         <div class="col-xs-7">{{$customer->gender ? config("enums.gender.$customer->gender") : ""}} {{$customer->name ?? '-'}}</div>
@@ -106,30 +155,8 @@
                         <div class="col-xs-7">{{jdate('Y/m/j', strtotime($customer->created_at))}}</div>
 
                     </div>
-                    <div class="row">
-                        <div class="btn-group" style="margin-left:15px;float:left;">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="padding:0;width:25px;border-radius:50%;">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <ul class="dropdown-menu pull-left" role="menu">
-                                <li>
-                                    <a href="{{route('admin.customers.addresses', $customer->id)}}" class="btn btn-xs btn-info">لیست آدرس ها</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('admin.customers.transactions', $customer->id)}}" class="btn btn-xs btn-success">لیست تراکنش ها</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('orders.index', ['availableProduct' => 0, 'customer' => $customer->id])}}" class="btn btn-xs btn-warning">لیست سفارش ها</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('admin.customers.login', $customer->mobile)}}" class="btn btn-xs btn-danger">ورود به پنل مشتری</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
                 @endforeach
-                </div>
             </div>
         </div>
     </div>
@@ -153,11 +180,13 @@
             $(".custom-card").each(function( index , element ) {
                 $(this).css({"background-color" : randomColor() });
             });
+
+            const urlParams = new URLSearchParams(window.location.search);
+            $("input[name=search]").val(urlParams.get('search'));
         });
 
         function randomColor() {
             let index = Math.floor(Math.random() * 10) + 1;
-            console.log(index);
             return backgroundColors[index];
         }
 
