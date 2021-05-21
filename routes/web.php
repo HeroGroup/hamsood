@@ -105,6 +105,8 @@ Route::prefix('admin')->group(function () {
         Route::get('orders/failed/{order}', 'OrderController@failed')->name('orders.failed');
         Route::get('orders/bill/{order}', 'OrderController@bill')->name('orders.bill');
 
+        Route::post('categories', 'CategoryController@store')->name('categories.store');
+
         Route::get('orders/payback', 'OrderController@payback');
         Route::get('orders/paybackSMS', 'OrderController@paybackSMS');
 

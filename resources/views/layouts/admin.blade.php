@@ -22,6 +22,9 @@
 
     <script src="/js/jquery-1.11.0.js" type="text/javascript"></script>
 
+    <script src="/js/selectize.min.js"></script>
+    <link rel="stylesheet" href="/css/selectize.bootstrap3.min.css" />
+
 </head>
 <body>
 
@@ -155,6 +158,10 @@
 
         $(".custom-close").on("click", function() {
             $(".custom-modal").css({"display": "none"});
+        });
+
+        $('select:not(select[name=DataTables_Table_0_length])').selectize({
+            sortField: 'text'
         });
     </script>
 </body>

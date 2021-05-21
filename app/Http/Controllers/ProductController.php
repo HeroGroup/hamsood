@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Product;
+use App\ProductCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -15,7 +17,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::pluck('title','id')->toArray();
+        return view('admin.products.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -37,6 +40,16 @@ class ProductController extends Controller
 
         $product->save();
 
+        if ($request->has('categories') && count($request->categories) > 0) {
+            $categories = $request->categories;
+            for($i=0; $i<count($categories); $i++) {
+                ProductCategory::create([
+                    'product_id' => $product->id,
+                    'category_id' => $categories[$i]
+                ]);
+            }
+        }
+
         return redirect(route('products.index'))->with('message', 'محصول جدید با موفقیت ایجاد شد.')->with('type', 'success');
     }
 
@@ -47,7 +60,15 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        return view('admin.products.edit', compact('product'));
+        $categories = Category::pluck('title','id')->toArray();
+        // $ag = GroupRow::where('group_id', $group->id)->get();
+        // $allocatedGateways = [];
+        // if ($ag->count() > 0)
+        //     foreach ($ag as $allocatedGateway)
+        //         array_push($allocatedGateways, $allocatedGateway->gateway_id);
+
+        $allocatedCategories = ProductCategory::where('product_id',$product->id)->pluck('category_id','id')->toArray();
+        return view('admin.products.edit', compact('product','categories','allocatedCategories'));
     }
 
     public function update(Request $request, Product $product)
@@ -66,6 +87,18 @@ class ProductController extends Controller
             'base_price_url' => $request->base_price_url,
             'is_active' => $request->is_active ? 1 : 0
         ]);
+
+        if ($request->has('categories') && count($request->categories) > 0) {
+            ProductCategory::where('product_id',$product->id)->delete();
+
+            $categories = $request->categories;
+            for($i=0; $i<count($categories); $i++) {
+                ProductCategory::create([
+                    'product_id' => $product->id,
+                    'category_id' => $categories[$i]
+                ]);
+            }
+        }
 
         return redirect(route('products.index'))->with('message', 'محصول با موفقیت بروزرسانی شد.')->with('type', 'success');
     }

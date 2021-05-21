@@ -139,7 +139,10 @@ class HomeController extends Controller
                 }
             }
             // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-            return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
+            if(count($result) > 0)
+                return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
+            else
+                return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
 
         } else {
             return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance', 'newMessage'));

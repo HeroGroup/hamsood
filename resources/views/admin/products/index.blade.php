@@ -25,6 +25,7 @@
                             <span class="label label-default">{{config('enums.active.'.$product->is_active)}}</span>
                         @endif
                     </div>
+                    <div class="description">دسته بندی: {{$product->categories()}}</div>
                     <div class="description">{{$product->description ?? 'فاقد توضیحات'}}</div>
                 </a>
 

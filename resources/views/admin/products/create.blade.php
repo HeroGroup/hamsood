@@ -15,13 +15,15 @@
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">توضیحات</label>
                     <div class="col-sm-4">
-                        <textarea id="description" name="description" class="form-control" rows="5">{{old('description')}}</textarea>
+                        <textarea id="description" name="description" class="form-control" rows="3">{{old('description')}}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="base_price_url" class="col-sm-2 control-label">لینک خرید عادی</label>
+                    <label for="categories" class="col-sm-2 control-label">دسته بندی</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="base_price_url" name="base_price_url" value="{{old('base_price_url')}}">
+                        {!! Form::select('categories[]',$categories,null,array('multiple'=>'multiple','class'=>'form-control','id'=>'categories')) !!}
+                        <br>
+                        <button class="btn btn-primary" onclick="openModal('create-category')"><i class="fa fa-plus"></i> دسته بندی جدید</button>
                     </div>
                 </div>
                 <div class="form-group">
@@ -38,6 +40,30 @@
                 </div>
             </div>
             {{ Form::close() }}
+        </div>
+    </div>
+
+
+    <div id="custom-modal-create-category" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="custom-close">&times;</span>
+            <h4>دسته بندی جدید</h4>
+            <hr />
+            <form method="post" action="{{route('categories.store')}}">
+                @csrf
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 control-label">عنوان دسته بندی</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="title" class="form-control" required />
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success" style="width: 150px;">ذخیره</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

@@ -15,17 +15,21 @@
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">توضیحات</label>
                     <div class="col-sm-4">
-                        <textarea id="description" name="description" class="form-control" rows="5">{{$product->description}}</textarea>
+                        <textarea id="description" name="description" class="form-control" rows="3">{{$product->description}}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="base_price_url" class="col-sm-2 control-label">لینک خرید عادی</label>
+                    <label for="categories" class="col-sm-2 control-label">دسته بندی</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="base_price_url" name="base_price_url" value="{{$product->base_price_url}}">
+                    <select name="categories[]" multiple class="form-control">
+                        @foreach($categories as $key=>$category)
+                            <option value="{{$key}}" @if(in_array($key, $allocatedCategories, true)) selected="selected" @endif>{{$category}}</option>
+                        @endforeach
+                    </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="is_active" class="col-sm-2 control-label">توضیحات</label>
+                    <label for="is_active" class="col-sm-2 control-label">وضعیت</label>
                     <div class="col-sm-4">
                         <span> فعال </span>
                         <label class="switch">
