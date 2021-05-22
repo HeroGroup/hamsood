@@ -12,6 +12,7 @@ use App\Notification;
 use App\Order;
 use App\OrderItem;
 use App\Product;
+use App\Support;
 use App\SupportingArea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -228,24 +229,21 @@ class HomeController extends Controller
         return view('supportingAreas', compact('areas'));
     }
 
-    public function verifyMobile()
+    public function support()
     {
-        return view('customers.verifyMobile');
+        return view('customers.support');
     }
 
-    public function signup()
+    public function postMessage(Request $request)
     {
-        $signup = true;
-        return view('customers.verifyMobile',compact('signup'));
-    }
-
-    public function verifyToken($mobile=null)
-    {
-        if ($mobile && strlen($mobile) == 11) {
-            $remainingTime = 60;
-            return view('customers.verifyToken', compact('mobile', 'remainingTime'));
-        } else {
-            return redirect(route('customers.verifyMobile'));
+        try {
+            Support::create([
+                'customer_id' => $request->customer->id,
+                'message' => $request->message,
+            ]);
+            return back()->with('message','پیام شما با موفقیت برای تیم پشتیبانی ارسال شد.')->with('type','success');
+        } catch (\Exception $exception) {
+            return back()->with('message', $exception->getMessage())->with('type','danger');
         }
     }
 }

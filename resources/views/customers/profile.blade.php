@@ -1,4 +1,4 @@
-@extends('layouts.customer', ['pageTitle' => 'مشخصات فردی', 'withNavigation' => true])
+@extends('layouts.customer', ['pageTitle' => 'مشخصات فردی', 'withNavigation' => true, 'backUrl' => '/'])
 @section('content')
 <style>
 .name-input {
@@ -73,7 +73,6 @@
     });
 
     $("input[type=radio]").on("change", function() {
-        activateSubmitButton();
         var gender = $(this).val();
         switch (gender) {
             case "male":
@@ -86,6 +85,9 @@
                 $("img[name=profile_image]").attr("src","/images/user_default_image.png");
                 break;
         }
+
+        if($("input[name=name]").val().length >= 3)
+            activateSubmitButton();
     });
 
     function submitForm() {

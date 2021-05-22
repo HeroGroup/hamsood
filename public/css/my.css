@@ -458,7 +458,7 @@ td {
 .custom-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 1001; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -482,6 +482,8 @@ td {
     font-size: 28px;
     font-weight: bold;
     float:left;
+    cursor:pointer;
+    width:20px;
 }
 
 .custom-close:hover,

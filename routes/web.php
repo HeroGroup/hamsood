@@ -21,11 +21,16 @@ Route::get('/supportingAreas', 'HomeController@supportingAreas')->name('supporti
 Route::get('/payment/payir/callback', 'PaymentController@verify');
 
 Route::middleware('customer.notLoggedIn')->group(function () {
-    Route::get('/signup', 'HomeController@signup')->name('customers.signup');
-    Route::get('/verifyMobile', 'HomeController@verifyMobile')->name('customers.verifyMobile');
-    Route::get('/verifyToken/{mobile?}', 'HomeController@verifyToken')->name('customers.verifyToken');
-    Route::post('/verifyMobile', 'CustomerController@verifyMobile')->name('verifyMobile');
-    Route::post('/verifyToken', 'CustomerController@verifyToken')->name('verifyToken');
+    Route::get('/signup', function() { return redirect(\route('customers.login')); });
+
+    Route::get('/customer/login', 'CustomerAuthController@login')->name('customers.login');
+    Route::get('/customer/signup/{mobile}', 'CustomerAuthController@signup')->name('customers.signup'); // same as login
+    Route::get('/customer/token/{mobile}', 'CustomerAuthController@token')->name('customers.token');
+
+    Route::post('/verifyMobile', 'CustomerAuthController@verifyMobile')->name('verifyMobile');
+    Route::post('/verifyInvitor', 'CustomerAuthController@verifyInvitor')->name('verifyInvitor');
+    Route::post('/verifyToken', 'CustomerAuthController@verifyToken')->name('verifyToken');
+
 });
 
 Route::middleware('customer.auth')->group(function () {
@@ -78,7 +83,11 @@ Route::middleware('customer.auth')->group(function () {
     Route::get('/userCartItemsCount/{ajax?}', 'HomeController@userCartItemsCount')->name('customers.userCartItemsCount');
     Route::get('/customer/profile', 'CustomerController@profile')->name('customers.profile');
     Route::post('/customer/updateProfile', 'CustomerController@updateProfile')->name('customers.updateProfile');
-    Route::get('/customer/logout', 'CustomerController@logout')->name('customers.logout');
+
+    Route::get('/support', 'HomeController@support')->name('support');
+    Route::post('/support', 'HomeController@postMessage')->name('postMessage');
+
+    Route::get('/customer/logout', 'CustomerAuthController@logout')->name('customers.logout');
 });
 
 Route::prefix('admin')->group(function () {

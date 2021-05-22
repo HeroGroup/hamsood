@@ -11,7 +11,7 @@ class CustomerAuth
     {
         if (!session('mobile') || strlen(session('mobile')) != 11) {
             session(['path' => $request->path()]);
-            return redirect(route('customers.verifyMobile'));
+            return redirect(route('customers.login'));
         }
 
         $request->customer = Customer::where('mobile','LIKE',session('mobile'))->first();

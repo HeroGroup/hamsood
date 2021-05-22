@@ -20,7 +20,8 @@ class Order extends Model
         'address',
         'payment_method',
         'payment_status',
-        'status'
+        'status',
+        'extra_description'
     ];
 
     public function customer()

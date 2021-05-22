@@ -17,7 +17,6 @@ use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Kavenegar\KavenegarApi;
 
 class CustomerController extends Controller
@@ -57,116 +56,6 @@ class CustomerController extends Controller
         return view('admin.customers.transactions', compact('transactions'));
     }
 
-    public function checkLastLogin($lastLogin)
-    {
-        $seconds = 120;
-        $lastLoginAttempt = new \DateTime($lastLogin);
-        $nextTry = $lastLoginAttempt->add(new \DateInterval('PT' . $seconds . 'S'));
-        $now = new \DateTime('now');
-        $interval = $nextTry->diff($now);
-        if ($interval->f < 0)
-            return ['status' => -1, 'message' => 'لطفا ' . ($interval->i * 60 + $interval->s) . ' ثانیه دیگر مجددا تلاش کنید.'];
-        else
-            return ['status' => 1];
-    }
-
-
-    public static function sendTokenSms($mobile)
-    {
-        $token = rand(1000, 9999);
-        $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
-        $result = $api->VerifyLookup($mobile, $token, '', '', 'hamsodverify');
-        return $token;
-    }
-
-    public function verifyMobile(Request $request)
-    {
-        if ($request->mobile && strlen($request->mobile) == 11) {
-            if($request->form_type == "signup") {
-                if($request->share_code && strlen($request->share_code) == 5) {
-                    $invitor = Customer::where('share_code','like',$request->share_code)->where('mobile','not like',$request->mobile)->get();
-                    if ($invitor->count() == 1) {
-                        // check if customer exists
-                        $customerExists = Customer::where('mobile', 'like', $request->mobile)->count();
-                        if ($customerExists) {
-                            $customer = Customer::where('mobile', 'like', $request->mobile)->first();
-                            $check = self::checkLastLogin($customer->updated_at);
-                            if ($check['status'] < 0) {
-                                return redirect(route('customers.verifyMobile'))->with('error', $check['message']);
-                            } else {
-                                $token = Hash::make(self::sendTokenSms($request->mobile));
-                                $customer->update(['token' => $token]);
-                            }
-                        } else {
-                            $token = Hash::make(self::sendTokenSms($request->mobile));
-                            $customer = new Customer([
-                                'mobile' => $request->mobile,
-                                'token' => $token,
-                                'invitor' => $request->share_code
-                            ]);
-                            $customer->save();
-
-                            $base = 23486;
-                            $customer->update(['share_code' => $base + ($customer->id*3)]);
-                        }
-
-                        return $request->has('ajax') ? $this->success('request sent') : redirect(route('customers.verifyToken', $request->mobile));
-                    } else {
-                        return $request->has('ajax') ? $this->fail('invalid mobile') : back()->withInput()->with('message', 'کد معرف نامعتبر')->with('type','danger');
-                    }
-                } else {
-                    return $request->has('ajax') ? $this->fail('invalid mobile') : back()->withInput()->with('message', 'کد معرف نامعتبر')->with('type','danger');
-                }
-            } else if($request->form_type == "login") {
-                $customerExists = Customer::where('mobile', 'like', $request->mobile)->count();
-                if ($customerExists) {
-                    $customer = Customer::where('mobile', 'like', $request->mobile)->first();
-                    $check = self::checkLastLogin($customer->updated_at);
-                    if ($check['status'] < 0) {
-                        return redirect(route('customers.verifyMobile'))->with('error', $check['message']);
-                    } else {
-                        $token = Hash::make(self::sendTokenSms($request->mobile));
-                        $customer->update(['token' => $token]);
-
-                        return $request->has('ajax') ? $this->success('request sent') : redirect(route('customers.verifyToken', $request->mobile));
-                    }
-                } else {
-                    return redirect(route('customers.signup'));
-                }
-            } else {
-                return redirect(route('customers.signup'));
-            }
-        } else {
-            return $request->has('ajax') ? $this->fail('invalid mobile') : back()->with('error', 'شماره موبایل نامعتبر');
-        }
-    }
-
-    public function verifyToken(Request $request)
-    {
-        $mobile = $request->mobile;
-        if ($mobile && strlen($mobile) == 11) {
-            $customer = Customer::where('mobile', 'like', $mobile)->first();
-
-            if ($customer) {
-                $tokenFromDatabase = $customer->token;
-                $token = $request->token;
-                if ($token) {
-                    if (Hash::check(strval($token), $tokenFromDatabase)) {
-                        $path = session('path');
-                        session(['mobile' => $mobile, 'path' => '']);
-                        return redirect($path ?? route('landing'));
-                    } else {
-                        return redirect(route('customers.verifyToken', $mobile))->with('error', 'کد نادرست وارد شده است');
-                    }
-                } else {
-                    return redirect(route('customers.verifyToken', $mobile))->with('error', 'کد نامعتبر');
-                }
-            }
-        } else {
-            return redirect(route('customers.verifyMobile'))->with('error', 'شماره موبایل نامعتبر');
-        }
-    }
-
     public function generateUID() {
         $rand = "";
         $seed = str_split('abcdefghijklmnopqrstuvwxyz'.'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.'0123456789');
@@ -197,7 +86,8 @@ class CustomerController extends Controller
                 'address' => session('address'),
                 'delivery_date' => session('date'),
                 'delivery_time' => session('time'),
-                'status' => 1
+                'status' => 1,
+                'extra_description' => session('extra_description')
             ]);
             $order->save();
 
@@ -266,7 +156,8 @@ class CustomerController extends Controller
             'discount' => '',
             'shippment_price' => '',
             'shippment_price_for_now' => '',
-            'total_price' => ''
+            'total_price' => '',
+            'extra_description' => ''
         ]);
     }
 
@@ -367,7 +258,10 @@ class CustomerController extends Controller
         if($paymentMethod==2 && $request->customer->balance > 0)
             $paymentMethod = 3;
 
-        session(['payment_method' => $paymentMethod]);
+        session([
+            'payment_method' => $paymentMethod,
+            'extra_description' => $request->extra_description
+        ]);
         $customer = Customer::find($customerId);
         $customer->update(['name' => session('customer_name')]);
 
@@ -449,9 +343,4 @@ class CustomerController extends Controller
         }
     }
 
-    public function logout()
-    {
-        session(['mobile' => '']);
-        return redirect(route('landing'));
-    }
 }

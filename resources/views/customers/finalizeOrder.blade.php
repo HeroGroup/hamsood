@@ -72,6 +72,10 @@
         @else
             <input type="hidden" name="payment_method" value="4" />
         @endif
+        <div style="padding:20px 10px;color:#222">
+            <label for="extra_description">توضیحات</label>
+            <textarea name="extra_description" id="extra_description" rows="2" class="form-control" placeholder="در صورت نیاز به توضیحاتی در مورد سفارش، اینجا بنویسید"></textarea>
+        </div>
     </form>
 
 </div>

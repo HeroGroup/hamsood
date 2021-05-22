@@ -58,9 +58,9 @@ side-menu-item {
             @endif
         </a>
         <hr />
-        <a href="#" class="side-menu-item">
+        <a href="{{route('support')}}" class="side-menu-item">
           <img src="/images/support_icon.png" width="20" height="20" />
-          <span>پشتیبانی (به زودی)</span>
+          <span>پشتیبانی</span>
         </a>
         <hr />
         <a href="#" class="side-menu-item">
@@ -78,7 +78,7 @@ side-menu-item {
     <img src="/images/not_entered.png" width="150" height="150" />
     <p style="color:#222;margin-top:80px;">شما هنوز وارد نشده اید</p>
     <div>
-      <a class="btn btn-success" href="/verifyMobile" style="/*background-color:#008B44;*/width:150px;">ورود</a>
+      <a class="btn btn-success" href="{{route('customers.login')}}" style="/*background-color:#008B44;*/width:150px;">ورود</a>
     </div>
     @endif
     <div style="margin-top:20px;">
