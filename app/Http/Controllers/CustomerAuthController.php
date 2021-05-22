@@ -44,8 +44,6 @@ class CustomerAuthController extends Controller
 
     public static function sendTokenSms($mobile)
     {
-        return 1234;
-
         $token = rand(1000, 9999);
         $api = new KavenegarApi('706D534E3771695A3161545A6141765A3367436D53673D3D');
         $result = $api->VerifyLookup($mobile, $token, '', '', 'hamsodverify');
@@ -72,16 +70,6 @@ class CustomerAuthController extends Controller
                 }
 
             } else {
-                $token = Hash::make(self::sendTokenSms($request->mobile));
-                $customer = new Customer([
-                    'mobile' => $request->mobile,
-                    'token' => $token
-                ]);
-                $customer->save();
-
-                $base = 23486;
-                $customer->update(['share_code' => $base + ($customer->id*3)]);
-
                 return $request->has('ajax') ? $this->fail('not signed up yet') : redirect(route('customers.signup',$request->mobile));
             }
         } else {
@@ -91,22 +79,36 @@ class CustomerAuthController extends Controller
 
     public function verifyInvitor(Request $request)
     {
-        if($request->share_code && strlen($request->share_code) == 5) {
-            $invitor = Customer::where('share_code','like',$request->share_code)->where('mobile','not like',$request->mobile)->get();
-            if ($invitor->count() == 1) {
-                // check if customer exists
-                $customer = Customer::where('mobile', 'like', $request->mobile)->first();
-                if ($customer) {
-                    $customer->update(['invitor' => $request->share_code]);
+        if($request->mobile && strlen($request->mobile) == 11) {
+            if($request->share_code && strlen($request->share_code) == 5) {
+                $invitor = Customer::where('share_code','like',$request->share_code)->where('mobile','not like',$request->mobile)->get();
+                if ($invitor->count() == 1) {
+                    $token = Hash::make(self::sendTokenSms($request->mobile));
+
+                    // check if customer exists
+                    $customer = Customer::where('mobile', 'like', $request->mobile)->first();
+                    if ($customer) {
+                        $customer->update(['invitor' => $request->share_code]);
+                    } else {
+                        $customer = new Customer([
+                            'mobile' => $request->mobile,
+                            'token' => $token
+                        ]);
+                        $customer->save();
+
+                        $base = 23486;
+                        $customer->update(['share_code' => $base + ($customer->id*3)]);
+                    }
+
                     return redirect(route('customers.token',$request->mobile));
                 } else {
-                    return redirect(route('customers.login'))->with('message', 'شماره موبایل نامعتبر')->with('type','danger');
+                    return back()->withInput()->with('error', 'کد معرف نامعتبر');
                 }
             } else {
                 return back()->withInput()->with('error', 'کد معرف نامعتبر');
             }
         } else {
-            return back()->withInput()->with('error', 'کد معرف نامعتبر');
+            return redirect(route('customers.login'))->with('error', 'شماره موبایل نامعتبر');
         }
     }
 

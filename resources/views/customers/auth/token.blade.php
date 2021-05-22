@@ -18,7 +18,7 @@
             <div>
                 <img src="/images/verify_token.png" width="150" height="150" />
             </div>
-            <div style="flex:1;color:#222;margin-top:50px;">
+            <div style="flex:1;color:#222;margin-top:10px;">
                 <p>کد ورود به شماره</p>
                 <p>{{ isset($mobile) ? $mobile : '-' }} پیامک شد</p>
                 <p>کد را وارد کنید</p>

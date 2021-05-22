@@ -4,12 +4,12 @@
     <div class="container" style="text-align:center;margin-bottom:100px;">
         <div style="margin-top:70px;">
             <div>
-                <img src="/images/verify_mobile.png" width="150" height="150" />
+                <img src="/images/not_entered.png" width="150" height="150" />
             </div>
-            <div style="flex:1;color:#222;margin-top:50px;">
+            <div style="flex:1;color:#222;margin-top:10px;">
                 <p>جهت وارد شدن در فروشگاه اینترنتی</p>
                 <p>خرید گروهی <b>همسود</b></p>
-                <p>کد معرف خود را وارد کنید</p>
+                <p><b>کد معرف</b> خود را وارد کنید</p>
             </div>
         </div>
         <div>

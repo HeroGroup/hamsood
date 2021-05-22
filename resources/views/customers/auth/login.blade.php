@@ -6,7 +6,7 @@
             <div>
                 <img src="/images/verify_mobile.png" width="150" height="150" />
             </div>
-            <div style="flex:1;color:#222;margin-top:50px;">
+            <div style="flex:1;color:#222;margin-top:10px;">
                 <p>جهت وارد شدن در فروشگاه اینترنتی</p>
                 <p>خرید گروهی <b>همسود</b></p>
                 <p>شماره تلفن همراه خود را وارد کنید</p>
