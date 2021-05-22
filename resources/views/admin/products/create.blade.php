@@ -23,7 +23,7 @@
                     <div class="col-sm-4">
                         {!! Form::select('categories[]',$categories,null,array('multiple'=>'multiple','class'=>'form-control','id'=>'categories')) !!}
                         <br>
-                        <button class="btn btn-primary" onclick="openModal('create-category')"><i class="fa fa-plus"></i> دسته بندی جدید</button>
+                        <button class="btn btn-primary" type="button" onclick="openModal('create-category')"><i class="fa fa-plus"></i> دسته بندی جدید</button>
                     </div>
                 </div>
                 <div class="form-group">
@@ -42,7 +42,6 @@
             {{ Form::close() }}
         </div>
     </div>
-
 
     <div id="custom-modal-create-category" class="custom-modal">
         <div class="custom-modal-content">

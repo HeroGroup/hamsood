@@ -21,11 +21,13 @@
                 <div class="form-group">
                     <label for="categories" class="col-sm-2 control-label">دسته بندی</label>
                     <div class="col-sm-4">
-                    <select name="categories[]" multiple class="form-control">
+                        <select name="categories[]" multiple class="form-control">
                         @foreach($categories as $key=>$category)
                             <option value="{{$key}}" @if(in_array($key, $allocatedCategories, true)) selected="selected" @endif>{{$category}}</option>
                         @endforeach
-                    </select>
+                        </select>
+                        <br>
+                        <button class="btn btn-primary" type="button" onclick="openModal('create-category')"><i class="fa fa-plus"></i> دسته بندی جدید</button>
                     </div>
                 </div>
                 <div class="form-group">
@@ -55,6 +57,29 @@
                 </div>
             </div>
             {{ Form::close() }}
+        </div>
+    </div>
+
+    <div id="custom-modal-create-category" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="custom-close">&times;</span>
+            <h4>دسته بندی جدید</h4>
+            <hr />
+            <form method="post" action="{{route('categories.store')}}">
+                @csrf
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 control-label">عنوان دسته بندی</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="title" class="form-control" required />
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success" style="width: 150px;">ذخیره</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
