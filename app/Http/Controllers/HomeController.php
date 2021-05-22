@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AvailableProduct;
 use App\AvailableProductDetail;
 use App\City;
+use App\Category;
 use App\Customer;
 use App\CustomerCartItem;
 use App\Neighbourhood;
@@ -12,6 +13,7 @@ use App\Notification;
 use App\Order;
 use App\OrderItem;
 use App\Product;
+use App\ProductCategory;
 use App\Support;
 use App\SupportingArea;
 use Illuminate\Http\Request;
@@ -91,6 +93,7 @@ class HomeController extends Controller
         $profileCompleted = false;
         $balance=0;
         $newMessage = 0;
+        $remaining = 0;
         // session(['mobile' => '09177048781']);
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
@@ -100,54 +103,67 @@ class HomeController extends Controller
             $balance = $customer->balance;
             $newMessage = Notification::where('customer_id',$customer->id)->whereNull('viewed_at')->count();
         }
-        $products = Product::where('is_active',1)->get();
+
         $result = [];
         $cartItemsCount = $this->userCartItemsCount();
-        if ($products->count() > 0) {
-            foreach ($products as $product) {
-                $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
-                if($availableProduct) {
-                    $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
-                    $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
 
-                    $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
-                    $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
-                    $userWeight = $userBoughtResult[0];
-                    $orderId = $userBoughtResult[1];
-                    $myGroupIsComplete = $userBoughtResult[2];
-                    $numberOfCompletedGroups = $userBoughtResult[3];
-                    $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
+        $categories = Category::all();
 
-                    $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
-                    $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
+        foreach($categories as $category) {
+            $result[$category->id] = [];
 
-                    $item = [
-                        'product' => $product,
-                        'availableProduct' => $availableProduct,
-                        'details' => $details,
-                        'remaining' => $remaining,
-                        'peopleBought' => $peopleBought,
-                        'userWeight' => $userWeight,
-                        'orderId' => $orderId,
-                        'userCartWeight' => $userCartWeight,
-                        'nextDiscount' => $nextDiscount,
-                        'lastDiscount' => $lastDiscount,
-                        'myGroupIsComplete' => $myGroupIsComplete,
-                        'numberOfCompletedGroups' => $numberOfCompletedGroups,
-                    ];
+            $productCategories = ProductCategory::where('category_id',$category->id)->get();
+            if($productCategories->count() > 0) {
+                foreach ($productCategories as $productCategory) {
+                    $product = Product::where('id',$productCategory->product_id)->where('is_active',1)->first();
+                    if($product) {
+                        $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
+                        if($availableProduct) {
+                            $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+                            $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
 
-                    array_push($result, $item);
+                            $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
+                            $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
+                            $userWeight = $userBoughtResult[0];
+                            $orderId = $userBoughtResult[1];
+                            $myGroupIsComplete = $userBoughtResult[2];
+                            $numberOfCompletedGroups = $userBoughtResult[3];
+                            $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
+
+                            $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
+                            $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
+
+                            $item = [
+                                'product' => $productCategory->product,
+                                'availableProduct' => $availableProduct,
+                                'details' => $details,
+                                'remaining' => $remaining,
+                                'peopleBought' => $peopleBought,
+                                'userWeight' => $userWeight,
+                                'orderId' => $orderId,
+                                'userCartWeight' => $userCartWeight,
+                                'nextDiscount' => $nextDiscount,
+                                'lastDiscount' => $lastDiscount,
+                                'myGroupIsComplete' => $myGroupIsComplete,
+                                'numberOfCompletedGroups' => $numberOfCompletedGroups,
+                            ];
+
+                            array_push($result[$productCategory->category_id],$item);
+                        }
+                    }
                 }
             }
-            // $referenceId = $userBought ? (Customer::where('mobile', 'like', session('mobile'))->first()->id + 1000) : '';
-            if(count($result) > 0)
-                return view('customers.landing', compact('result', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
-            else
-                return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
 
-        } else {
-            return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
+            if(count($result[$productCategory->category_id]) == 0)
+                unset($result[$productCategory->category_id]);
         }
+
+        // dd($result);
+
+        if(count($result) > 0)
+            return view('customers.landing', compact('result', 'remaining', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
+        else
+            return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
     }
 
     public function productDetailPage($productId)
