@@ -2,31 +2,34 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li>
-                <a href="{{route('products.index')}}"><i class="fa fa-fw fa-shopping-cart"></i> محصولات</a>
+                <a href="{{route('products.index')}}"> محصولات</a>
             </li>
             <li>
-                <a href="{{route('availableProducts.index')}}"><i class="fa fa-fw fa-shopping-cart"></i> گروه ها</a>
+                <a href="{{route('availableProducts.index')}}"> گروه ها</a>
             </li>
             <li>
-                <a href="{{route('orders.index')}}"><i class="fa fa-fw fa-list"></i> سفارشات</a>
+                <a href="{{route('orders.index')}}"> سفارشات</a>
             </li>
             <li>
-                <a href="{{route('customers.index')}}"><i class="fa fa-fw fa-users"></i> مشتری ها</a>
+                <a href="{{route('customers.index')}}"> مشتری ها</a>
             </li>
             <li>
-                <a href="{{route('carts.index')}}"><i class="fa fa-fw fa-shopping-cart"></i> سبد خریدهای ناتمام</a>
+                <a href="{{route('carts.index')}}"> سبد خریدهای ناتمام</a>
             </li>
             <li>
-                <a href="{{route('neighbourhoods.index')}}"><i class="fa fa-fw fa-list"></i> مناطق</a>
+                <a href="{{route('neighbourhoods.index')}}"> مناطق</a>
             </li>
             <li>
-                <a href="{{route('deliveries.index')}}"><i class="fa fa-fw fa-list"></i> هزینه و زمان ارسال</a>
+                <a href="{{route('deliveries.index')}}"> هزینه و زمان ارسال</a>
             </li>
             <li>
-                <a href="{{route('settings.supportingAreas')}}"><i class="fa fa-fw fa-list"></i> مناطق تحت پوشش</a>
+                <a href="{{route('settings.supportingAreas')}}"> مناطق تحت پوشش</a>
             </li>
             <li>
-                <a href="{{route('users.index')}}"><i class="fa fa-fw fa-users"></i> مدیران</a>
+                <a href="{{route('admin.support')}}">پشتیبانی</a>
+            </li>
+            <li>
+                <a href="{{route('users.index')}}"> مدیران</a>
             </li>
         </ul>
     </div>

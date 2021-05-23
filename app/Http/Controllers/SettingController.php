@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support;
 use App\SupportingArea;
 use Illuminate\Http\Request;
 use App\Setting;
@@ -65,5 +66,11 @@ class SettingController extends Controller
         } catch (\Exception $exception) {
             return back()->with('message', $exception->getMessage())->with('type', 'danger');
         }
+    }
+
+    public function support()
+    {
+        $supports = Support::all();
+        return view('admin.support', compact('supports'));
     }
 }

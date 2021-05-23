@@ -138,6 +138,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/neighbourhoodDeliveries/{neighbourhood}', 'NeighbourhoodDeliveryController@index')->name('neighbourhoodDeliveries.index');
         Route::get('/neighbourhoodDeliveries/create/{neighbourhood}', 'NeighbourhoodDeliveryController@create')->name('neighbourhoodDeliveries.create');
 
+        Route::get('/support', 'SettingController@support')->name('admin.support');
+
         Route::resource('users', 'UserController');
         Route::get('users/{user}/resetPassword', 'UserController@resetPassword')->name('users.resetPassword');
         Route::get('users/{user}/profile', 'UserController@changePassword')->name('users.changePassword');

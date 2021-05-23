@@ -52,12 +52,16 @@ function finalPayback()
                         $x = $numberOfCompletedGroups * $maximumMembers;
 
                         $max_discount_amount = ($maxDiscount * $realPrice) / 100;
-                        $sql = "UPDATE order_items SET extra_discount=($max_discount_amount-discount)*weight WHERE available_product_id=$productId AND nth_buyer <= $x";
-                        $update = $conn->query($sql) or die($conn->error);
+                        if($max_discount_amount > 0) {
+                            $sql = "UPDATE order_items SET extra_discount=($max_discount_amount-discount)*weight WHERE available_product_id=$productId AND nth_buyer <= $x";
+                            $update = $conn->query($sql) or die($conn->error);
+                        }
 
                         $last_discount_amount = ($lastDiscount * $realPrice) / 100;
-                        $sql = "UPDATE order_items SET extra_discount=($last_discount_amount-discount)*weight WHERE available_product_id=$productId AND nth_buyer > $x";
-                        $update = $conn->query($sql) or die($conn->error);
+                        if($last_discount_amount > 0) {
+                            $sql = "UPDATE order_items SET extra_discount=($last_discount_amount-discount)*weight WHERE available_product_id=$productId AND nth_buyer > $x";
+                            $update = $conn->query($sql) or die($conn->error);
+                        }
 
                         // select order ids of this product
                         $orderIds = $conn->query("SELECT DISTINCT orders.id FROM orders,order_items WHERE orders.id=order_items.order_id AND orders.status=1 AND order_items.available_product_id=$productId") or die($conn->error);
