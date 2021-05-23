@@ -13,7 +13,8 @@ Route::get('/clear-cache', function() {
 });
 
 Route::get('/', 'HomeController@landing');
-Route::get('/landing/{reference?}', 'HomeController@landing')->name('landing');
+Route::get('/landing', 'HomeController@landing')->name('landing');
+Route::get('/category/{category}', 'HomeController@categoryLanding')->name('categoryLanding');
 Route::get('/product/{product}', 'HomeController@productDetailPage')->name('productDetailPage');
 Route::get('/suggestion/{uid}', 'HomeController@suggest')->name('suggest');
 Route::get('/terms', function() { return view('terms'); });
@@ -86,6 +87,8 @@ Route::middleware('customer.auth')->group(function () {
 
     Route::get('/support', 'HomeController@support')->name('support');
     Route::post('/support', 'HomeController@postMessage')->name('postMessage');
+
+    Route::get('/about', 'HomeController@about')->name('about');
 
     Route::get('/customer/logout', 'CustomerAuthController@logout')->name('customers.logout');
 });

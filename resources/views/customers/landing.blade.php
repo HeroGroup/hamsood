@@ -59,6 +59,7 @@
         background-color:white;
         border-radius:10px;
         box-shadow: 0 0 5px #888888;
+        display: inline-block;
         width:200px;
         height:300px;
         cursor:pointer;
@@ -93,9 +94,9 @@
         <div style="margin-bottom:15px;">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;">
                 <h3 style="margin:0;">{{\App\Category::find($key)->title}}</h3>
-                <a href="#">مشاهده همه</a>
+                <a href="{{route('categoryLanding',$key)}}">مشاهده همه</a>
             </div>
-            <div style="display:flex;">
+            <div style="overflow:auto;white-space:nowrap;">
             @foreach($items as $item)
                 <div class="product-item" onclick="goToDetailPage('{{$item['product']->id}}')">
                     <img src="{{$item['product']->image_url}}" width="100" height="100" style="border:1px solid lightgray;border-radius:10px;padding:5px;" />

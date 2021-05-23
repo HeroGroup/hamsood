@@ -86,7 +86,7 @@ class HomeController extends Controller
         }
     }
 
-    public function landing($reference=null)
+    public function landing()
     {
         $gender = "none";
         $name = "";
@@ -94,7 +94,7 @@ class HomeController extends Controller
         $balance=0;
         $newMessage = 0;
         $remaining = 0;
-        // session(['mobile' => '09177048781']);
+
         if(session('mobile')) {
             $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
             $gender = $customer->gender;
@@ -121,31 +121,12 @@ class HomeController extends Controller
                         if($availableProduct) {
                             $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
                             $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
-
                             $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
-                            $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
-                            $userWeight = $userBoughtResult[0];
-                            $orderId = $userBoughtResult[1];
-                            $myGroupIsComplete = $userBoughtResult[2];
-                            $numberOfCompletedGroups = $userBoughtResult[3];
-                            $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
-
-                            $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
-                            $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
-
                             $item = [
                                 'product' => $productCategory->product,
                                 'availableProduct' => $availableProduct,
                                 'details' => $details,
-                                'remaining' => $remaining,
                                 'peopleBought' => $peopleBought,
-                                'userWeight' => $userWeight,
-                                'orderId' => $orderId,
-                                'userCartWeight' => $userCartWeight,
-                                'nextDiscount' => $nextDiscount,
-                                'lastDiscount' => $lastDiscount,
-                                'myGroupIsComplete' => $myGroupIsComplete,
-                                'numberOfCompletedGroups' => $numberOfCompletedGroups,
                             ];
 
                             array_push($result[$productCategory->category_id],$item);
@@ -154,14 +135,86 @@ class HomeController extends Controller
                 }
             }
 
-            if(count($result[$productCategory->category_id]) == 0)
-                unset($result[$productCategory->category_id]);
+            if(count($result[$category->id]) == 0)
+                unset($result[$category->id]);
         }
 
         // dd($result);
 
         if(count($result) > 0)
             return view('customers.landing', compact('result', 'remaining', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
+        else
+            return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
+    }
+
+    public function categoryLanding($category)
+    {
+        $gender = "none";
+        $name = "";
+        $profileCompleted = false;
+        $balance=0;
+        $newMessage = 0;
+        $remaining = 0;
+        // session(['mobile' => '09177048781']);
+        if(session('mobile')) {
+            $customer = Customer::where('mobile', 'LIKE', session('mobile'))->first();
+            $gender = $customer->gender;
+            $profileCompleted = ($customer->gender && $customer->name) ? true : false;
+            $name = $customer->name;
+            $balance = $customer->balance;
+            $newMessage = Notification::where('customer_id',$customer->id)->whereNull('viewed_at')->count();
+        }
+
+        $result = [];
+        $cartItemsCount = $this->userCartItemsCount();
+
+
+        $productCategories = ProductCategory::where('category_id',$category)->get();
+        $category = Category::find($category);
+        $category = $category->title;
+        if($productCategories->count() > 0) {
+            foreach ($productCategories as $productCategory) {
+                $product = Product::where('id',$productCategory->product_id)->where('is_active',1)->first();
+                if($product) {
+                    $availableProduct = AvailableProduct::where('product_id', $product->id)->where('is_active', 1)->first();
+                    if($availableProduct) {
+                        $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
+                        $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
+
+                        $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
+                        $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
+                        $userWeight = $userBoughtResult[0];
+                        $orderId = $userBoughtResult[1];
+                        $myGroupIsComplete = $userBoughtResult[2];
+                        $numberOfCompletedGroups = $userBoughtResult[3];
+                        $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
+
+                        $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
+                        $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
+
+                        $item = [
+                            'product' => $productCategory->product,
+                            'availableProduct' => $availableProduct,
+                            'details' => $details,
+                            'remaining' => $remaining,
+                            'peopleBought' => $peopleBought,
+                            'userWeight' => $userWeight,
+                            'orderId' => $orderId,
+                            'userCartWeight' => $userCartWeight,
+                            'nextDiscount' => $nextDiscount,
+                            'lastDiscount' => $lastDiscount,
+                            'myGroupIsComplete' => $myGroupIsComplete,
+                            'numberOfCompletedGroups' => $numberOfCompletedGroups,
+                        ];
+
+                        array_push($result,$item);
+                    }
+                }
+            }
+        }
+
+        if(count($result) > 0)
+            return view('customers.categoryLanding', compact('category', 'result', 'remaining', 'cartItemsCount', 'gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
         else
             return view('customers.notActive', compact('gender', 'profileCompleted', 'name', 'balance', 'newMessage'));
     }
@@ -248,6 +301,11 @@ class HomeController extends Controller
     public function support()
     {
         return view('customers.support');
+    }
+
+    public function about()
+    {
+        return view('customers.about');
     }
 
     public function postMessage(Request $request)

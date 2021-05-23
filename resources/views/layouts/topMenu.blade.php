@@ -63,9 +63,9 @@ side-menu-item {
           <span>پشتیبانی</span>
         </a>
         <hr />
-        <a href="#" class="side-menu-item">
+        <a href="{{route('about')}}" class="side-menu-item">
           <img src="/images/about_icon.png" width="20" height="20" />
-          <span>درباره همسود (به زودی)</span>
+          <span>درباره همسود</span>
         </a>
         <hr />
         <a href="{{route('customers.logout')}}" class="side-menu-item">

@@ -78,9 +78,8 @@
                 <p>زمان باقیمانده</p>
             </div>
         </div>
-        @foreach($result as $key=>$items)
-        <h4>{{\App\Category::find($key)->title}}</h4>
-        @foreach($items as $item)
+        <h4>{{$category}}</h4>
+        @foreach($result as $item)
         <div style="background-color:white;border-radius:10px;box-shadow: 0 0 5px #888888;">
             <div style="display:flex;flex-direction:row;padding:10px;cursor:pointer;" onclick="goToDetailPage('{{$item['product']->id}}')">
                 <div style="flex:1">
@@ -207,8 +206,6 @@
             </div>
         </div>
         <br>
-        @endforeach
-        <hr>
         @endforeach
     </div>
 </div>
