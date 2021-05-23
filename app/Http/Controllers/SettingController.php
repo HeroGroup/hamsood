@@ -70,7 +70,7 @@ class SettingController extends Controller
 
     public function support()
     {
-        $supports = Support::all();
+        $supports = Support::orderBy('id','desc')->get();
         return view('admin.support', compact('supports'));
     }
 }

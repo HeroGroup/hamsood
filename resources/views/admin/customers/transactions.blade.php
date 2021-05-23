@@ -18,7 +18,7 @@
                     <tbody>
                     @foreach($transactions as $transaction)
                         <tr>
-                            <td>{{$transaction->title}}</td>
+                            <td>{{$transaction->transaction_type == 4 ? 'برگشت به کیف پول بابت تسویه حساب سفارش شماره '.$transaction->title : $transaction->title}}</td>
                             <td class="@if($transaction->transaction_sign==1) text-success @else text-danger @endif">{{number_format($transaction->amount) . ($transaction->transaction_sign==1 ? '+' : '-')}}</td>
                             <td>{{jdate('H:i - Y/m/j', strtotime($transaction->created_at))}}</td>
                             <td>
