@@ -122,11 +122,29 @@ class HomeController extends Controller
                             $details = AvailableProductDetail::where('available_product_id', $availableProduct->id)->get();
                             $remaining = $this->getRemainingTime($availableProduct->until_day, $availableProduct->available_until_datetime);
                             $peopleBought = $availableProduct->getOrdersCount() % $availableProduct->maximum_group_members;
+                            $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
+                            $userWeight = $userBoughtResult[0];
+                            $orderId = $userBoughtResult[1];
+                            $myGroupIsComplete = $userBoughtResult[2];
+                            $numberOfCompletedGroups = $userBoughtResult[3];
+                            $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
+
+                            $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
+                            $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
+
                             $item = [
                                 'product' => $productCategory->product,
                                 'availableProduct' => $availableProduct,
                                 'details' => $details,
+                                'remaining' => $remaining,
                                 'peopleBought' => $peopleBought,
+                                'userWeight' => $userWeight,
+                                'orderId' => $orderId,
+                                'userCartWeight' => $userCartWeight,
+                                'nextDiscount' => $nextDiscount,
+                                'lastDiscount' => $lastDiscount,
+                                'myGroupIsComplete' => $myGroupIsComplete,
+                                'numberOfCompletedGroups' => $numberOfCompletedGroups,
                             ];
 
                             array_push($result[$productCategory->category_id],$item);
@@ -232,12 +250,14 @@ class HomeController extends Controller
             $userBoughtResult = $this->checkIfUserBought($availableProduct->id);
             $userWeight = $userBoughtResult[0];
             $orderId = $userBoughtResult[1];
+            $myGroupIsComplete = $userBoughtResult[2];
+            $numberOfCompletedGroups = $userBoughtResult[3];
             $userCartWeight = $this->checkIfExistsInCart($availableProduct->id);
 
             $nextDiscount = $peopleBought > 1 ? $details[$peopleBought - 1]->discount : $details->min('discount');
             $lastDiscount = $peopleBought > 1 ? $details[$peopleBought - 2]->discount : $details->min('discount');
 
-            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'orderId', 'userCartWeight', 'nextDiscount', 'lastDiscount', 'cartItemsCount'));
+            return view('customers.productDetail', compact('product', 'availableProduct', 'details', 'remaining', 'peopleBought', 'userWeight', 'orderId', 'myGroupIsComplete', 'numberOfCompletedGroups', 'userCartWeight', 'nextDiscount', 'lastDiscount', 'cartItemsCount'));
         } else {
             return view('customers.notActive');
         }

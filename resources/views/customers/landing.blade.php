@@ -61,7 +61,7 @@
         box-shadow: 0 0 5px #888888;
         display: inline-block;
         width:200px;
-        height:300px;
+        height:340px;
         cursor:pointer;
         text-align:center;
         padding:10px;
@@ -94,42 +94,74 @@
         <div style="margin-bottom:15px;">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;">
                 <h3 style="margin:0;">{{\App\Category::find($key)->title}}</h3>
-                <a href="{{route('categoryLanding',$key)}}">مشاهده همه</a>
+                <a href="{{route('categoryLanding',$key)}}">مشاهده همه <i class="fa fa-arrow-left"></i> </a>
             </div>
-            <div style="overflow:auto;white-space:nowrap;">
+            <div style="overflow:auto;white-space:nowrap;padding:5px;">
             @foreach($items as $item)
-                <div class="product-item" onclick="goToDetailPage('{{$item['product']->id}}')">
-                    <img src="{{$item['product']->image_url}}" width="100" height="100" style="border:1px solid lightgray;border-radius:10px;padding:5px;" />
-                    <h3 style="margin-top:10px;padding-top:0;">{{$item['product']->name}}</h3>
-                    <h5 style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت باراز {{number_format($item['availableProduct']->price)}} تومان</h5>
-                    <div style="background-color:lightgray;display:flex;justify-content:space-between;align-items:center;border-radius:5px;">
-                        <span style="background-color:gray;font-size:12px;border-radius:5px;padding:5px;color:white;">همسودی ۲</span>
-                        <label style="color:white;background-color:red;border-radius:50%;width:30px;">{{$item['details']->min('discount')}}%</label>
-                        <span style="padding:5px;">{{number_format((100-$item['details']->min('discount'))/100*$item['availableProduct']->price)}} <span style="font-size:10px;">تومان</span></span>
-                    </div>
+                <div class="product-item">
+                    <div onclick="goToDetailPage('{{$item['product']->id}}')">
+                        <img src="{{$item['product']->image_url}}" width="100" height="100" style="border:1px solid lightgray;border-radius:10px;padding:5px;" />
+                        <h3 style="margin-top:10px;padding-top:0;">{{$item['product']->name}}</h3>
+                        <h5 style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت باراز {{number_format($item['availableProduct']->price)}} تومان</h5>
+                        @if($item['userWeight'] > 0)
+                            <div style="display: flex;justify-content: space-between;padding:8px 0;">
+                                <span style="font-size:10px;">سود شما تا این لحظه</span>
+                                <h6 style="color:#31AC6B;border:1px solid #31AC6B;border-radius:5px;padding:0 5px;margin:0;width:70px;">{{number_format(($item['lastDiscount'])*$item['availableProduct']->price*$item['userWeight']/100)}} تومان</h6>
+                            </div>
+                            <div style="display: flex;justify-content: space-between;padding:8px 0;">
+                                <span style="font-size:10px;">پرداختی شما تا این لحظه</span>
+                                <h6 style="background-color: #2680EB;color:white;border-radius:5px;padding:0 5px;margin:0;width:70px;">
+                                    <?php $discount = $item['myGroupIsComplete'] ? $item['details']->max('discount') : $item['lastDiscount']; ?>
+                                    {{number_format((100-$discount)*$item['availableProduct']->price*$item['userWeight']/100)}} تومان
+                                </h6>
+                            </div>
+                        @else
+                            <div style="background-color:lightgray;display:flex;justify-content:space-between;align-items:center;border-radius:5px;">
+                                <span style="background-color:gray;font-size:12px;border-radius:5px;padding:5px;color:white;">همسودی ۲</span>
+                                <label style="color:white;background-color:red;border-radius:50%;width:30px;">{{$item['details']->min('discount')}}%</label>
+                                <span style="padding:5px;">{{number_format((100-$item['details']->min('discount'))/100*$item['availableProduct']->price)}} <span style="font-size:10px;">تومان</span></span>
+                            </div>
 
-                    <div style="background-color:lightgray;display:flex;justify-content:space-between;align-items:center;border-radius:5px;margin-top:5px;">
-                        <span style="background-color:gray;color:white;font-size:12px;border-radius:5px;padding:5px;">همسودی {{$item['availableProduct']->maximum_group_members}}</span>
-                        <span style="color:white;background-color:red;width:30px;border-radius:50%;">{{$item['details']->max('discount')}}%</span>
-                        <span style="padding:5px;">{{number_format((100-$item['details']->max('discount'))/100*$item['availableProduct']->price)}} <span style="font-size:10px;">تومان</span></span>
-                    </div>
-
-                    <div style="display:flex;align-items:flex-end;">
-                        <div style="flex:1;text-align:right;">
-                            <label for="peopleBought-{{$item['availableProduct']->id}}">{{$item['peopleBought']}} نفر </label>
+                            <div style="background-color:lightgray;display:flex;justify-content:space-between;align-items:center;border-radius:5px;margin-top:5px;">
+                                <span style="background-color:gray;color:white;font-size:12px;border-radius:5px;padding:5px;">همسودی {{$item['availableProduct']->maximum_group_members}}</span>
+                                <span style="color:white;background-color:red;width:30px;border-radius:50%;">{{$item['details']->max('discount')}}%</span>
+                                <span style="padding:5px;">{{number_format((100-$item['details']->max('discount'))/100*$item['availableProduct']->price)}} <span style="font-size:10px;">تومان</span></span>
+                            </div>
+                        @endif
+                        <div style="display:flex;align-items:flex-end;">
+                            <div style="flex:1;text-align:right;">
+                                <label for="peopleBought-{{$item['availableProduct']->id}}">{{$item['peopleBought']}} نفر </label>
+                            </div>
+                            <div style="flex:1;text-align:left;">
+                                @for($i=0;$i<$item['peopleBought'];$i++)
+                                    @if($i<=3)
+                                    <img src="/images/avatars/avatar{{rand(1,9)}}.png" width="20" height="20" style="border-radius:50%;@if($i!=$item['peopleBought']-1) margin-left:-10px; @endif" />
+                                    @else
+                                    <span style="color:#222;">.</span>
+                                    @endif
+                                @endfor
+                            </div>
                         </div>
-                        <div style="flex:1;text-align:left;">
-                            @for($i=0;$i<$item['peopleBought'];$i++)
-                                @if($i<=3)
-                                <img src="/images/avatars/avatar{{rand(1,9)}}.png" width="20" height="20" style="border-radius:50%;@if($i!=$item['peopleBought']-1) margin-left:-10px; @endif" />
-                                @else
-                                <span style="color:#222;">.</span>
-                                @endif
-                            @endfor
+                        <div class="progress" id="peopleBought-{{$item['availableProduct']->id}}" style="margin-bottom:0;margin-top:3px;height:6px;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{$item['peopleBought']}}" aria-valuemin="0" aria-valuemax="{{$item['availableProduct']->maximum_group_members}}" style="width:{{$item['peopleBought']/$item['availableProduct']->maximum_group_members*100}}%"></div>
                         </div>
                     </div>
-                    <div class="progress" id="peopleBought-{{$item['availableProduct']->id}}" style="margin-bottom:0;margin-top:3px;height:6px;">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{$item['peopleBought']}}" aria-valuemin="0" aria-valuemax="{{$item['availableProduct']->maximum_group_members}}" style="width:{{$item['peopleBought']/$item['availableProduct']->maximum_group_members*100}}%"></div>
+                    <div style="margin-top:10px;">
+                        @if($item['userCartWeight'] > 0)
+                            <div style="display:flex;">
+                                <button class="add-subtract-button" style="flex:1" onclick="addWeight('{{$item['availableProduct']->id}}-{{$key}}', 4)">+</button>
+                                <span id="weight-{{$item['availableProduct']->id}}-{{$key}}" style="flex:1;margin:0 8px;font-size:16px;">{{$item['userCartWeight']}}</span>
+                                <button class="add-subtract-button" id="subtract-{{$item['availableProduct']->id}}-{{$key}}" style="flex:1" onclick="subtractWeight('{{$item['availableProduct']->id}}-{{$key}}')">
+                                    @if($item['userCartWeight'] > 1) - @else <i class="fa fa-fw fa-trash-o"></i> @endif
+                                </button>
+                            </div>
+                        @elseif($item['userWeight'] > 0)
+                            <a class="btn" href="{{route('customers.orders.products', $item['orderId'])}}" style="border-color:#64498E;color:#64498E;width:100%;">جزيیات سفارش</a>
+                        @else
+                            <div>
+                                <button class="btn hamsood-btn" style="background-color:#64498E;width:100%;color:white" onclick="goToDetailPage('{{$item['product']->id}}')">منم همسود می شوم</button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endforeach

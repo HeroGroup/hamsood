@@ -71,6 +71,23 @@
                 <div style="text-align:center;margin:10px 0">
                     <span style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت باراز {{number_format($availableProduct->price)}} تومان</span>
                 </div>
+                @if($userWeight > 0)
+                    <div style="display:flex;flex-direction:row;color:gray;">
+                        <div style="flex:1;border-left:1px solid lightgray;text-align:center;padding:5px;">
+                            <h4>سود شما</h4>
+                            <h4>تا این لحظه</h4>
+                            <h4 style="color:#31AC6B;border:1px solid #31AC6B;border-radius:5px;margin:0 5px;padding:5px;">{{number_format(($lastDiscount)*$availableProduct->price*$userWeight/100)}} تومان</h4>
+                        </div>
+                        <div style="flex:1;text-align:center;padding:5px;">
+                            <h4>پرداختی شما</h4>
+                            <h4>تا این لحظه</h4>
+                            <h4 style="background-color: #2680EB;color:white;border-radius:5px;margin:0 5px;padding:5px;">
+                                <?php $discount = $myGroupIsComplete ? $details->max('discount') : $lastDiscount; ?>
+                                {{number_format((100-$discount)*$availableProduct->price*$userWeight/100)}} تومان
+                            </h4>
+                        </div>
+                    </div>
+                @else
                 <div style="display:flex;flex-direction:row;color:gray;">
                     <div style="flex:2;border-left:1px solid lightgray;text-align:center;padding:5px;">
                         <p><b>تخفیف با</b></p>
@@ -123,6 +140,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
 
