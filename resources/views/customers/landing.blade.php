@@ -134,8 +134,8 @@
                             </div>
                             <div style="flex:1;text-align:left;">
                                 @for($i=0;$i<$item['peopleBought'];$i++)
-                                    @if($i<=3)
-                                    <img src="/images/avatars/avatar{{rand(1,9)}}.png" width="20" height="20" style="border-radius:50%;@if($i!=$item['peopleBought']-1) margin-left:-10px; @endif" />
+                                    @if($i<=4)
+                                    <img src="/images/avatars/avatar{{rand(1,49)}}.png" width="20" height="20" style="border-radius:50%;@if($i!=$item['peopleBought']-1) margin-left:-10px; @endif" />
                                     @else
                                     <span style="color:#222;">.</span>
                                     @endif
