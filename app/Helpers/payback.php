@@ -9,7 +9,7 @@ function finalPayback()
 {
     try {
         $result = "";
-        $current_date_time = Carbon::now()->toDateTimeString();
+        $current_date_time = Carbon::now()->timestamp;
         $conn = new mysqli("127.0.0.1", "hamsodco_root", "12Root34", "hamsodco_hamdsod", 3306);
 
         $api = new KavenegarApi("ِ706D534E3771695A3161545A6141765A3367436D53673D3D");
@@ -120,24 +120,7 @@ function finalPayback()
                         // INSERT INTO NOTIFICATIONS
                         // $notifTitle = "تسویه حساب";
                         // $notifText = "تسویه حساب نهایی انجام شد و مبلغ $sumExtraDiscount به کیف پول شما برگشت داده شد.";
-                        $insert = $conn->query("INSERT INTO notifications(customer_id,notification_text,notification_type,save_inbox,created_at) VALUES($customerId,$sumExtraDiscount,$notificationType,1,$current_date_time);") or die($conn->error);
-
-                        // SEND SMS TO CUSTOMER
-                        try {
-                            $mobile = "";
-                            $sql = $conn->query("SELECT mobile FROM customers WHERE id=$customerId") or die($conn->error);
-                            while ($row = $sql->fetch_assoc()) {
-                                $mobile = $row['mobile'];
-                            }
-                            $token = $orderId;
-                            $api->VerifyLookup($mobile, $token, '', '', 'HamsodPayback');
-
-                        } catch(ApiException $e) {
-                            // die($e->errorMessage());
-                        }
-                        catch(HttpException $e) {
-                            // die($e->errorMessage());
-                        }
+                        $insert = $conn->query("INSERT INTO notifications(customer_id,notification_title,notification_text,notification_type,save_inbox,created_at) VALUES($customerId,'title',$sumExtraDiscount,$notificationType,1,$current_date_time);") or die($conn->error);
                     }
                 }
             }

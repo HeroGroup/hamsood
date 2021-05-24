@@ -105,15 +105,15 @@
                         <h5 style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت بازار {{number_format($item['availableProduct']->price)}} تومان</h5>
                         @if($item['userWeight'] > 0)
                             <div style="display: flex;justify-content: space-between;padding:8px 0;">
-                                <span style="font-size:10px;">سود شما تا این لحظه</span>
-                                <h6 style="color:#31AC6B;border:1px solid #31AC6B;border-radius:5px;padding:0 5px;margin:0;width:70px;">{{number_format(($item['lastDiscount'])*$item['availableProduct']->price*$item['userWeight']/100)}} تومان</h6>
+                                <span>سود شما</span>
+                                <h4 style="color:#31AC6B;border:1px solid #31AC6B;border-radius:5px;padding:0 5px;margin:0;width:70px;">{{number_format(($item['lastDiscount'])*$item['availableProduct']->price*$item['userWeight']/100)}} تومان</h4>
                             </div>
                             <div style="display: flex;justify-content: space-between;padding:8px 0;">
-                                <span style="font-size:10px;">پرداختی شما تا این لحظه</span>
-                                <h6 style="background-color: #2680EB;color:white;border-radius:5px;padding:0 5px;margin:0;width:70px;">
+                                <span>پرداختی شما</span>
+                                <h4 style="background-color: #2680EB;color:white;border-radius:5px;padding:0 5px;margin:0;width:70px;">
                                     <?php $discount = $item['myGroupIsComplete'] ? $item['details']->max('discount') : $item['lastDiscount']; ?>
                                     {{number_format((100-$discount)*$item['availableProduct']->price*$item['userWeight']/100)}} تومان
-                                </h6>
+                                </h4>
                             </div>
                         @else
                             <div style="background-color:lightgray;display:flex;justify-content:space-between;align-items:center;border-radius:5px;">
