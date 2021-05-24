@@ -69,7 +69,7 @@
             </div>
             <div style="border:1px solid lightgray;border-radius:5px;margin:0 10px;">
                 <div style="text-align:center;margin:10px 0">
-                    <span style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت باراز {{number_format($availableProduct->price)}} تومان</span>
+                    <span style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت بازار {{number_format($availableProduct->price)}} تومان</span>
                 </div>
                 @if($userWeight > 0)
                     <div style="display:flex;flex-direction:row;color:gray;">

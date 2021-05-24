@@ -89,7 +89,7 @@
             </div>
             <div style="border:1px solid lightgray;border-radius:5px;margin:0 10px;">
                 <div style="text-align:center;margin:10px 0">
-                    <span style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت باراز {{number_format($item['availableProduct']->price)}} تومان</span>
+                    <span style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت بازار {{number_format($item['availableProduct']->price)}} تومان</span>
                 </div>
                 @if($item['userWeight'] > 0)
                 <div style="display:flex;flex-direction:row;color:gray;">
@@ -185,8 +185,8 @@
                         </div>
                         <div style="flex:1;text-align:left;">
                             @for($i=0;$i<$item['peopleBought'];$i++)
-                                @if($i<=3)
-                                <img src="/images/avatars/avatar{{rand(1,9)}}.png" width="20" height="20" style="border-radius:50%;@if($i!=$item['peopleBought']-1) margin-left:-10px; @endif" />
+                                @if($i<=4)
+                                <img src="/images/avatars/avatar{{rand(1,49)}}.png" width="20" height="20" style="border-radius:50%;@if($i!=$item['peopleBought']-1) margin-left:-10px; @endif" />
                                 @else
                                 <span style="color:#222;">.</span>
                                 @endif

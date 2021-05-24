@@ -114,7 +114,7 @@ class CustomerController extends Controller
                     'nth_buyer' => $buyers+1
                 ]);
 
-                $totalDiscount = $item->weight*$discount;
+                $totalDiscount += ($item->weight*$discount);
                 $totalPrice += (($item->real_price - $discount) * $item->weight);
             }
 

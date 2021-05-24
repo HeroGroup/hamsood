@@ -102,7 +102,7 @@
                     <div onclick="goToDetailPage('{{$item['product']->id}}')">
                         <img src="{{$item['product']->image_url}}" width="100" height="100" style="border:1px solid lightgray;border-radius:10px;padding:5px;" />
                         <h3 style="margin-top:10px;padding-top:0;">{{$item['product']->name}}</h3>
-                        <h5 style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت باراز {{number_format($item['availableProduct']->price)}} تومان</h5>
+                        <h5 style="color:white;background-color:#FF5A30;padding:2px 15px;border-radius:5px;">قیمت بازار {{number_format($item['availableProduct']->price)}} تومان</h5>
                         @if($item['userWeight'] > 0)
                             <div style="display: flex;justify-content: space-between;padding:8px 0;">
                                 <span style="font-size:10px;">سود شما تا این لحظه</span>

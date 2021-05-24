@@ -20,8 +20,8 @@
                         <tr>
                             <td>{{$item->delivery_start_time}}</td>
                             <td>{{$item->delivery_end_time}}</td>
-                            <td>{{number_format($item->delivery_fee)}}</td>
-                            <td>{{$item->delivery_fee_for_now > 0 ? number_format($item->delivery_fee_for_now) : ($item->delivery_fee_for_now == null ? number_format($item->delivery_fee) : 'رایگان') }}</td>
+                            <td>{{number_format(intval($item->delivery_fee))}}</td>
+                            <td>{{$item->delivery_fee_for_now > 0 ? number_format(intval($item->delivery_fee_for_now)) : ($item->delivery_fee_for_now == null ? number_format(intval($item->delivery_fee)) : 'رایگان') }}</td>
                             <td>
                                 <button class="btn btn-info btn-xs open-modal" onclick='openModal("{{$item->id}}")'>ویرایش</button>
 
