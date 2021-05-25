@@ -13,6 +13,19 @@
         <link href="/css/my.css" rel="stylesheet" type="text/css">
         <script src="/js/jquery-1.11.0.js" type="text/javascript"></script>
         <script src="/js/sweetalert2.min.js" type="text/javascript"></script>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#64498e">
+        <meta name="msapplication-TileColor" content="#64498e">
+        <meta name="theme-color" content="#ffffff">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <link rel="apple-touch-startup-image" href="/apple-touch-icon.png">
+
     </head>
     <body @if(isset($darkBackground)) style="background-color:#222;" @endif>
         @if(isset($withMenu) && $withMenu)

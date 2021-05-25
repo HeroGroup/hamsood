@@ -31,12 +31,12 @@
                                 <tr>
                                     <th>ردیف</th>
                                     <th>عنوان</th>
-                                    <th>وزن</th>
-                                    <th>فی</th>
-                                    <th>قیمت</th>
+                                    <th>وزن (کیلو)</th>
+                                    <th>فی (تومان)</th>
+                                    <th>قیمت (تومان)</th>
                                     <th>تعداد همسود</th>
                                     <th>درصد تخفیف</th>
-                                    <th>قیمت بعد از تخفیف</th>
+                                    <th>قیمت بعد از تخفیف (تومان)</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -46,12 +46,12 @@
                                     <tr>
                                         <td>{{$iterator}}</td>
                                         <td>{{$item->availableProduct->product->name}}</td>
-                                        <td>{{$item->weight}} کیلو</td>
-                                        <td>{{number_format($item->real_price)}} تومان</td>
-                                        <td>{{number_format($item->weight*$item->real_price)}} تومان</td>
+                                        <td style="text-align: center;">{{$item->weight}}</td>
+                                        <td>{{number_format($item->real_price)}}</td>
+                                        <td>{{number_format($item->weight*$item->real_price)}}</td>
                                         <td style="text-align:center">{{\App\OrderItem::where('available_product_id',$item->available_product_id)->max('nth_buyer')}}</td>
                                         <td style="text-align:center">{{($item->weight * $item->discount + $item->extra_discount) / ($item->weight * $item->real_price) * 100}}%</td>
-                                        <td>{{number_format($item->weight*$item->real_price-$item->weight*$item->discount-$item->extra_discount)}} تومان</td>
+                                        <td>{{number_format($item->weight*$item->real_price-$item->weight*$item->discount-$item->extra_discount)}}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

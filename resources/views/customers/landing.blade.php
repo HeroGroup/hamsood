@@ -1,60 +1,26 @@
 @extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true, 'cartItemsCount' => $cartItemsCount])
 @section('content')
 <style>
-.text-badge {
-    display:inline-block;
-    width:50px;
-    color:white;
-    padding:2px;
-    border-radius:5px;
-    text-align:center;
-}
-.bg-red {
-    background-color:red;
-}
-.bg-gray {
-    background-color:gray;
-}
-.people {
-    font-size:1em;
-    color:#64498F;
-    background-color:#DDE1FD;
-    margin:0;
-    padding:5px 0;
-}
-.people-active {
-    background-color:#8A95F5;
-    border-color:#8A95F5;
-}
-.discount {
-    font-size:1em;
-    color:#64498F;
-    background-color:#FCE1E3;
-    margin:0; padding:5px 0;
+    #supporting-areas-message {
+        height:50px;
+        padding:20px 10px;
+        background-color:rgba(0,0,0,0.6);
+        z-index:2;
+        position:fixed;
+        top:60px;
+        left:15px;
+        right:15px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        border-radius:10px;
+    }
 
-}
-.discount-active {
-    background-color:#FB5152;
-    color:white;
-}
-#supporting-areas-message {
-    height:50px;
-    padding:20px 10px;
-    background-color:rgba(0,0,0,0.6);
-    z-index:2;
-    position:fixed;
-    top:60px;
-    left:15px;
-    right:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-radius:10px;
-}
     #supporting-areas-message > a {
         color:white;
         text-decoration: none;
     }
+
     .product-item {
         background-color:white;
         border-radius:10px;
@@ -68,8 +34,33 @@
         margin-left:15px;
     }
 
+    #addToHomeScreen {
+        display: block;
+        margin-top:20px;
+        padding: 0;
+        display: none;
+    }
+    #addToHomeScreen img {
+        max-width:57px;
+        margin:10px;
+        float:left;
+    }
+    #addToHomeScreen button {
+        background-color: #264de4;
+        color:white;
+        border:1px solid #2965f1;
+        margin:5px 10px;
+    }
 </style>
 @include('layouts.bottomMenu')
+
+<section id="addToHomeScreen">
+    <h1>Install App</h1>
+    <img src="/android-chrome-192x192.png" alt="Hamsood" />
+    Add our app to your home screen?<br />
+    <a href="javascript:void(0)" onclick="hidePrompt()" style="text-decoration: none;">No Thanks</a>
+    <button onclick="installApp()">Yes, Please!</button>
+</section>
 
 <div id="supporting-areas-message">
     <a href="{{route('supportingAreas')}}">مشاهده مناطق تحت پوشش</a>
@@ -171,6 +162,7 @@
     </div>
 </div>
 
+<script src="/js/main.js" type="text/javascript"></script>
 <script src="/js/custom.js" type="text/javascript"></script>
 <script>
     window.onload = function() {
