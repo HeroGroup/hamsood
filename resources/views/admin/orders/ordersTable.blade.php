@@ -10,7 +10,6 @@
                 <th>هزینه ارسال</th>
                 <th>نحوه پرداخت</th>
                 <!--<th>محصولات سفارش</th>-->
-                <th>توضیحات مشتری</th>
                 <th>زمان ثبت سفارش</th>
                 <th>زمان تحویل</th>
                 <th>آدرس</th>
@@ -27,7 +26,6 @@
                     <td>{{$order->shippment_price}}</td>
                     <td>{{config('enums.payment_method.'.$order->payment_method)}}</td>
                     <!--<td>{{$order->getDetails()}}</td>-->
-                    <td style="color:lightblue;">{{$order->extra_description ?? '-'}}</td>
                     <td style="direction:ltr; text-align:center;">{{jdate('Y/m/j H:i', strtotime($order->created_at))}}</td>
                     <td>{{$order->delivery_time}} {{$order->delivery_date}}</td>
                     <td>{{$order->neighbourhood_id > 0 ? $order->neighbourhood->name . ' ' . $order->address: ''}}</td>
