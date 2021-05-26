@@ -20,7 +20,6 @@
         <link rel="manifest" href="/site.webmanifest">
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#64498e">
         <meta name="msapplication-TileColor" content="#64498e">
-        <meta name="theme-color" content="#ffffff">
 
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">

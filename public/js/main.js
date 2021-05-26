@@ -14,8 +14,8 @@ if('serviceWorker' in navigator) {
 var installEvt;
 window.addEventListener('beforeinstallprompt', function(evt) {
     console.log("before install prompt event");
-    installEvt = evt;
     evt.preventDefault();
+    installEvt = evt;
     document.getElementById("addToHomeScreen").style.display = "block";
 });
 
@@ -31,6 +31,8 @@ function installApp() {
             console.log("app installed");
         else
             console.log("app NOT installed");
+
+        installEvt = null;
     });
 }
 

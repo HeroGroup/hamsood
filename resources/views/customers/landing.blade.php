@@ -1,5 +1,6 @@
 @extends('layouts.customer', ['pageTitle' => 'سفارش', 'withMenu' => true, 'cartItemsCount' => $cartItemsCount])
 @section('content')
+
 <style>
     #supporting-areas-message {
         height:50px;
@@ -35,31 +36,29 @@
     }
 
     #addToHomeScreen {
-        display: block;
-        margin-top:20px;
-        padding: 0;
-        display: none;
-    }
-    #addToHomeScreen img {
-        max-width:57px;
-        margin:10px;
-        float:left;
-    }
-    #addToHomeScreen button {
-        background-color: #264de4;
-        color:white;
-        border:1px solid #2965f1;
-        margin:5px 10px;
+        height:60px;
+        padding:20px 10px;
+        background-color:white;
+        z-index:5;
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        display:none;
+        justify-content:space-between;
+        align-items:center;
+        transition: display 1s;
     }
 </style>
+
 @include('layouts.bottomMenu')
 
 <section id="addToHomeScreen">
-    <h1>Install App</h1>
-    <img src="/android-chrome-192x192.png" alt="Hamsood" />
-    Add our app to your home screen?<br />
-    <a href="javascript:void(0)" onclick="hidePrompt()" style="text-decoration: none;">No Thanks</a>
-    <button onclick="installApp()">Yes, Please!</button>
+    <a href="javascript:void(0)" class="install-button" onclick="installApp()">
+        <img src="/images/logo.png" alt="همسود" width="35" height="35">
+        <span style="color:#222;">اضافه کردن <b style="color:#64498E;">همسود</b> به لیست اپلیکیشن ها</span>
+    </a>
+    <a href="javascript:void(0)" onclick="hidePrompt()" style="font-size:30px;color:#222;">&times;</a>
 </section>
 
 <div id="supporting-areas-message">
@@ -162,7 +161,7 @@
     </div>
 </div>
 
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="/js/main2.js" type="text/javascript"></script>
 <script src="/js/custom.js" type="text/javascript"></script>
 <script>
     window.onload = function() {
