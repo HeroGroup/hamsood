@@ -1,4 +1,6 @@
+var pwaSupport = false;
 if ('serviceWorker' in navigator) {
+    pwaSupport = true;
     navigator.serviceWorker
         .register('/sw.js')
         .then(() => { console.log('Service Worker Registered'); });
@@ -22,3 +24,23 @@ window.addEventListener('beforeinstallprompt', (evt) => {
         });
     });
 });
+
+window.onload = function() {
+    if(pwaSupport) {
+        var p = navigator.platform;
+        if(p === 'iPhone' || p === 'iPad' || p === 'iPod') {
+            if(!navigator.standalone) {
+                var lastShown = parseInt(localStorage.getItem('lastShown'));
+                var now = new Date().getTime();
+                if(isNaN(lastShown) || (lastShown + 1000*60*60*24*7) <= now) {
+                    document.getElementById("ios-install-instructions").style.display = "block";
+                    localStorage.setItem('lastShown', now.toString());
+                }
+            }
+        }
+    }
+};
+
+function hideInstructions() {
+    document.getElementById("ios-install-instructions").style.display = "none";
+}

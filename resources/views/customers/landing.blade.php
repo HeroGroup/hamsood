@@ -2,18 +2,32 @@
 @section('content')
 
 <style>
-    #supporting-areas-message {
-        height:50px;
+    .banner {
         padding:20px 10px;
+        position:fixed;
+        justify-content:space-between;
+        align-items:center;
+        height:60px;
+        background-color:white;
+        z-index:5;
+        bottom:0;
+        left:0;
+        right:0;
+        display:none;
+    }
+
+    #supporting-areas-message {
+        padding:20px 10px;
+        position:fixed;
+        justify-content:space-between;
+        align-items:center;
+        height:50px;
         background-color:rgba(0,0,0,0.6);
         z-index:2;
-        position:fixed;
         top:60px;
         left:15px;
         right:15px;
         display:flex;
-        justify-content:space-between;
-        align-items:center;
         border-radius:10px;
     }
 
@@ -35,30 +49,25 @@
         margin-left:15px;
     }
 
-    #addToHomeScreen {
-        height:60px;
-        padding:20px 10px;
-        background-color:white;
-        z-index:5;
-        position:fixed;
-        bottom:0;
-        left:0;
-        right:0;
-        display:none;
-        justify-content:space-between;
-        align-items:center;
-        transition: display 1s;
-    }
+
 </style>
 
 @include('layouts.bottomMenu')
 
-<section id="addToHomeScreen">
+<section id="addToHomeScreen" class="banner">
     <a href="javascript:void(0)" class="install-button" onclick="installApp()">
         <img src="/images/logo.png" alt="همسود" width="35" height="35">
         <span style="color:#222;">اضافه کردن <b style="color:#64498E;">همسود</b> به لیست اپلیکیشن ها</span>
     </a>
     <a href="javascript:void(0)" onclick="hidePrompt()" style="font-size:30px;color:#222;">&times;</a>
+</section>
+
+<section id="ios-install-instructions" class="banner">
+    <div>
+        <img src="/images/logo.png" alt="همسود" width="35" height="35">
+        <span>دستورالعمل نصب</span>
+    </div>
+    <a href="javascript:void(0)" onclick="hideInstructions()" style="font-size:30px;color:#222;">&times;</a>
 </section>
 
 <div id="supporting-areas-message">
