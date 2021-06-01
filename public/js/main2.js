@@ -8,7 +8,7 @@ if ('serviceWorker' in navigator) {
 
 let deferredPrompt;
 const installSection = document.getElementById('addToHomeScreen'),
-    installBtn = document.querySelector('.install-button');
+      installBtn = document.querySelector('.install-button');
 
 window.addEventListener('beforeinstallprompt', (evt) => {
     evt.preventDefault();
@@ -24,6 +24,10 @@ window.addEventListener('beforeinstallprompt', (evt) => {
         });
     });
 });
+
+function hidePrompt() {
+    installSection.style.display = 'none';
+}
 
 window.onload = function() {
     if(pwaSupport) {

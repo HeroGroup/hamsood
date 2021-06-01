@@ -1,5 +1,10 @@
 @extends('layouts.admin', ['pageTitle' => "فاکتور سفارش $order->id", 'newButton' => false])
 @section('content')
+    <style>
+        th {
+            text-align:center;
+        }
+    </style>
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
@@ -44,7 +49,7 @@
                                 @foreach($order->items as $item)
                                     <?php $iterator++; ?>
                                     <tr>
-                                        <td>{{$iterator}}</td>
+                                        <td style="text-align: center;">{{$iterator}}</td>
                                         <td>{{$item->availableProduct->product->name}}</td>
                                         <td style="text-align: center;">{{$item->weight}}</td>
                                         <td>{{number_format($item->real_price)}}</td>

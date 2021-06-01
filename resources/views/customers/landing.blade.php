@@ -55,7 +55,7 @@
 @include('layouts.bottomMenu')
 
 <section id="addToHomeScreen" class="banner">
-    <a href="javascript:void(0)" class="install-button" onclick="installApp()">
+    <a href="javascript:void(0)" class="install-button">
         <img src="/images/logo.png" alt="همسود" width="35" height="35">
         <span style="color:#222;">اضافه کردن <b style="color:#64498E;">همسود</b> به لیست اپلیکیشن ها</span>
     </a>
@@ -93,7 +93,7 @@
         <div style="margin-bottom:15px;">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;">
                 <h3 style="margin:0;">{{\App\Category::find($key)->title}}</h3>
-                <a href="{{route('categoryLanding',$key)}}">مشاهده همه <i class="fa fa-arrow-left"></i> </a>
+                <a href="{{route('categoryLanding',$key)}}">مشاهده همه <i class="fa fa-angle-left"></i> </a>
             </div>
             <div style="overflow:auto;white-space:nowrap;padding:5px;">
             @foreach($items as $item)
