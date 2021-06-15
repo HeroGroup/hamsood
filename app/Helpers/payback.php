@@ -9,7 +9,7 @@ function finalPayback()
 {
     try {
         $result = "";
-        $current_date_time = Carbon::now()->timestamp;
+        $current_date_time = Carbon::now();
         $conn = new mysqli("127.0.0.1", "hamsodco_root", "12Root34", "hamsodco_hamdsod", 3306);
 
         $api = new KavenegarApi("ِ706D534E3771695A3161545A6141765A3367436D53673D3D");
