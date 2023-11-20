@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
         "laravelcollective/html": "^6.2",
-        "saeedvaziry/payir": "dev-master"
+        "saeedvaziry/payir": "dev-master",
+        "zarinpal/zarinpal": "^1.3"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

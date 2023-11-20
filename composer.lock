@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3045657f9eac6bb9f69faa55289c4f4",
+    "content-hash": "4dd0263b80ef5ac7401541886065678f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4888,6 +4888,60 @@
                 }
             ],
             "time": "2020-11-12T00:07:28+00:00"
+        },
+        {
+            "name": "zarinpal/zarinpal",
+            "version": "v1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RTLer/zarinpal-composer-library.git",
+                "reference": "8ad634def93b673693f89bcc91545fad10ad342d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RTLer/zarinpal-composer-library/zipball/8ad634def93b673693f89bcc91545fad10ad342d",
+                "reference": "8ad634def93b673693f89bcc91545fad10ad342d",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "6.3.*",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Zarinpal\\Laravel\\ZarinpalServiceProvider"
+                    ],
+                    "aliases": {
+                        "Zarinpal": "Zarinpal\\Laravel\\Facade\\Zarinpal"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zarinpal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "hooman naghiee",
+                    "email": "hooman@zarinpal.com"
+                }
+            ],
+            "description": "transaction request system for zarinpal",
+            "support": {
+                "issues": "https://github.com/RTLer/zarinpal-composer-library/issues",
+                "source": "https://github.com/RTLer/zarinpal-composer-library/tree/master"
+            },
+            "time": "2018-10-02T10:39:13+00:00"
         }
     ],
     "packages-dev": [

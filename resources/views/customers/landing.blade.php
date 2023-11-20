@@ -2,32 +2,18 @@
 @section('content')
 
 <style>
-    .banner {
-        padding:20px 10px;
-        position:fixed;
-        justify-content:space-between;
-        align-items:center;
-        height:60px;
-        background-color:white;
-        z-index:5;
-        bottom:0;
-        left:0;
-        right:0;
-        display:none;
-    }
-
     #supporting-areas-message {
-        padding:20px 10px;
-        position:fixed;
-        justify-content:space-between;
-        align-items:center;
         height:50px;
+        padding:20px 10px;
         background-color:rgba(0,0,0,0.6);
         z-index:2;
+        position:fixed;
         top:60px;
         left:15px;
         right:15px;
         display:flex;
+        justify-content:space-between;
+        align-items:center;
         border-radius:10px;
     }
 
@@ -49,7 +35,20 @@
         margin-left:15px;
     }
 
-
+    #addToHomeScreen {
+        height:60px;
+        padding:20px 10px;
+        background-color:white;
+        z-index:5;
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        display:none;
+        justify-content:space-between;
+        align-items:center;
+        transition: display 1s;
+    }
 </style>
 
 @include('layouts.bottomMenu')
@@ -60,14 +59,6 @@
         <span style="color:#222;">اضافه کردن <b style="color:#64498E;">همسود</b> به لیست اپلیکیشن ها</span>
     </a>
     <a href="javascript:void(0)" onclick="hidePrompt()" style="font-size:30px;color:#222;">&times;</a>
-</section>
-
-<section id="ios-install-instructions" class="banner">
-    <div>
-        <img src="/images/logo.png" alt="همسود" width="35" height="35">
-        <span>دستورالعمل نصب</span>
-    </div>
-    <a href="javascript:void(0)" onclick="hideInstructions()" style="font-size:30px;color:#222;">&times;</a>
 </section>
 
 <div id="supporting-areas-message">
@@ -105,11 +96,11 @@
                         @if($item['userWeight'] > 0)
                             <div style="display: flex;justify-content: space-between;padding:8px 0;">
                                 <span>سود شما</span>
-                                <h4 style="color:#31AC6B;border:1px solid #31AC6B;border-radius:5px;padding:0 5px;margin:0;width:70px;">{{number_format(($item['lastDiscount'])*$item['availableProduct']->price*$item['userWeight']/100)}} تومان</h4>
+                                <h4 style="color:#31AC6B;border:1px solid #31AC6B;border-radius:5px;padding:0 5px;margin:0;width:100px;">{{number_format(($item['lastDiscount'])*$item['availableProduct']->price*$item['userWeight']/100)}} تومان</h4>
                             </div>
                             <div style="display: flex;justify-content: space-between;padding:8px 0;">
                                 <span>پرداختی شما</span>
-                                <h4 style="background-color: #2680EB;color:white;border-radius:5px;padding:0 5px;margin:0;width:70px;">
+                                <h4 style="background-color: #2680EB;color:white;border-radius:5px;padding:0 5px;margin:0;width:100px;">
                                     <?php $discount = $item['myGroupIsComplete'] ? $item['details']->max('discount') : $item['lastDiscount']; ?>
                                     {{number_format((100-$discount)*$item['availableProduct']->price*$item['userWeight']/100)}} تومان
                                 </h4>
@@ -188,3 +179,4 @@
     }
 </script>
 @endsection
+

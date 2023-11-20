@@ -19,7 +19,8 @@ Route::get('/product/{product}', 'HomeController@productDetailPage')->name('prod
 Route::get('/suggestion/{uid}', 'HomeController@suggest')->name('suggest');
 Route::get('/terms', function() { return view('terms'); });
 Route::get('/supportingAreas', 'HomeController@supportingAreas')->name('supportingAreas');
-Route::get('/payment/payir/callback', 'PaymentController@verify');
+Route::get('/payment/payir/callback', 'PaymentController@verifyPayir');
+Route::get('/payment/Zarinpal/callback', 'PaymentController@verifyZarinpal');
 
 Route::middleware('customer.notLoggedIn')->group(function () {
     Route::get('/signup', function() { return redirect(\route('customers.login')); });

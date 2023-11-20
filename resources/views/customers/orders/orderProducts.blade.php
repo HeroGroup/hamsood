@@ -10,7 +10,7 @@
         </div>
         {{--<p style="padding:0 25px;">توضیحات: <?php echo $item->availableProduct->product->description; ?></p>--}}
         <div style="flex:1;">
-            @component('components.productPrice', ['availableProduct' => $item->availableProduct, 'nextDiscount' => (($item->discount+($item->extra_discount/$item->weight)) / $item->availableProduct->price)*100, 'weight' => $item->weight])@endcomponent
+            @component('components.productPrice', ['availableProduct' => $item->availableProduct, 'nextDiscount' => (($item->discount+($item->extra_discount/$item->weight)) / $item->real_price)*100, 'weight' => $item->weight])@endcomponent
         </div>
     </div>
     <hr>

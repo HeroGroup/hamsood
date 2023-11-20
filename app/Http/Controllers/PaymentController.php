@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use SaeedVaziry\Payir\Exceptions\SendException;
 use SaeedVaziry\Payir\Exceptions\VerifyException;
 use SaeedVaziry\Payir\PayirPG;
+use Zarinpal\Laravel\Facade\Zarinpal;
 
 class PaymentController extends Controller
 {
@@ -45,10 +46,53 @@ class PaymentController extends Controller
                     return $this->payir($request->amount, $transaction->id, $request->redirect);
                     break;
                 case 2: // zarinpal
+                    return $this->payZarinpal($request->amount, $transaction->id, $request->redirect);
                     break;
                 default:
                     break;
             }
+        }
+    }
+
+    public function payZarinpal($amount, $transactionId, $redirectUrl) {
+        try {
+            $results = Zarinpal::request(
+                env('ZARINPAL_CALLBACK'),
+                $amount,
+                $redirectUrl
+            );
+    
+            $transaction = Transaction::find($transactionId);
+            $transaction->update([
+                'trans_id' => $results['Authority']
+            ]);
+            Zarinpal::redirect(); // redirect user to zarinpal
+        } catch(Exception $exception) {
+            return redirect()->back()->with('message', $exception->getMessage())->with('type', 'danger');
+        }
+    }
+
+    public function verifyZarinpal(Request $request) {
+        try {
+            $authority = $request->query('Authority');
+            $status = $request->query('Status'); // OK, NOK
+
+            $transaction = Transaction::where('trans_id', $authority)->first();
+            $transaction->update([
+                'tr_status' => $status == 'OK' ? 1 : 0
+            ]);
+
+            if ($status == 'OK') {
+                $customer = Customer::find($transaction->customer_id);
+                $currentBalance = $customer->balance;
+                $customer->update(['balance' => $currentBalance + $transaction->amount]);
+
+                return redirect()->back()->with('message', 'پرداخت موفق')->with('type', 'success');
+            } else {
+                return redirect()->back()->with('message', 'پرداخت ناموفق')->with('type', 'danger');
+            }
+        } catch(Exception $exception) {
+            return redirect("/payment/notPaid");
         }
     }
 
@@ -70,7 +114,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function verify(Request $request)
+    public function verifyPayir(Request $request)
     {
         $payir = new PayirPG();
         $payir->token = $request->token; // Pay.ir returns this token to your redirect url

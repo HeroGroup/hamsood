@@ -58,14 +58,14 @@ return [
         '1' => [
             'name' => 'درگاه pay.ir',
             'icon' => '/images/pay_ir_icon.png',
-            'active' => 1,
-            'selected' => true
+            'active' => 0,
+            'selected' => false
         ],
         '2' => [
             'name' => 'درگاه زرین پال',
             'icon' => '/images/zarinpal_icon.png',
-            'active' => 0,
-            'selected' => false
+            'active' => 1,
+            'selected' => true
         ]
     ],
 
@@ -85,6 +85,7 @@ return [
         3 => 'برگشت به کیف پول بابت لغو سغارش',
         4 => 'برگشت به کیف پول بابت تسویه حساب',
         11 => 'واریز نقدی',
+        12 => 'بدهکار بابت سفارش',
     ],
 
     'yes_no' => [

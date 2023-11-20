@@ -176,7 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
-
+        
+        Zarinpal\Laravel\ZarinpalServiceProvider::class
     ],
 
     /*
